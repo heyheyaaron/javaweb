@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaSectionTypeDao">  
+  <resultMap id="FaSectionType" type="feiao.forum.pojo.FaSectionType"></resultMap>
+  <!-- 根据版块信息查询分类 -->
+  <select id="selectAllReType" resultType="map">
+  	select fa_id as id,fa_name as name from fa_section_type where fa_pid =#{0};
+  </select>
+  <!--分页展示某版块分类信息  -->
+  <select id="getMlTypeByPage" resultType="map">
+  	select fa_id as fa_id,fa_name as fa_name from fa_section_type where fa_pid =#{2}  limit #{0},#{1};
+  </select>
+  <!-- 分页展示版块分类信息的总数 -->
+  <select id="getTotalByMlType" resultType="long">
+  	select count(fa_id) from fa_section_type where fa_pid =#{0};
+  </select>
+  <!-- 根据id查询版块分类信息 -->
+  <select id="getMlTypeById" resultMap="FaSectionType">
+  	select fa_id ,fa_pid,fa_name  from fa_section_type where fa_id =#{0};
+  </select>
+  <!-- 增加版块分类 -->
+  <insert id="addMlType">
+  	insert into fa_section_type (fa_id,fa_name,fa_pid) values (#{fa_id},#{fa_name},#{fa_pid});
+  </insert>
+  <!-- 修改版块分类 -->
+  <update id="updateMlType">
+  update  fa_section_type
+  <set>fa_name=#{fa_name}</set>
+  where fa_id =#{fa_id}
+  </update>
+  <!-- 删除版块分类 -->
+  <delete id="deleteMlType">
+  	delete from fa_section_type where fa_id=#{0}
+  </delete>
+</mapper>

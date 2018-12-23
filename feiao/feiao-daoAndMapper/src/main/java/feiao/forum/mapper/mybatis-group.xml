@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+
+<mapper namespace="feiao.forum.dao.GroupDao">  
+	<resultMap id="Group" type="feiao.forum.pojo.Group"></resultMap>
+	<!-- 根据id获取用户组信息 -->
+     <select id="getGroupById" resultMap="Group">
+     	select r.id as id,r.name as name from system_group as r where r.id=#{0};
+     </select>
+	<!-- 根据id获取该用户组所有权限 -->
+     <select id="getResourceByGroupId" resultType="string">
+     	select resource_id from system_resource_group  where group_id=#{0};
+     </select>
+	<!-- 根据用户id获取该用户组 -->
+     <select id="getGroupByUserId" resultType="int">
+     	select group_id from system_user_group where user_id=#{0};
+     </select>
+     <!-- 获取所有用户组 -->
+     <select id="selectAllGroup" resultType="map">
+     	select r.id as id,r.name as name from system_group as r
+     </select>
+     <!-- //获得该用户组下所有的用户名 -->
+     <select id="getUsernameByGroupId" resultType="string">
+     	select e.user_id from system_user_group as e where e.group_id = #{0}
+     </select>
+     <!-- 分页展示用户组信息 -->
+     <select id="getGroupByPage" resultMap="Group">
+     		select id,name from system_group
+     		<if test="search!=null">  where name  like CONCAT('%',#{search},'%')  </if>
+     		order by id asc limit #{curpage},#{pagesize}
+     </select>
+     <!-- 查询总数 -->
+     <select id="getTotalByGroup" resultType="long">
+     	  	select count(id) from system_group <if test="search!=null">  where name  like CONCAT('%',#{search},'%')  </if>
+     </select>
+       <!--  删除用户组 -->
+     <delete id="deleteGroupData">
+     	delete from system_group where id = #{0};
+     
+     </delete>
+     <!--删除用户组与权限的关系表  -->
+     <delete id="deleteGroupAndResource">
+     	delete from system_resource_group where group_id = #{0};
+     </delete>
+     <!--删除用户组与角色的关系表  -->
+     <delete id="deleteGroupAndUser">
+     	delete from system_user_group where group_id = #{0};
+     </delete>
+     
+     
+     <!-- 增加用户组 -->
+     <insert id="saveGroup" useGeneratedKeys="true" keyProperty="group.id">
+     	insert into system_group 
+     	(name)
+     	values
+     	(#{group.name})
+     </insert>
+     <!-- 用户组绑定资源 -->
+     <insert id="saveGroupAndRe" >
+     	insert into system_resource_group 
+     	(id,group_id,resource_id)
+     	values
+     	(#{0},#{1},#{2})
+     </insert>
+     <!-- 更新用户组 -->
+     <update id="updateGroup" >
+     	update system_group 
+     	<set>name=#{name}</set>
+     	where id = #{id}
+     
+     </update>
+</mapper>

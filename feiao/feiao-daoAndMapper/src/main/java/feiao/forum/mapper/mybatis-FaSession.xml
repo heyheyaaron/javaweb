@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaSessionDao">  
+  <resultMap id="FaSession" type="feiao.forum.pojo.FaSession"></resultMap>
+  	<!-- 查询会话未读信息的数量 -->
+  <select id="getSendIdOnRed" resultType="long">
+  	select count(s.fa_id) from fa_session as s where s.fa_pid in(select r.fa_id from fa_session_room as r where r.fa_userId=#{0} and r.fa_isclose=0 ) and s.fa_isread=0
+ 
+  </select>
+    <!--//查询room id;  -->
+  <select id="getRoomIdByFriendAndMine" resultType="string">
+
+ select fa_id from fa_session_room where fa_userid=#{0} and fa_frendid=#{1}
+  </select>
+  <!-- //查询我跟她的会话室 -->
+  <select id="getMyAndFriendRoom" resultType="map">
+  	select fa_id as id,fa_userid as userid from fa_session_room where fa_userid=#{0} and fa_frendid=#{1}
+  	union all
+  	select fa_id as id,fa_userid as userid from fa_session_room where fa_userid=#{1} and fa_frendid=#{0}
+  </select>
+  <!-- //查询我跟她的会话室 -->
+  <select id="getMyAndFriendRoomByMine" resultType="map">
+  	select fa_id as id,fa_userid as userid from fa_session_room where fa_userid=#{0} and fa_frendid=#{1}
+  	
+  </select>
+  <!-- 分页查询我和好友的消息页面 -->
+  <select id="selectMyFriendAndMeMsgByPage" resultType="map">
+  	select s.fa_id as id,DATE_FORMAT(s.fa_time,"%Y-%m-%d %H:%i:%s") as day,s.fa_msg as msg,s.fa_sendorget as sog
+  	from fa_session as s where s.fa_pid =
+  	(select r.fa_id from fa_session_room as r where r.fa_userid =#{0} and r.fa_frendid =#{1}) order by s.fa_time desc limit #{2},#{3}
+  </select>
+  <!--分页查询我和好友的消息数量  -->
+  <select id="selectMyFriendAndMeMsgByCount" resultType="long">
+  	select count(s.fa_id)
+  	from fa_session as s where s.fa_pid =
+  	(select r.fa_id from fa_session_room as r where r.fa_userid =#{0} and r.fa_frendid =#{1})
+  </select>
+  
+  
+  <!-- 查询该会话的总数 -->
+  <select id="findCountById" resultType="long">
+  	select count(fa_id) from fa_session where fa_pid=#{0}
+  </select>
+  <!-- //查询未读信息总数 -->
+  <select id="findCountByIdAndNoRead" resultType="long">
+  	select count(fa_id) from fa_session where fa_pid=#{0} and fa_isread=0
+  </select>
+  <!-- //根据会话室查询最新的一条信息 -->
+  <select id="getNewMsgById" resultMap="FaSession">
+  	select *  from fa_session where fa_pid=#{0} order by fa_time desc limit 0,1
+  </select>
+  <!-- 分页查询我的会话页面 -->
+  <select id="findMySessionRoom" resultType="map">
+  	select r.fa_id as id ,r.fa_frendid as friendid,u.fa_username as name,u.fa_title_img as image from fa_session_room as r  left join fa_user as u on r.fa_frendid=u.fa_id where r.fa_userid=#{0} and r.fa_isclose=0 limit #{1},#{2}
+  </select>
+  
+  
+  <!-- 分页查询会话信息总数-->
+  <select id="selectMySendOrGetMsgCount" resultType="long">
+  	select count(fa_id) from fa_session_room where fa_userid=#{0}
+  </select>
+  
+  <!-- //批量插入会话室信息 -->
+  <insert id="saveRoomMsg">
+  	insert into fa_session_room(fa_id,fa_userid,fa_frendid,fa_isclose) values
+  	<foreach collection="list" item="lt" separator=",">
+  		(#{lt.id},#{lt.fa_userid},#{lt.fa_frendid},#{lt.fa_isclose})
+  	
+  	</foreach>
+  </insert>
+  
+  <!-- //批量插入会话信息 -->
+  <insert id="saveSessionMsg">
+  	insert into fa_session(fa_id,fa_pid,fa_sendorget,fa_time,fa_isread,fa_msg) values
+  	<foreach collection="list" item="lt" separator=",">
+  		(#{lt.fa_id},#{lt.fa_pid},#{lt.fa_sendorget},#{lt.fa_time},#{lt.fa_isread},#{lt.fa_msg})
+  	
+  	</foreach>
+  </insert>
+  
+  <!--  根据id 恢复屏蔽好友的会话-->
+  <update id="resetMySession">
+  	update fa_session_room <set>fa_isclose=#{types}</set>
+  	where  fa_userid=#{id} and fa_frendid in
+  <foreach collection="list"  item="list" open="(" separator="," close=")" >
+  		#{list}
+  	</foreach>
+  </update>
+  <!-- 批量删除对话 -->
+  <delete id="deleteSessionAndRoom">
+  	delete from fa_session_room where fa_userid=#{id} and fa_id in
+  	<foreach collection="ids" item="ids" open="("  separator="," close=")">
+  		#{ids}
+  	</foreach>
+  </delete>
+  <!-- 批量删除对话里的内容 -->
+  <delete id="deleteSessionAndContene">
+  	delete from fa_session  where fa_pid in 
+  	(select r.fa_id from fa_session_room as r where r.fa_userid=#{id} and r.fa_id in
+  	<foreach collection="ids" item="ids" open="("  separator="," close=")">
+  		#{ids}
+  	</foreach>
+  	
+  	)
+  </delete>
+  <!--/删除某条信息  -->
+  <delete id="deleteSessionMsgByPid">
+  	delete from fa_session where fa_id=#{0} and fa_pid = #{1}
+  </delete>
+  <!--//批量对话已读  -->
+  <update id="msgHasRead">
+  	update fa_session <set>fa_isread=1</set> where fa_pid in 
+  	<foreach collection="ids" item="ids" open="("  separator="," close=")">
+  		#{ids}
+  	</foreach>
+  	and fa_isread=0
+  </update>
+  	<!-- 某条会话信息已读 -->
+  	<update id="MsgIsReadById">
+  		update fa_session <set>fa_isread=1</set> where fa_id=#{0}
+  	</update>
+</mapper>

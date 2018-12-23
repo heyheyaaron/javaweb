@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaUserViceDao">  
+  <resultMap id="FaUserVice" type="feiao.forum.pojo.FaUserVice"></resultMap>
+  <!-- 根据id查询会员附属表 -->
+  <select id="get" resultMap="FaUserVice">
+  	select * from fa_uservice where fa_id=#{0}
+  </select>
+  <!--创建会员辅助表-->
+  <insert id="addMember">
+  	insert into fa_uservice(fa_id,fa_email_type,fa_email_times) values(#{fa_id},#{fa_email_type},#{fa_email_times})
+  </insert>
+  <!-- 删除会员附属表 -->
+  <delete id="deleteMember">
+  	delete from fa_uservice where fa_id in
+  	<foreach collection="array" open="(" separator="," close=")" item="id">
+  		#{id}
+  	</foreach>
+  </delete>
+  
+  <!-- 更新每天凌晨的签到信息（删帖） -->
+  <update id="updateDeleteTime">
+  	update 	fa_uservice <set>fa_del_type=0,fa_del_times=0</set> where fa_del_type = 1; 
+  </update>
+  <!-- 更新每天凌晨的签到信息（邮箱） -->
+  <update id="updateEmailTime">
+  	update 	fa_uservice <set>fa_email_type=0,fa_email_times=0</set> where fa_email_type = 1;
+  </update>
+  <!-- 更新每天凌晨的签到信息（加精） -->
+  <update id="updateJingTime">
+  	update 	fa_uservice <set>fa_jing_type=0,fa_jing_times=0</set> where fa_jing_type = 1;
+  </update>
+  <!-- 更新每天凌晨的签到信息（登录） -->
+  <update id="updateLoginTime">
+  	update 	fa_uservice <set>fa_login_type=0,fa_login_times=0</set> where fa_login_type = 1; 
+  </update>
+  <!-- 改变信息（登录） -->
+  <update id="updateLoginMb">
+  	update 	fa_uservice <set>fa_login_type=#{fa_login_type},fa_login_times=#{fa_login_times}</set> where fa_id = #{fa_id}; 
+  </update>
+  <!-- 改变信息（签到） -->
+  <update id="updateSignMb">
+  	update 	fa_uservice <set>fa_sign_type=#{fa_sign_type},fa_sign_times=#{fa_sign_times}</set> where fa_id = #{fa_id}; 
+  </update>
+  <!-- 改变信息（发表回复） -->
+  <update id="updateRespeakMb">
+  	update 	fa_uservice <set>fa_respeak_type=#{fa_respeak_type},fa_respeak_times=#{fa_respeak_times}</set> where fa_id = #{fa_id}; 
+  </update>
+  <!-- 改变信息（发帖） -->
+  <update id="updateThemeMb">
+  	update 	fa_uservice <set>fa_theme_type=#{fa_theme_type},fa_theme_times=#{fa_theme_times}</set> where fa_id = #{fa_id}; 
+  </update>
+  <!-- 改变信息（加精） -->
+  <update id="updateJingMb">
+  	update 	fa_uservice <set>fa_jing_type=#{fa_jing_type},fa_jing_times=#{fa_jing_times}</set> where fa_id = #{fa_id}; 
+  </update>
+  <!-- 改变信息（删帖） -->
+  <update id="updateDeleteMb">
+  	update 	fa_uservice <set>fa_del_type=#{fa_del_type},fa_del_times=#{fa_del_times}</set> where fa_id = #{fa_id}; 
+  </update>
+  <!-- 改变信息（投票） -->
+  <update id="updateVoteMb">
+  	update 	fa_uservice <set>fa_vote_type=#{fa_vote_type},fa_vote_times=#{fa_vote_times}</set> where fa_id = #{fa_id}; 
+  </update>
+  <!-- 改变信息（产品注册） -->
+  <update id="updateProMb">
+  	update 	fa_uservice <set>fa_pro_type=#{fa_pro_type},fa_pro_times=#{fa_pro_times}</set> where fa_id = #{fa_id}; 
+  </update>
+  <!-- 改变信息（设置头像） -->
+  <update id="updateTitleMb">
+  	update 	fa_uservice <set>fa_title_type=#{fa_title_type},fa_title_times=#{fa_title_times}</set> where fa_id = #{fa_id}; 
+  </update>
+  <!-- 更新每天凌晨的签到信息（签到） -->
+  <update id="updateSignTime">
+  	update 	fa_uservice <set>fa_sign_type=0,fa_sign_times=0</set> where fa_sign_type = 1; 
+  </update>
+  <!-- 更新每天凌晨的签到信息（产品注册） -->
+  <update id="updateProTime">
+  	update 	fa_uservice <set>fa_pro_type=0,fa_pro_times=0</set> where fa_pro_type = 1;
+  </update>
+  <!-- 更新每天凌晨的签到信息（发表回复） -->
+  <update id="updateRespeakTime">
+  	update 	fa_uservice <set>fa_respeak_type=0,fa_respeak_times=0</set> where fa_respeak_type = 1; 
+  </update>
+  <!-- 更新每天凌晨的签到信息（发帖） -->
+  <update id="updateThemeTime">
+  	update 	fa_uservice <set>fa_theme_type=0,fa_theme_times=0</set> where fa_theme_type = 1; 
+  </update>
+  <!-- 更新每天凌晨的签到信息（头像） -->
+  <update id="updateTitleTime">
+  	update 	fa_uservice <set>fa_title_type=0,fa_title_times=0</set> where fa_title_type = 1; 
+  </update>
+  <!-- 更新每天凌晨的签到信息（投票） -->
+  <update id="updateVoteTime">
+  	update 	fa_uservice <set>fa_vote_type=0,fa_vote_times=0</set> where fa_vote_type = 1;
+  </update>
+</mapper>

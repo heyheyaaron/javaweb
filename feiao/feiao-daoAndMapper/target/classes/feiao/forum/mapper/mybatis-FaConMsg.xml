@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaConMsgDao">  
+  <resultMap id="FaConMsg" type="feiao.forum.pojo.FaConMsg"></resultMap>
+  <!-- 异步加载该分类下的内容 -->
+  <select id="getConMsgByPage" resultType="map">
+  	select fa_id as id,fa_name as name,fa_image as images,fa_url as url from fa_con_msg where fa_pid = #{2} order by fa_sort asc limit #{0},#{1}
+  </select>
+  <!-- 异步加载该分类下的内容数量 -->
+  <select id="getCountByPid" resultType="long">
+  	select count(fa_id) from fa_con_msg where fa_pid = #{0} 
+  </select>
+  <!--根据id查询内容信息  -->
+  <select id="getFCMForId" resultMap="FaConMsg">
+  	select * from fa_con_msg where fa_id = #{0}
+  </select>
+  <!--异步加载内容分类的没有子元素的数据  -->
+  <select id="selectAllMsgByCid" resultType="map">
+  	select fa_id as id,fa_name as name, fa_pid as pid from fa_con_type 
+  </select>
+  <!-- 增加 -->
+  <insert id="saveConMsg">
+  	insert into fa_con_msg (fa_id,fa_pid,fa_name,fa_image,fa_desc,fa_url,fa_sort) values
+  	(#{fa_id},#{fa_pid},#{fa_name},#{fa_image},#{fa_desc},#{fa_url},#{fa_sort})
+  </insert>
+  <!-- 修改 -->
+  <update id="updateConMsg">
+  	update fa_con_msg
+  	<set>fa_pid=#{fa_pid},fa_name=#{fa_name},fa_image=#{fa_image},fa_desc=#{fa_desc},fa_url=#{fa_url},fa_sort=#{fa_sort}</set>
+  	where fa_id=#{fa_id}
+  </update>
+  <!--删除  -->
+  <delete id="deleteConMsg">
+  	delete from fa_con_msg where fa_id in
+  	<foreach collection="array" open="(" separator="," close=")" item="ids" >
+  		#{ids}
+  	</foreach>
+  </delete>
+  
+  <!-- ******************************************************************************************************* -->
+  <!-- 查询首页版头信息 -->
+  <select id="findIndexHead" resultType="map">
+  	select fa_name as name ,fa_url as url from fa_con_msg where fa_pid=2 order by fa_sort asc limit 0,7
+  </select>
+  <!-- 查询首页版尾通用信息 -->
+  <select id="findIndexEndNor" resultType="map">
+  select fa_name as name ,fa_url as url from fa_con_msg where fa_pid=10 order by fa_sort asc
+  </select>
+  <!-- 查询首页版尾公司信息 -->
+  <select id="findIndexEndCom" resultType="map">
+  select fa_desc as name ,fa_url as url from fa_con_msg where fa_pid=11 order by fa_sort asc
+  </select>
+  <!-- //查询首页banner图 -->
+  <select id="findIndexBanner" resultType="map">
+  select fa_name as name ,fa_url as url,fa_image as image from fa_con_msg where fa_pid=4 order by fa_sort asc
+  </select>
+  <!-- 查询会员底部信息 -->
+  <select id="findlistMbEnd" resultType="map">
+  select fa_desc as name ,fa_url as url from fa_con_msg where fa_pid=17 order by fa_sort asc
+  </select>
+  <!-- 微博 -->
+  <select id="findIndexWB" resultType="map">
+  select fa_url as url from fa_con_msg where fa_pid=14 order by fa_sort asc limit 0,1
+  </select>
+  <!-- 微信 -->
+  <select id="findIndexWX" resultType="map">
+  select fa_image as image from fa_con_msg where fa_pid=15 order by fa_sort asc limit 0,1
+  </select>
+  <!-- QQ -->
+  <select id="findIndexQQ" resultType="map">
+  select fa_url as url from fa_con_msg where fa_pid=16 order by fa_sort asc limit 0,1
+  </select>
+  <!-- 根据pid 查询内容编辑信息 -->
+  <select id="findAllContentByPid" resultMap="FaConMsg"> 
+  	select * from fa_con_msg where fa_pid=#{0} order by fa_sort asc
+  </select>
+</mapper>

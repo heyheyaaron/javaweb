@@ -1,0 +1,81 @@
+<ehcache>
+
+    <!-- 
+    	Sets the path to the directory where cache .data files are created.
+
+         If the path is a Java System Property it is replaced by
+         its value in the running VM.
+
+         The following properties are translated:
+         user.home - User's home directory
+         user.dir - User's current working directory
+         java.io.tmpdir - Default temp file path 
+       	缓存中的对象磁盘存储路径 
+     -->
+    <diskStore path="E:/cache"/>
+
+
+    <!--Default Cache configuration. These will applied to caches programmatically created through
+        the CacheManager.
+
+        The following attributes are required for defaultCache:
+
+        maxInMemory       - Sets the maximum number of objects that will be created in memory
+        eternal           - Sets whether elements are eternal. If eternal,  timeouts are ignored and the element
+                            is never expired.
+        timeToIdleSeconds - Sets the time to idle for an element before it expires. Is only used
+                            if the element is not eternal. Idle time is now - last accessed time
+        timeToLiveSeconds - Sets the time to live for an element before it expires. Is only used
+                            if the element is not eternal. TTL is now - creation time
+        overflowToDisk    - Sets whether elements can overflow to disk when the in-memory cache
+                            has reached the maxInMemory limit.
+
+        -->
+	<!-- 配置命名的缓存区
+		name: 缓存区的名称
+		maxElementsInMemory : 配置缓存中的对象在内存中的最大数量
+		eternal: 缓存中的对象是否永久有效: false不是、true永久有效
+		timeToIdleSeconds: 配置缓存中的对象空闲的有效时间 (按秒算)
+		timeToLiveSeconds: 配置缓存中的对象存活的有效时间 (按秒算)
+		overflowToDisk: 缓存中的对象超出了内存中最大数量就写入磁盘
+		maxElementsOnDisk: 配置缓存中的对象在磁盘中的最大数量
+		memoryStoreEvictionPolicy: 内存存储逐出缓存策略(算法)
+		  LRU是Least Recently Used 近期最少使用算法
+		  FIFO是First In First Out 先入先出算法
+		  
+		shiro授权数据缓存
+	  -->
+    <cache name="shiro-authorizationCache"
+        maxElementsInMemory="1000"
+        eternal="false"
+        timeToIdleSeconds="3600"
+        timeToLiveSeconds="3600"
+        overflowToDisk="true"
+        maxElementsOnDisk="10000000"
+        memoryStoreEvictionPolicy="LRU"
+        />
+        
+     <!-- 系统用户菜单缓存 -->
+	 <cache name="feiao-userResourceMenuCache"
+        maxElementsInMemory="1000"
+        eternal="false"
+        timeToIdleSeconds="3600"
+        timeToLiveSeconds="3600"
+        overflowToDisk="true"
+        maxElementsOnDisk="10000000"
+        memoryStoreEvictionPolicy="LRU"
+        />
+      
+     <!-- 激活的session存储到缓存的名称 -->
+	 <cache name="shiro-activeSessionsCache"
+        maxElementsInMemory="1000"
+        eternal="true"
+        timeToIdleSeconds="0"
+        timeToLiveSeconds="0"
+        overflowToDisk="true"
+        maxElementsOnDisk="10000000"
+        memoryStoreEvictionPolicy="LRU"
+        /> 
+       
+
+</ehcache>

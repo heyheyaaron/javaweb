@@ -1,0 +1,71 @@
+.filess {
+    position: relative;
+    display: inline-block;
+    background: #D0EEFF;
+    border: 1px solid #99D3F5;
+    border-radius: 4px;
+    padding: 4px 12px;
+    overflow: hidden;
+    color: #1E88C7;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+}
+.filess input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.filess:hover {
+    background: #AADFFD;
+    border-color: #78C3F3;
+    color: #004974;
+    text-decoration: none;
+}
+.filesf {
+    position: relative;
+    display: inline-block;
+    background: #969696;
+    border: 1px solid #969696;
+    border-radius: 4px;
+    padding: 4px 12px;
+    overflow: hidden;
+    color: #e0e0e0;
+    text-decoration: none;
+    text-indent: 0;
+    line-height: 20px;
+}
+.filesf input {
+    position: absolute;
+    font-size: 100px;
+    right: 0;
+    top: 0;
+    opacity: 0;
+}
+.filesf:hover {
+    background: #4b4b4b;
+    border-color: #78C3F3;
+    color: #efefef;
+    text-decoration: none;
+}
+/* 点击加载样式 */
+.flw_moress {
+    	margin: 10px 80px;
+	}
+.flw_moress a {
+	    display: block;
+	    padding: 10px;
+	    box-shadow: 0 1px 0 rgba(0,0,0,0.05);
+	    border: 1px solid #DBDBDB;
+	    border-radius: 4px;
+	    background: #F4F7F9;
+	    text-align: center;
+}
+.OwenPageColor{
+	background-color: red !important; 
+	color: white !important;
+	border-color: white !important;
+	border-width: 2px !important;
+}

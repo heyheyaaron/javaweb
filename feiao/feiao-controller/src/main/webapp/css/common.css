@@ -1,0 +1,37 @@
+.title{
+	margin: 0px auto;
+	height: 35px;
+	margin-top: 55px;
+	overflow: hidden;
+	text-align:center;
+	font-size:26px;
+}
+ .content{margin-bottom: 180px;}
+ a.fullBtnBlue{    margin-bottom: 0px;display: inline-block;height: 40px;width: 246px;font-size: 18px;line-height: 40px;text-align: center;outline: none;cursor: pointer;background-color: #ff3939;color: #fff;border-radius: 4px;margin-left: 34px;
+}
+span.inputTip{position: absolute;top: 8px;left: 10px;color: #909090;font-size: 14px;height: 22px;line-height: 22px}
+span.inputTip{top: 8px}
+.normalInput{
+    position: relative;
+    display: inline-block;
+    padding: 0px 10px;
+    width: 290px;
+    height: 38px;
+    line-height:38px;
+    font-size: 14px;
+    margin-bottom: 20px;
+    border: 1px solid #dadada;
+    outline: none;
+    color: #474747;
+    *float: left;
+    zoom: 1;
+    overflow: hidden;
+    *line-height: 50px;
+    border-radius: 4px;
+}
+#mail{width: 310px;border: solid 1px silver;position:absolute;z-index:10;}
+.complain{text-align: center;color: #ff3939;cursor: pointer;display: inline-block;float: right;margin-right: 58px;}
+.changeValid{text-align: center;color: #ff3939;cursor: pointer;display: none;margin-left: 36px;}
+.lineWrap{margin-bottom: 77px}
+.nextWrap{margin-bottom: 18px}
+.alertDialog .alertDialogBtnField .fullBtnBlue{margin-left:0px}

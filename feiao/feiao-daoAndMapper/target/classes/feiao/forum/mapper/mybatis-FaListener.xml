@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaListenerDao">  
+  <resultMap id="FaListener" type="feiao.forum.pojo.FaListener"></resultMap>
+   <!--分页查询我的收听信息  -->
+  <select id="selectMyFollowByPage" resultType="map">
+  select s.fa_name as beizhu,s.fa_listener as id,u.fa_username as name,u.fa_title_img as image from fa_listener as s left join fa_user as u
+  on s.fa_listener =u.fa_id where s.fa_userid=#{0} order by s.fa_time desc limit #{1},#{2}
+  	
+  </select>
+   <!--分页查询我的听众信息  -->
+  <select id="selectMyFansByPage" resultType="map">
+  select u.fa_id as id,u.fa_username as name,u.fa_title_img as image from fa_listener as s left join fa_user as u
+  on s.fa_userid =u.fa_id where s.fa_listener=#{0} order by s.fa_time desc limit #{1},#{2}
+  	
+  </select>
+  <!--//查询是否属互相关注  -->
+  <select id="IsFriend" resultType="long">
+  	select count(fa_id) from fa_listener where fa_listener=#{1} and fa_userid=#{0}
+  </select>
+  <!--根据id查询关注数  -->
+  <select id="getCountById" resultType="long">
+  	select count(fa_id) from fa_listener where fa_userid=#{0}
+  </select>
+  <!--根据id查询粉丝数  -->
+  <select id="getCountByIdFans" resultType="long">
+  	select count(fa_id) from fa_listener where fa_listener=#{0}
+  </select>
+  <!-- 关注 -->
+  <insert id="saveListener">
+  	insert into fa_listener(fa_id,fa_userid,fa_listener,fa_time) values(#{fa_id},#{fa_userid},#{fa_listener},#{fa_time})
+  </insert>
+  <!-- //修改备注名 -->
+  <update id="updateMyFollow">
+  	update fa_listener <set>fa_name=#{2}</set> where fa_listener=#{0} and fa_userid=#{1}
+  </update>
+  <!--  取关 -->
+  <delete id="deleteMyFollow">
+  	delete from fa_listener where fa_listener=#{0} and fa_userid=#{1}
+  
+  </delete>
+</mapper>

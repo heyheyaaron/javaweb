@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaConTypeDao">  
+  <resultMap id="FaConType" type="feiao.forum.pojo.FaConType"></resultMap>
+  <!-- 根据id查询内容分类信息 -->
+  <select id="get" resultMap="FaConType">
+  	select fa_id, fa_name, fa_sort,fa_pid,fa_desc from fa_con_type where fa_id = #{0};
+  </select>
+  <!-- 查询所有内容分类信息 -->
+  <select id="getAllConType" resultMap="FaConType">
+  	select fa_id, fa_name, fa_sort,fa_pid,fa_desc from fa_con_type order by fa_sort asc 
+  </select>
+  <!-- 异步加载内容分类的内容树 -->
+  <select id="loadConmsgTree" resultType="map">
+  	select fa_id as id, fa_pid as pid,fa_name as name,fa_desc as descs from fa_con_type order by fa_sort asc 
+  </select>
+ <!-- 查询内容分类下有没有内容 -->
+ <select id="findCountByTypeCid" resultType="long">
+ 	select count(fa_id) from fa_con_msg where fa_pid = #{0}
+ </select>
+ <!-- 查询内容分类下有没有子分类 -->
+ <select id="findCountByTypebid" resultType="long">
+ 	select count(fa_id) from fa_con_type where fa_pid = #{0}
+ </select>
+  <!-- 增加内容分类 -->
+  <insert id="addConType">
+  	insert into fa_con_type (fa_name,fa_sort,fa_pid,fa_desc) values(#{fa_name},#{fa_sort},#{fa_pid},#{fa_desc});
+  </insert>
+  <!-- 修改内容分类 -->
+  <update id="updateConType">
+  	update fa_con_type
+  	<set>fa_name = #{fa_name},fa_sort=#{fa_sort},fa_pid=#{fa_pid},fa_desc=#{fa_desc}</set>
+  	where fa_id = #{fa_id}
+  </update>
+  <!-- 删除内容分类 -->
+  <delete id="deleteConType">
+  	delete from fa_con_type where fa_id=#{0}
+  </delete>
+  
+</mapper>

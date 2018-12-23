@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:c="http://www.springframework.org/schema/c"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        				http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+        				http://www.springframework.org/schema/context
+        				http://www.springframework.org/schema/context/spring-context-4.2.xsd
+        				http://www.springframework.org/schema/tx
+        				http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+        				http://www.springframework.org/schema/aop
+        				http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
+      
+     <bean id="logoutFilter" class="org.apache.shiro.web.filter.authc.LogoutFilter">
+     <property name="redirectUrl" value="/FiioAdmin/login.jsp" />
+	</bean>
+    
+    <!-- 配置SessionDAO -->
+    <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">
+    	<!-- 设置激活的session存储到缓存的名称 -->
+		<property name="activeSessionsCacheName" value="shiro-activeSessionsCache"/>    
+    </bean>
+    <!-- 配置SessionManager会话管理器  -->
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+    	<!-- 设置会话cookie是否可用 (必须) -->
+    	<property name="sessionIdCookieEnabled" value="true"/>
+    	<!-- 设置删除无效的Session -->
+    	<property name="deleteInvalidSessions" value="false"/>
+    	<!-- 设置验证Session有效的定时器时间900000毫秒(15分钟) -->
+		<property name="sessionValidationInterval" value="9000000"/>
+		<!-- 设置Session全局超时时间 按毫秒计算  1800000(30分钟) -->
+		<property name="globalSessionTimeout" value="18000000"/>
+		<!-- 设置操作会话的SessionDAO -->	
+		<property name="sessionDAO" ref="sessionDAO"/>
+		<property name="sessionIdCookie" ref="wapsession"/>
+    </bean>
+    <bean id="wapsession" class="org.apache.shiro.web.servlet.SimpleCookie">
+   		<constructor-arg name="name" value="WAPSESSIONID" />
+	</bean>
+    <!-- 配置CacheManager缓存管理器 -->
+    <bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+    	<!-- 指定缓存文件 -->
+    	<property name="cacheManagerConfigFile" value="classpath:ehcache.xml"/>
+    </bean>
+     
+    <!-- 配置cookie
+    	c:_0 : 设置cookie的名称 c:_构造器参数的索引号 c:_1-ref="bean的id"
+    	p:maxAge: 设置cookie的有效时间 7天  按秒计算
+     -->
+    <bean id="simpleCookie" class="org.apache.shiro.web.servlet.SimpleCookie"
+    	c:_0="tbyw_remember_me" p:maxAge="604800"/>
+    <!-- 配置RememberMeManager记住我管理器 -->
+    <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+    	<!-- 
+    		 Cookie值采用AES加密后得到Base64加密字符串
+    		 cipherKey : 加密的密钥，建议每个项目都不一样(cipherKey要求是16位长度的字节数组)
+    		             new Md5Hash("it520").getBytes()： 刚好产生的加密字节数组为16位长度
+    		 cookie : 设置cookie对象     #{} : SpEL
+    	 -->
+    	<property name="cipherKey" value="#{new org.apache.shiro.crypto.hash.Md5Hash('it88888876445').getBytes()}"/>
+    	<!-- 设置cookie -->
+    	<property name="cookie" ref="simpleCookie"/>
+    </bean>
+    
+     				
+    <!-- 配置密码凭证适匹器 -->
+    <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+    	<!-- 设置加密算法名称 -->
+    	<property name="hashAlgorithmName" value="md5"/>
+    	<!-- 设置加密迭代的次数 -->
+    	<property name="hashIterations" value="5"/>
+    	<!-- 设置存储的密码是用16进制编码的字符串  -->
+    	<property name="storedCredentialsHexEncoded" value="true"/>
+    </bean>
+
+    <!-- 配置自己的域(安全数据源) --> 
+    <bean id="userAuthorizingRealm" class="feiao.forum.realm.UserAuthorizingRealm">
+    	<property name="credentialsMatcher" ref="credentialsMatcher"/>
+    	<!-- 设置是否开启授权与身份认证缓存(cachingEnabled) -->
+    	<property name="cachingEnabled" value="true"/>
+    	<!-- 设置授权信息缓存名称(authorizationCacheName) -->
+    	<property name="authorizationCacheName" value="shiro-authorizationCache"/>
+    </bean>
+    			
+    <!-- 配置securityManager安全管理器 
+    	SecurityUtils.setSecurityManager(securityManager)
+    -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+    	<!-- 配置域Realm(安全数据源) -->
+    	<property name="realm" ref="userAuthorizingRealm"/>
+    	<!-- 配置记住我管理器 -->
+    	<property name="rememberMeManager" ref="rememberMeManager"/>
+    	<!-- 配置缓存管理器 -->
+    	<property name="cacheManager" ref="cacheManager"/>
+    	<!-- 配置会话管理器 -->
+    	<property name="sessionManager" ref="sessionManager"/>
+    </bean>
+   
+     <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">  
+        <property name="exceptionMappings">  
+            <props>  
+                <prop key="org.apache.shiro.authz.UnauthorizedException">unauthorized</prop>  
+            </props>  
+        </property>  
+    </bean> 
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+    	<!-- 注入安全管理器对象 -->
+    	<property name="securityManager" ref="securityManager"/>
+    	<!-- 没有身份认证(登录)的用户，需要跳转到loginUrl指定地址 -->
+    	<property name="loginUrl" value="/login.jsp"/>
+    	<!-- 没有授权(权限)的用户，需要跳转到的URL -->
+    	<property name="unauthorizedUrl" value="/unauthorized.jsp"/>
+    	<property name="filters">
+            <map>
+                <!--退出过滤器-->
+                <entry key="logout" value-ref="logoutFilter" />
+            </map>
+        </property>
+    	<!-- 配置过滤器链 
+    	  anon : 匿名访问不需要登录(认证)
+    	  authc : 只要用户登录isAuthenticated()==true即可访问成功
+    	  user: 只要用户登录(isRemembered()==true or isAuthenticated()==true)即可访问成功
+    	  logout(LogoutFilter)安全退出
+    	-->
+    	<property name="filterChainDefinitions">
+    		<value>
+    			
+    			
+    			/logout.do = logout
+    			
+    			
+    			
+    		</value>
+    	</property>
+    </bean>
+    
+   
+    
+    <!-- 配置产生Action对象的代理并运用授权切面Bean 
+         proxy-target-class :
+		  true: 配置强制使用cglib方式为Action创建代理对象(代理的对象可以不实现接口)
+		  false: 配置使用jdk自带的Proxy创建代理对象(面向接口)
+     -->
+    <aop:config proxy-target-class="true"/>
+    
+</beans>

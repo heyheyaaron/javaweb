@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaReceiverDao">  
+  <resultMap id="FaReceiver" type="feiao.forum.pojo.FaReceiver"></resultMap>
+  <select id="selectReByUserId" resultMap="FaReceiver">
+  	select * from fa_getgood_msg  where fa_userid=#{fa_userid}
+  </select>
+  <select id="get" resultMap="FaReceiver">
+  	select * from fa_getgood_msg  where fa_id=#{0}
+  </select>
+  <!--修改联系人  -->
+  <update id="update">
+  	update fa_getgood_msg 
+  	<set>
+  		fa_userid=#{fa_userid},
+  		fa_name=#{fa_name},
+  		fa_tel=#{fa_tel},
+  		fa_pr=#{fa_pr},
+  		fa_ci=#{fa_ci},
+  		fa_ar=#{fa_ar},
+  		fa_detail=#{fa_detail},
+  		fa_map=#{fa_map}
+  	</set>
+  	where fa_id=#{fa_id}
+  </update>
+  <!--新增联系人 -->
+  <insert id="save">
+  	insert into fa_getgood_msg(fa_userid,fa_name,fa_tel,fa_pr,fa_ci,fa_ar,fa_detail,fa_map,fa_id) values
+  	(#{fa_userid},#{fa_name},#{fa_tel},#{fa_pr},#{fa_ci},#{fa_ar},#{fa_detail},#{fa_map},#{fa_id})
+  </insert>
+  <!-- 删除联系人 -->
+  <delete id="delete">
+  	delete from fa_getgood_msg where fa_id =#{0} and fa_userid=#{1}
+  </delete>
+</mapper>

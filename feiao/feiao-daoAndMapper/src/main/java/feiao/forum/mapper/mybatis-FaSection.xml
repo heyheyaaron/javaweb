@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaSectionDao">  
+  <resultMap id="FaSection" type="feiao.forum.pojo.FaSection"></resultMap>
+  <!-- 异步加载所有版块信息 -->
+  <select id="selectAllModel" resultType="map">
+  	select fs.fa_id as id,fs.fa_name as name,fs.fa_pid as pid from fa_section as fs order by fs.fa_sort asc
+  </select>
+  <!-- //查询所有版块信息 -->
+  <select id="getAllSection" resultMap="FaSection">
+  	select * from fa_section  order by fa_sort asc
+  </select>
+  <!-- 根据id 查询版块信息 -->
+  <select id="getModelById" resultMap="FaSection">
+  	select fa_id,fa_name,fa_desc,fa_pid,fa_sort,fa_postg,fa_postr,fa_repliesg,fa_repliesr,fa_zang,fa_zanr,fa_voteg,fa_voter,fa_readg,fa_readr from fa_section where fa_id =#{0}
+  </select>
+  <!-- 查询该版块下子版块个数 -->
+  <select id="getModelCidCount" resultType="long">
+  	select count(fa_id) from fa_section where fa_pid=#{0}
+  </select>
+  <!-- //查询所有父版块 -->
+  <select id="findIndexModel" resultType="map" >
+  	select fa_id as id,fa_name as name from fa_section where fa_pid=0
+  </select>
+  <!-- 增加版块 -->
+  <insert id="saveModel">
+  	insert into fa_section (fa_name,fa_desc,fa_pid,fa_sort,fa_postg,fa_postr,fa_repliesg,fa_repliesr,fa_zang,fa_zanr,fa_voteg,fa_voter,fa_readg,fa_readr) 
+  	values(#{fa_name},#{fa_desc},#{fa_pid},#{fa_sort},#{fa_postg},#{fa_postr},#{fa_repliesg},#{fa_repliesr},#{fa_zang},#{fa_zanr},#{fa_voteg},#{fa_voter},#{fa_readg},#{fa_readr})
+  </insert>
+  <!-- 修改版块 -->
+  <update id="updateModel">
+  	update fa_section 
+  	<set>
+  		fa_name=#{fa_name},fa_desc=#{fa_desc},fa_pid=#{fa_pid},fa_sort=#{fa_sort},
+  		fa_postg=#{fa_postg},fa_postr=#{fa_postr},fa_repliesg=#{fa_repliesg},fa_repliesr=#{fa_repliesr},
+  		fa_zang=#{fa_zang},fa_zanr=#{fa_zanr},fa_voteg=#{fa_voteg},fa_voter=#{fa_voter},fa_readg=#{fa_readg},fa_readr=#{fa_readr}
+  	</set>
+  	where fa_id=#{fa_id}
+  </update>
+  <!--//版主修改版块信息  -->
+  <select id="updateSectionMsg">
+  	update fa_section <set> fa_desc=#{0} </set> where fa_id=#{1}
+  </select>
+  <!-- 删除版块 -->
+  <delete id="deleteModel">
+  	delete from fa_section where fa_id = #{0}
+  </delete>
+</mapper>

@@ -1,0 +1,91 @@
+.title{
+	margin: 0px auto;
+	height: 35px;
+	margin-top: 55px;
+	overflow: hidden;
+	width: 158px;
+    font-size: 26px;
+    color: #010101;
+}
+.title i{
+	background: url(/resources/uc/web/member/images/title.png) no-repeat;
+	_background-image: none;
+	_filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/resources/uc/web/member/images/title.png');
+}
+.flow{
+	margin: 0px auto;
+	height: 70px;
+	width:  840px;
+	margin-top: 150px;
+    margin-bottom: 60px;
+	overflow: hidden;
+}
+.flow i{
+	background: url(/resources/uc/web/member/images/step3.png) no-repeat;
+	_background-image: none;
+	_filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/resources/uc/web/member/images/step3.png');
+}
+ .middle{
+ 	width: 343px;
+ 	margin: 0px auto;
+ }
+ #mainForm{
+ 	width: 100%;
+ }
+ .question{
+	 color: #464646;
+	 font-size: 18px;
+	 margin-bottom: 20px;
+ }
+ #reset{
+	 width: 150px; 
+	 margin-right: 12px;
+	 margin-left: 0px; 
+ }
+ #cancel{
+ 	width: 150px;
+ }
+ .lineWrap{
+ 	position: relative;
+ 	zoom: 1;
+ }
+ #resetPassword, #repeatPassword{
+ 	width: 100%;
+ 	display: inline-block;
+ 	height:50px;
+ 	line-height: 22px;
+ 	font-size: 16px;
+ 	outline: none;
+ 	color: #474747;
+ 	*height:49px;
+ 	*line-height: 50px;
+ }
+ #resetPassword,#repeatPassword{
+ 	line-height: 22px;
+ 	padding: 7px 0;
+ 	height: 22px;
+ 	*height: 21px;
+ }
+ /*reset*/
+ span.error, span.otherError{
+ 	display: block;
+ 	margin-left: 0px;
+ 	margin-bottom: 20px;
+ }
+#mainForm .ie6-btm0{_margin-bottom:-10px !important;}
+
+a.fullBtnGray{
+	margin-bottom: 0px;
+    display: inline-block;
+    height: 40px;
+    width: 146px;
+    font-size: 18px;
+    line-height: 40px;
+    text-align: center;
+    outline: none;
+    cursor: pointer;
+    background-color: #ff3939;
+    color: #fff;
+    border-radius: 4px;
+}
+.reset-password-div.lineWrap{margin-bottom:77px !important}

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaSentMessageDao">  
+  <resultMap id="FaSentMessage" type="feiao.forum.pojo.FaSentMessage"></resultMap>
+  <!-- 查询未读的提醒信息的数量 -->
+  <select id="getTixingOnRed" resultType="long">
+  	select count(fa_id) from fa_sentmsgtouser where fa_userid=#{0} and fa_msg_type=0 and fa_isread=0
+  </select>
+  <!--  //根据两个id 和类型查询信息-->
+  <select id="getFsmByUserIdAndFid" resultMap="FaSentMessage">
+  	select * from fa_sentmsgtouser where fa_userid=#{0} and fa_friendid=#{1} and fa_msg_type=#{2}
+  </select>
+  <!-- 分页查询我的提醒 -->
+  <select id="selectRemindBypage" resultType="map">
+  	select s.fa_id as id,u.fa_id as fid,u.fa_username as name,u.fa_title_img as image,s.fa_friend_istrue as istrue,s.fa_pid as pid,
+  	s.fa_ceng as ceng,s.fa_msg_type as fmt,s.fa_time as day from fa_sentmsgtouser as s left join fa_user as u on s.fa_friendid = u.fa_id
+  	where s.fa_userid=#{0} and s.fa_msg_type in(1,2,3,4,5,6,7,8) order by s.fa_time desc limit #{1},#{2}
+  </select>
+  <!-- 分页查询我的提醒 -->
+  <select id="selectRemindByCount" resultType="long">
+  	select count(fa_id) from fa_sentmsgtouser 
+  	where fa_userid=#{0} and fa_msg_type in(1,2,3,4,5,6,7,8)
+  </select>
+  <!--分页查询系统消息  -->
+  <select id="selectSystemMsgByPage" resultType="map">
+  	select  fa_id as id,fa_msg as msg,fa_title as title,fa_time as day,fa_isread as isread 
+  	from fa_sentmsgtouser where fa_userid=#{0} and fa_msg_type=0 order by fa_time desc limit #{1},#{2}
+  </select>
+  
+  <!--分页查询系统消息数量  -->
+  <select id="selectSystemMsgCount" resultType="long">
+  	select count(fa_id) from fa_sentmsgtouser where fa_userid=#{0} and fa_msg_type=0
+  </select>
+  <!-- 保存站内发送的信息 -->
+  <insert id="saveMsg">
+  	insert into fa_sentmsgtouser 
+  	(fa_id,fa_userid,fa_friendid,fa_msg,fa_friend_type,fa_friend_istrue,fa_msg_type,fa_isread,fa_title,fa_time) 
+  	values 
+  	(#{fa_id},#{fa_userid},#{fa_friendid,jdbcType=VARCHAR},#{fa_msg},#{fa_friend_type},#{fa_friend_istrue},#{fa_msg_type},#{fa_isread},#{fa_title,jdbcType=VARCHAR},#{fa_time});
+  
+  </insert>
+   <!-- 保存站内发送的信息(群发) -->
+  <insert id="saveMsgs">
+  	insert into fa_sentmsgtouser
+  	(fa_id,fa_userid,fa_friendid,fa_msg,fa_friend_type,fa_friend_istrue,fa_msg_type,fa_isread,fa_title,fa_time) values 
+  	<foreach collection="list" item="fsm" separator=",">
+  	(#{fsm.fa_id},#{fsm.fa_userid},#{fsm.fa_friendid,jdbcType=VARCHAR},#{fsm.fa_msg},#{fsm.fa_friend_type},#{fsm.fa_friend_istrue},#{fsm.fa_msg_type},#{fsm.fa_isread},#{fsm.fa_title,jdbcType=VARCHAR},#{fsm.fa_time})
+  	</foreach>
+  </insert>
+  <!-- 群组信息  -->
+  <insert id="saveFriendMsg">
+  	insert into fa_sentmsgtouser
+  	(fa_id,fa_userid,fa_friendid,fa_msg,fa_msg_type,fa_title,fa_time,fa_pid) values 
+  	(#{fa_id},#{fa_userid},#{fa_friendid},#{fa_msg},#{fa_msg_type},#{fa_title},#{fa_time},#{fa_pid})
+  </insert>
+  <!--批量已读系统信息  -->
+  <update id="systemMsgHasRead">
+  	update fa_sentmsgtouser <set>fa_isread=1</set>
+  	where fa_id in
+  	<foreach collection="ids" open="("  separator="," close=")" item="ids">
+  		#{ids}
+  	</foreach>
+  and fa_userid=#{id}
+  </update>
+  <!--//改变好友申请信息状态  -->
+  <update id="updateFriendApplyStatus">
+  	update fa_sentmsgtouser <set>fa_friend_istrue=#{2},fa_time=#{3}</set> where fa_userid=#{0} and fa_friendid=#{1}
+  </update>
+  <!-- 更新好友申请信息 -->
+  <update id="updateFriendMsg">
+  	update fa_sentmsgtouser
+  	<set>fa_friend_istrue=#{fa_friend_istrue},fa_time=#{fa_time}</set> where  fa_id=#{fa_id}
+  </update>
+  <!--批量删除系统消息  -->
+  <delete id="deleteMsgByIds">
+  	delete from fa_sentmsgtouser where  fa_id in
+  	<foreach collection="ids" open="("  separator="," close=")" item="ids" >
+  		#{ids}
+  	</foreach>
+  	and fa_userid=#{id} 
+  </delete>
+  <!--//删除某个提醒  -->
+  <delete id="deleteSystemRemind">
+  	delete from fa_sentmsgtouser where fa_id=#{1} and fa_userid=#{0}
+  </delete>
+</mapper>

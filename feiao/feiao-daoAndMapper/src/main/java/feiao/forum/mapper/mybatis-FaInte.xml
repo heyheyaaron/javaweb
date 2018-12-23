@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaInteDao">  
+  <resultMap id="FaInte" type="feiao.forum.pojo.FaInte"></resultMap>
+  <!--查询该会员积分记录表(后台)  -->
+  <select id="getMemberInteByPage" resultType="map">
+  	select fa_make as makes,fa_change as changes,fa_changetype as typess,DATE_FORMAT(fa_changetime,"%Y-%m-%d %H:%i:%s") as timess,fa_detail as detail,ifnull(fa_end,0) as sums from fa_inte_date
+  	 <where>
+  	 	fa_userid =#{userId} 
+  	 	<if test="ss!=null and ss!=''">
+  	 		and fa_changetime between #{ss} and #{ee} 
+  	 	</if>
+  	 	
+  	 </where>
+  	 order by fa_changetime desc limit #{curpage},#{pagesize}
+  </select>
+  <!-- 查询该会员积分记录表(前台) -->
+  <select id="getFiioerInteByPage" resultType="map">
+  	select fa_make as makes,fa_change as changes,fa_changetype as typess,DATE_FORMAT(fa_changetime,"%Y-%m-%d %H:%i:%s") as timess,fa_detail as detail,ifnull(fa_end,0) as sums from fa_inte_date
+  	 <where>
+  	 	fa_userid =#{userId} 
+  	 	<if test="ss!=null and ss!=''">
+  	 		and fa_changetime between #{ss} and #{ee} 
+  	 	</if>
+  	 	<if test="types &lt; 2">
+  	 		and fa_changetype = #{types}
+  	 	</if>
+  	 	<if test="buyOrSelf==1">and fa_change&lt; 0</if>
+  	 	<if test="buyOrSelf==2">and fa_change&gt;=0</if>
+  	 </where>
+  	 order by fa_changetime desc limit #{curpage},#{pagesize}
+  </select>
+  <!-- 数量后台 -->
+  <select id="getTotalByMemberInte" resultType="long">
+  	select count(fa_id) from fa_inte_date
+  	 <where>
+  	 	fa_userid =#{userId} 
+  	 	<if test="ss!=null and ss!=''">
+  	 		and fa_changetime between #{ss} and #{ee} 
+  	 	</if>
+  	 	
+  	 </where>
+  </select>
+  <!-- 数量前台 -->
+  <select id="getTotalByFiioerInte" resultType="long">
+  	select count(fa_id) from fa_inte_date
+  	 <where>
+  	 	fa_userid =#{userId} 
+  	 	<if test="ss!=null and ss!=''">
+  	 		and fa_changetime between #{ss} and #{ee} 
+  	 	</if>
+  	 	<if test="types &lt; 2">
+  	 		and fa_changetype = #{types}
+  	 	</if>
+  	 	<if test="buyOrSelf==1">and fa_change&lt; 0</if>
+  	 	<if test="buyOrSelf==2">and fa_change&gt;=0</if>
+  	 </where>
+  </select>
+  <!-- 批量保存 -->
+  <insert id="saveFaInte">
+  	insert into fa_inte_date
+  	(fa_id,fa_userid,fa_make,fa_change,fa_changetype,fa_changetime,fa_detail,fa_end)
+  	values
+  	<foreach collection="list" item="fi" separator=",">
+  		(#{fi.fa_id},#{fi.fa_userid},#{fi.fa_make},#{fi.fa_change},#{fi.fa_changetype},#{fi.fa_changetime},#{fi.fa_detail},#{fi.fa_end})
+  	</foreach>
+  	
+  </insert>
+</mapper>

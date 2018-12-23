@@ -1,0 +1,615 @@
+/*@font-face {*/
+
+/*font-family: 'Source Han Sans';*/
+
+/*src:*/
+
+/*url('http://myj.res.meizu.com/common/font/KaiGenGothicCN-Light.woff') format('woff'),*/
+
+/*url('http://myj.res.meizu.com/common/font/KaiGenGothicCN-Light.ttf') format('truetype');*/
+
+/*font-weight: normal;*/
+
+/*font-style: normal;*/
+
+/*}*/
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td {
+    /*font-family: "Source Han Sans","微软雅黑", Arial, Helvetica, sans-serif;*/
+    font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft Yahei", "Hiragino Sans GB", "Heiti SC", "WenQuanYi Micro Hei", sans-serif;
+    /*font: 14px/1.5 "Helvetica Neue",Helvetica,Arial,"Microsoft Yahei","Hiragino Sans GB","Heiti SC","WenQuanYi Micro Hei",sans-serif;*/
+}
+
+html, body {
+    width: 100%;
+    letter-spacing: 1px;
+}
+
+body {
+    background: #F7F7F7;
+    font-size: 14px;
+}
+
+#myj-base {
+    /*background: url(http://myj.res.meizu.com/offical/family/images/view_bg1.jpg);*/
+    /*background: black;*/
+}
+
+#meizu-header-container {
+    background: #fff;
+}
+
+#meizu-header-container *,
+#meizu-header-container *:before,
+#meizu-header-container *:after{
+    box-sizing: content-box;
+    -webkit-box-sizing:content-box;
+}
+
+#meizu-header-container .meizu-header-user-dropdown{
+    width: 220px!important;
+    text-align: center;
+}
+
+#meizu-header-container .meizu-header-user li{
+    margin: 0!important;
+}
+
+#meizu-header-container #_islogin ul{
+    width: 100px!important;
+}
+
+#myj-base .myj-content a:hover, #myj-base .myj-activity-left a:hover, #myj-base .myj-list a:hover, #myj-base .myj-sub a:hover, #myj-base .myj-recommend a:hover, .myj-text-title a:hover, .myj-recommend a div:hover, #myjMaps a .myj-address:hover,
+.myj-family-menu li a:hover {
+    color: #09C1F5;
+}
+.meizu-header-wrap-1240{
+    width: 1240px;
+    margin: 0 auto;
+}
+#meizu-header-container h3{
+    text-align: left;
+    font-size:14px;
+    padding:10px 0 0 10px;
+}
+/*常用*/
+
+.clearfix:after {
+    content: " ";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden
+}
+
+.myj-hide {
+    display: none!important;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.pull-left {
+    float: left;
+}
+
+.pull-right {
+    float: right;
+}
+
+.mt-lg {
+    margin-top: 36px;
+}
+
+.mt40 {
+    margin-top: 40px;
+}
+
+textarea, input, select, button {
+    outline: none;
+}
+
+.myj-form-control {
+    float: left;
+    height: 34px;
+    min-width: 120px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+.myj-form-control:focus {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+}
+
+.myj-container {
+    width: 1240px;
+    height: 100%;
+    /*padding: 0 20px;*/
+    margin: 0 auto;
+}
+
+.myj-login .myj-login-headimg {
+    vertical-align: middle;
+    margin-left: 20px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+}
+
+.myj-login {
+    /*background: ;*/
+}
+
+.myj-login {
+    float: right;
+    padding: 31px 22px 30px 0;
+    position: relative;
+    z-index: 999;
+    cursor: pointer;
+}
+
+.myj-login-list ul {
+    width: 100%;
+}
+
+.myj-login .myj-login-code {
+    position: absolute;
+    top: 80px;
+    right: 0;
+    box-shadow: 2px 2px 12px #ddd;
+    display: none;
+    line-height: 1;
+    background: white;
+    text-align: center;
+    border: 1px solid #eee;
+}
+.myj-login-code img{
+    width:155px;
+    height:155px;
+    padding-top:6px;
+    background: #fff;
+}
+.myj-login-code p{
+    padding:6px 0 0 12px;
+    text-align: left;
+}
+.myj-login-code a{
+    font-size:12px;
+    height:12px;
+}
+.myj-login-code .myj-login-in{
+    padding-right:16px;
+    border-right:1px solid #dcdcdc;
+}
+
+.myj-login-code .myj-login-reg{
+    margin-left: 24px;
+}
+.myj-login .myj-login-code:after, .myj-login .myj-login-code:before {
+    position: absolute;
+    right: 16px;
+    content: '';
+    width: 0;
+    height: 0;
+    border-width: 16px;
+    border-color: transparent;
+    border-style: solid;
+    border-top-width: 0;
+}
+
+.myj-login .myj-login-code:after {
+    top: -15px;
+    border-bottom-color: white;
+}
+
+.myj-login .myj-login-code:before {
+    top: -16px;
+    border-bottom-color: #eee;
+}
+
+.myj-login .myj-login-code p {
+    padding-bottom: 20px;
+}
+
+.myj-login .myj-login-list {
+    position: absolute;
+    top: 56px;
+    left: 20px;
+    width: 100px;
+    background: #fff;
+    text-align: center;
+    padding: 10px 0;
+    box-shadow: 1px 1px 3px #aaa;
+    display: none;
+}
+
+.myj-login-list ul li {
+    margin-left: 0;
+    height: 33px;
+    line-height: 33px;
+    width: 100%;
+    text-align: center;
+}
+
+.myj-input {
+    font-size: 12px;
+}
+
+.caret {
+    display: inline-block;
+    width: 12px;
+    height: 7px;
+    margin-left: 6px;
+    vertical-align: middle;
+    background: url(http://myj.res.meizu.com/offical/images/arrow_bottom.png) no-repeat;
+}
+
+.caret.on {
+    background: url(http://myj.res.meizu.com/offical/images/arrow_top.png) no-repeat;
+}
+
+/*导航样式*/
+.myj-bbs-links ul {
+    margin-top: 31px;
+    margin-bottom: 16px;
+    padding: 0 10px;
+}
+
+.myj-bbs-links,
+.myj-bbs-links a {
+    color: #aaa;
+    font-size: 16px;
+}
+
+.myj-bbs-links a:hover,
+.myj-bbs-links a:active,
+.myj-nav ul li a:hover,
+.myj-nav ul li a:active {
+    color: #00C3F5;
+}
+
+.myj-bbs-links ul,
+.myj-bbs-links li {
+    float: left;
+}
+
+.myj-bbs-links li {
+    /*margin: 20px 0;*/
+    margin-right: 36px;
+}
+
+.myj-nav {
+    width: 100%;
+    height: 57px;
+    line-height: 57px;
+    background: #fff;
+    font-size: 16px;
+    /*vertical-align:middle;*/
+}
+
+.myj-index-main {
+    width: 100%;
+}
+
+.myj-logo {
+    vertical-align: middle;
+}
+
+.myj-nav ul {
+    float: left;
+}
+
+.myj-nav li {
+    position: relative;
+    float: left;
+    margin-left: 40px;
+}
+
+.myj-nav ul li a {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: #262626;
+}
+
+.myj-nav li a.active,
+.myj-nav li a:hover {
+    color: #31a5e7;
+}
+
+.myj-nav .activity-list {
+    display: none;
+    position: absolute;
+    left: -10px;
+    width: 200px;
+    padding: 20px 0 10px;
+    background-color: #fff;
+    z-index: 2
+}
+
+.myj-nav .activity-list .item {
+    position: relative;
+    width: 180px;
+    line-height: 1.5em;
+    padding-left: 25px;
+    margin: 0 0 10px 0
+}
+
+.myj-nav .activity-list .item a {
+    display: inline;
+}
+
+.myj-nav .activity-list .item:after {
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    width: 4px;
+    height: 4px;
+    content: '';
+    border-radius: 50%;
+    background-color: rgb(153, 153, 153);
+}
+
+.edui-container .edui-modal-body .edui-image-item img {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.swiper-button-prev.swiper-button-gray, .swiper-button-next.swiper-button-gray {
+    width: 35px;
+    height: 74px;
+    margin-top: -37px;
+}
+
+.swiper-button-gray {
+    opacity: 0;
+    -webkit-transform: scale(.2);
+    transform: scale(.2);
+    -webkit-transition: all .6s;
+    transition: all .6s;
+}
+
+.myj-index-banner:hover .swiper-button-gray {
+    opacity: 1;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+
+.myj-index-banner .swiper-button-prev {
+    left: 50px;
+}
+
+.myj-index-banner:hover .swiper-button-prev {
+    left: 10px;
+}
+
+.myj-index-banner .swiper-button-next {
+    right: 50px;
+}
+
+.myj-index-banner:hover .swiper-button-next {
+    right: 10px;
+}
+
+.swiper-button-prev.swiper-button-gray {
+    background: url(http://myj.res.meizu.com/offical/images/slide_left.png) no-repeat;
+}
+
+.swiper-button-prev.swiper-button-gray:before, .swiper-button-prev.swiper-button-gray:active {
+    background: url(http://myj.res.meizu.com/offical/images/slide_left_hover.png) no-repeat;
+}
+
+.swiper-button-next.swiper-button-gray {
+    background: url(http://myj.res.meizu.com/offical/images/slide_right.png) no-repeat;
+}
+
+.swiper-button-next.swiper-button-gray:before, .swiper-button-next.swiper-button-gray:active {
+    background: url(http://myj.res.meizu.com/offical/images/slide_right_hover.png) no-repeat;
+}
+
+.myj-links {
+    position: relative;
+}
+
+.myj-links:after {
+    position: absolute;
+    left: 166px;
+    top: -8px;
+    content: '';
+    border-style: solid;
+    border-width: 8px 6px;
+    border-color: transparent;
+    border-bottom-color: #fff;
+    border-top-width: 0;
+    width: 0;
+    height: 0;
+}
+#meizu-header-container{
+    min-width: 1280px;
+}
+/*loading 动画*/
+.loader{
+    display: none;
+}
+.loader7.loader:before,
+.loader7.loader:after,
+.loader7.loader {
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
+    -webkit-animation: load7 1.8s infinite ease-in-out;
+    animation: load7 1.8s infinite ease-in-out;
+
+}
+.loader7.loader {
+    margin: 8px auto;
+    font-size: 10px;
+    position: relative;
+    text-indent: -9999em;
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+    top:-25px;
+}
+.loader7.loader:before {
+    left: -25px;
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+}
+.loader7.loader:after {
+    left: 25px;
+}
+.loader7.loader:before,
+.loader:after {
+    content: '';
+    position: absolute;
+    top: 0;
+}
+@-webkit-keyframes load7 {
+    0%,
+    80%,
+    100% {
+        box-shadow: 0 25px 0 -13px #ffffff;
+    }
+    40% {
+        box-shadow: 0 25px 0 0 #FFF;
+    }
+}
+@keyframes load7 {
+    0%,
+    80%,
+    100% {
+        box-shadow: 0 25px 0 -13px #ffffff;
+    }
+    40% {
+        box-shadow: 0 25px 0 0 #FFF;
+    }
+}
+.myj-footer{
+    height:148px;
+    border-bottom:4px solid #f2f2f2;
+    padding-top: 48px;
+    background: #ebebeb;
+}
+.myj-footer ul{
+    text-align: center;
+    margin:0 auto;
+}
+.myj-footer ul li{
+    display:inline-block;
+    position: relative;
+    padding:0 10px 0 11px;
+    height:14px;
+    line-height:14px;
+
+}
+.myj-footer ul li:after{
+    content: '';
+    position: absolute;
+    top:2px;
+    width:1px;
+    height:10px;
+    background-color:#929292;
+    right:0;
+}
+.myj-footer ul li a{
+    color:#232323;
+    font-size:14px;
+}
+.myj-footer .border-none:after{
+    display: none;
+
+}
+.myj-footer p{
+    text-align: center;
+    font-size:12px;
+    padding-top:20px;
+}
+/*bind_flyme弹出框*/
+.myj-activity-layer-add{
+    width:660px;
+    height:350px;
+}
+.myj-activity-layer-add .myj-layer-header{
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    margin-top:28px;
+}
+.myj-activity-layer-add h2{
+    font-size:24px;
+    padding:26px 0 16px;
+}
+.myj-activity-layer-add p{
+    font-size:18px;
+}
+.myj-activity-layer-add .myj-layer-btn{
+    display: inline-block;
+    width:178px;
+    height:50px;
+    line-height:50px;
+    font-size:16px;
+    color: #fff;
+    text-align: center;
+    margin:34px 26px 44px 26px;
+    background-color: #0bbbef;
+    border-radius:5px;
+}
+.myj-activity-layer-close-btn{
+    position: absolute;
+    width:40px;
+    height:40px;
+    border:1px solid #999;
+    border-radius:50%;
+    right:20px;
+    top:20px;
+    cursor:pointer;
+    -webkit-transform:rotate(45deg);
+    transform:rotate(45deg);
+}
+.myj-activity-layer-add .myj-layer-btn-yellow{
+    background-color: #f6c26c;
+}
+.myj-activity-layer-close-btn:before,
+.myj-activity-layer-close-btn:after{
+    content: ' ';
+    display: block;
+    width: 2px;
+    height: 26px;
+    background: #999;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin:-13px 0 0 -1px;
+
+}
+.myj-activity-layer-close-btn:after{
+    width: 26px;
+    height: 2px;
+    margin:-1px 0 0 -13px;
+}
+.myj-layer-qrcode{
+    width:225px;
+    height:225px;
+}

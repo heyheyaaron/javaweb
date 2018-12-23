@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaIgnoreDao">  
+  <resultMap id="FaIgnore" type="feiao.forum.pojo.FaIgnore"></resultMap>
+  <!-- 根据id查询屏蔽的好友 -->
+  <select id="getIgnoreForFriends" resultType="map" >
+  	select i.fa_id as id ,u.fa_username as name from fa_ignore as i left join fa_user as u on i.fa_ignore=u.fa_id where i.fa_userid=#{0}
+  </select>
+  <select id="getIgnoreForFriendss" resultType="map" >
+  	select i.fa_ignore as id ,u.fa_username as name from fa_ignore as i left join fa_user as u on i.fa_ignore=u.fa_id where i.fa_userid=#{0}
+  </select>
+  <select id="getIgnoreIdForMyId" resultType="string" >
+  	select fa_ignore from fa_ignore  where fa_userid=#{0}
+  </select>
+  <!--查询屏蔽的提醒  -->
+  <select id="getIgnoreForMsg" resultType="map">
+  	select fa_id as id,fa_username as username from fa_user where fa_id in
+  	<foreach collection="array" item="id" open="(" separator="," close=")" >
+  		#{id}
+  	</foreach>
+  </select>
+  <!--保存新的屏蔽好友的id信息  -->
+  <insert id="saveMyIgnoreFriends">
+  	insert into fa_ignore(fa_id,fa_userid,fa_ignore) values
+  	<foreach collection="list" item="ls" separator=",">
+  		(#{ls.fa_id},#{ls.fa_userid},#{ls.fa_ignore})
+  	
+  	</foreach>
+  </insert>
+  <!-- //取消屏蔽指定用户 -->
+  <delete id="deleteById">
+  	delete from fa_ignore where fa_id in 
+  	<foreach collection="array" item="id" open="(" separator="," close=")" >
+  		#{id}
+  	</foreach>
+  </delete>
+  <!-- 根据id 删除屏蔽的好友 -->
+  <delete id="deleteByMyId">
+  	delete from fa_ignore where fa_userid=#{id} and 
+  	<foreach collection="list"  item="list" open="(" separator="or" close=")" >
+  		fa_ignore=#{list}
+  	</foreach>
+  </delete>
+  <!--查询该好友是否已经屏蔽  -->
+  <select id="getCountByMyIdAndFriId" resultType="long">
+  	select count(fa_id) from fa_ignore where fa_userid=#{0} and fa_ignore=#{1}
+  </select>
+</mapper>

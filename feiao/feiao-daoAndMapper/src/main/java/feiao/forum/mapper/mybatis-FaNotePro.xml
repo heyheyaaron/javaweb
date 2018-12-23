@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaNoteProDao">  
+  <!-- 根据id查询产品类别信息 -->
+  <select id="getType" resultType="map">
+  	select fa_id as id, fa_name as name, fa_sort as sort  from fa_note_type where fa_id = #{0};
+  </select>
+  <!-- 分页展示产品类别信息 -->
+  <select id="getTypeByPage" resultType="map">
+ 	 select f.fa_id as id, f.fa_name as name, f.fa_sort as sort from fa_note_type as f 
+ 	
+ 	 order by f.fa_sort asc 
+  </select>
+  <!-- 增加产品类别 -->
+  <insert id="addType">
+  	insert into fa_note_type (fa_name,fa_sort) values(#{0},#{1});
+  </insert>
+  <!-- 修改产品类别 -->
+  <update id="updateType">
+  	update fa_note_type
+  	<set>fa_name = #{1},fa_sort=#{2}</set>
+  	where fa_id = #{0}
+  </update>
+  <!-- 删除产品类别 -->
+  <delete id="deleteType">
+  	delete from fa_note_type where fa_id=#{0}
+  </delete>
+  
+  <!-- 根据id查询产品型号信息 -->
+  <select id="getStyle" resultType="map">
+  	select fa_id as id, fa_name as name, fa_sort as sort,fa_pid as pid  from fa_note_style where fa_id = #{0};
+  </select>
+  <!-- 分页展示产品型号信息 -->
+  <select id="getStyleByPage" resultType="map">
+ 	 select f.fa_id as id, f.fa_name as name, f.fa_sort as sort,t.fa_name as leibie from fa_note_style as f left join fa_note_type as t on f.fa_pid = t.fa_id
+ 	
+ 	 order by f.fa_sort asc 
+  </select>
+  <!-- 分页展示产品型号信息 -->
+  <select id="getStyleByPageByPid" resultType="map">
+ 	 select f.fa_id as id, f.fa_name as name, f.fa_sort as sort from fa_note_style as f where fa_pid = #{0} 
+ 	
+ 	 order by f.fa_sort asc 
+  </select>
+  <!-- 增加产品型号 -->
+  <insert id="addStyle">
+  	insert into fa_note_style (fa_name,fa_sort,fa_pid) values(#{0},#{1},#{2});
+  </insert>
+  <!-- 修改产品型号 -->
+  <update id="updateStyle">
+  	update fa_note_style
+  	<set>fa_name = #{1},fa_sort=#{2},fa_pid=#{3}</set>
+  	where fa_id = #{0}
+  </update>
+  <!-- 删除产品型号 -->
+  <delete id="deleteStyle">
+  	delete from fa_note_style where fa_id=#{0}
+  </delete>
+   
+  <!-- 根据id查询产品问题信息 -->
+  <select id="getQuest" resultType="map">
+  	select fa_id as id, fa_name as name, fa_sort as sort  from fa_note_question where fa_id = #{0};
+  </select>
+  <!-- 分页展示产品问题信息 -->
+  <select id="getQuestByPage" resultType="map">
+ 	 select f.fa_id as id, f.fa_name as name, f.fa_sort as sort from fa_note_question as f 
+ 	
+ 	 order by f.fa_sort asc 
+  </select>
+  <!-- 增加产品问题 -->
+  <insert id="addQuest">
+  	insert into fa_note_question (fa_name,fa_sort) values(#{0},#{1});
+  </insert>
+  <!-- 修改产品问题 -->
+  <update id="updateQuest">
+  	update fa_note_question
+  	<set>fa_name = #{1},fa_sort=#{2}</set>
+  	where fa_id = #{0}
+  </update>
+  <!-- 删除产品问题 -->
+  <delete id="deleteQuest">
+  	delete from fa_note_question where fa_id=#{0}
+  </delete>
+</mapper>

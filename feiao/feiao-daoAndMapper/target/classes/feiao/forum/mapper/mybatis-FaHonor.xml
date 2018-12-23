@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaHonorDao">  
+  <resultMap id="FaHonor" type="feiao.forum.pojo.FaHonor"></resultMap>
+  <!-- 根据id查询勋章信息 -->
+  <select id="get" resultMap="FaHonor">
+  	select fa_id, fa_name, fa_condition,fa_image, fa_desc from fa_honor where fa_id = #{0};
+  </select>
+  <!-- 根据会员id查询勋章信息 -->
+  <select id="getHonorByUserId" resultType="map">
+  	select f.fa_name as name,f.fa_image as image from fa_honor as f where f.fa_id in(
+  		select h.fa_honorid  from fa_user_honor as h where h.fa_userid = #{0} 
+  	)
+  </select>
+  <!-- 根据会员id和勋章ID查询之间的关系 -->
+  <select id="findCountByUserAndHonor" resultType="long">
+  	select count(fa_id) from fa_user_honor where fa_userid =#{0} and fa_honorid = #{1};
+  </select>
+  <!--查询注册勋章id  -->
+  <select id="finIdbycondition" resultType="int" >
+  	select fa_id from fa_honor where fa_condition = #{0}
+  </select>
+  <!-- 分页展示勋章信息 -->
+  <select id="getFaHonorByPage" resultType="map">
+ 	 select f.fa_id as fa_id, f.fa_name as fa_name, f.fa_image as fa_image,f.fa_condition as fa_condition,f.fa_desc as fa_desc from fa_honor as f 
+ 	 <if test="search!=null">  where f.fa_name  like CONCAT('%',#{search},'%') </if>
+ 	  limit #{curpage},#{pagesize}
+  </select>
+  <!-- 查询勋章总数 -->
+  <select id="getTotalByFaHonor" resultType="long">
+  		select count(fa_id) from fa_honor <if test="search!=null">  where fa_name  like CONCAT('%',#{search},'%') </if>
+  </select>
+  <!-- 发送勋章 -->
+  <insert id="sendFaHonor">
+  	insert into fa_user_honor (fa_id,fa_userid,fa_honorid)values(#{0},#{1},#{2});
+  </insert>
+  <!-- 增加勋章-->
+  <insert id="addFaHonor">
+  	insert into fa_honor (fa_name,fa_condition,fa_image,fa_desc) values(#{fa_name},#{fa_condition},#{fa_image},#{fa_desc});
+  </insert>
+  <!-- 修改勋章 -->
+  <update id="updateFaHonor">
+  	update fa_honor
+  	<set>fa_name = #{fa_name},fa_condition=#{fa_condition},fa_image=#{fa_image},fa_desc=#{fa_desc}</set>
+  	where fa_id = #{fa_id}
+  </update>
+ 
+  <!-- 删除勋章 -->
+  <delete id="deleteFaHonor">
+  	delete from fa_honor where fa_id=#{0}
+  </delete>
+  <!-- 删除勋章与会员的关系表 -->
+  <delete id="deleteFaHonorAndUser">
+  	delete from fa_user_honor where fa_honorid = #{0}
+  </delete>
+  <!-- 删除用户绑定的某个勋章 -->
+  <delete id="deleteHonorByMbAndHr">
+  	delete from fa_user_honor where fa_userid=#{0} and fa_honorid = #{1}
+  </delete>
+</mapper>

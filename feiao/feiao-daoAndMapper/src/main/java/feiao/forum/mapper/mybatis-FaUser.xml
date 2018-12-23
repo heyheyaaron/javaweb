@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaUserDao">  
+  <resultMap id="FaUser" type="feiao.forum.pojo.FaUser"></resultMap>
+  <!-- 根据id查询会员信息 -->
+  <select id="getMemberById" resultMap="FaUser">
+  	select * from fa_user where fa_id = #{0}
+  </select>
+  <!-- 根据id 查询忽略人的信息 -->
+  <select id="getIgonreIdSById" resultType="string">
+  	select fa_ignore_msg from fa_user where fa_id=#{0};
+  </select>
+  <!-- 根据id查询会员的乐观锁 -->
+  <select id="getVersionById" resultType="int">
+  	select version from fa_user where fa_id = #{0}
+  </select>
+  <!-- 根据id查询会员昵称 -->
+  <select id="getNameByUserId" resultType="string">
+  	select fa_username from fa_user where fa_id = #{0}
+  </select>
+  <!-- 根据手机邮箱或者登录名查询账户id -->
+  <select id="findUserHonorByUsername" resultType="string">
+  	select fa_id from fa_user where  fa_telphone = #{0} 
+  	union all 
+  	select fa_id from fa_user where fa_email = #{0}
+  </select>
+  <!-- 根据手机邮箱或者登录名查询账户手机 -->
+  <select id="findTelByUsername" resultType="string">
+  	select fa_telphone from fa_user where  fa_telphone = #{0} 
+  	union all 
+  	select fa_telphone from fa_user where fa_email = #{0}
+  </select>
+  <!-- 根据手机邮箱或者登录名查询账户信息 -->
+  <select id="getUserByTelAndEmail" resultMap="FaUser">
+  	select * from fa_user where  fa_telphone = #{0} 
+  	union all 
+  	select * from fa_user where fa_email = #{0}
+  	union all 
+  	select * from fa_user where fa_username = #{0}
+  </select>
+  <!-- 根据手机邮箱或者登录名查询账户id和版主信息 -->
+  <select id="findUserIdAndMoByUsername" resultType="map">
+  
+  	select fa_id as id,fa_ishost as ishost from fa_user where  fa_telphone = #{0} 
+		union all
+	select fa_id as id,fa_ishost as ishost from fa_user where fa_email = #{0}
+
+  </select>
+  <!-- //根据手机和邮箱验证会员是否存在 -->
+  <select id="selectUserByTelOrEmail" resultType="long">
+  select sum(ct) from(
+  	select count(fa_id) as ct from fa_user where  fa_telphone = #{0} 
+	union all
+	select count(fa_id) as ct from fa_user where  fa_email = #{0}
+) a
+  </select>
+  <!-- 根据条件查询会员邮箱 -->
+  <select id="getEmailByTerms" resultType="string" >
+  	select f.fa_email from fa_user as f
+  	<where>
+  		<if test="rankid!=0"> f.fa_rank=#{rankid}</if>
+  		<if test="groupid!=0"> and f.fa_id in (select g.fa_userid from fa_user_groups as g where g.fa_groupid = #{groupid} )</if>
+  		<if test="labelid!=0"> and f.fa_id in (select l.fa_userid from fa_user_label as l where l.fa_label = #{labelid} )</if>
+  		<if test="telid!=0"> and f.fa_id in (select e.userid from erp_prds as e where e.PRDNO = #{telid} )</if>
+  	</where>
+  </select>
+  <!-- 根据条件查询会员id -->
+  <select id="getUserIdByTerms" resultType="string" >
+  	select f.fa_id from fa_user as f
+  	<where>
+  		<if test="rankid!=0"> f.fa_rank=#{rankid}</if>
+  		<if test="groupid!=0"> and f.fa_id in (select g.fa_userid from fa_user_groups as g where g.fa_groupid = #{groupid} )</if>
+  		
+  		<if test="labelid!=0"> and f.fa_id in (select l.fa_userid from fa_user_label as l where l.fa_label = #{labelid} )</if>
+  		<if test="telid!=0"> and f.fa_id in (select e.userid from erp_prds as e where e.PRDNO = #{telid} )</if>
+  	</where>
+  </select>
+  
+  <!-- //查询会员总数 -->
+  <select id="getTotalByMember" resultType="long">
+  	select count(f.fa_id) from fa_user as f
+  	<where>
+  		<if test="rankid!=0">f.fa_rank=#{rankid}</if>
+  		<if test="groupid!=0"> and f.fa_id in( select g.fa_userid from fa_user_groups as g where g.fa_groupid = #{groupid})</if>
+  		<if test="telid!=null"> and f.fa_id in (select e.userid from erp_prds as e where e.PRDNO = #{telid} )</if>
+  		<if test="search!=null and search!=''">  and (f.fa_username like CONCAT('%',#{search},'%') or f.fa_telphone like CONCAT('%',#{search},'%')  or f.fa_email like CONCAT('%',#{search},'%'))  </if>
+  	</where>
+  </select>
+  <!-- 分页展示会员信息 -->
+  <select id="getMemberByPage" resultType="map">
+  	select f.fa_id as id,f.fa_username as name,f.fa_telphone as tel,f.fa_email as email,f.fa_jifen as inte,f.fa_feibiao as bf,r.fa_name as rank,f.fa_status as status 
+  	from fa_user f left join fa_rank as r on f.fa_rank = r.fa_id
+  	<where>
+  		<if test="rankid!=0">f.fa_rank=#{rankid}</if>
+  		<if test="groupid!=0"> and f.fa_id in( select g.fa_userid from fa_user_groups as g where g.fa_groupid = #{groupid})</if>
+  		<if test="telid!=null"> and f.fa_id in (select e.userid from erp_prds as e where e.PRDNO = #{telid} )</if>
+  		<if test="search!=null and search!=''">  and (f.fa_username like CONCAT('%',#{search},'%') or f.fa_telphone like CONCAT('%',#{search},'%')  or f.fa_email like CONCAT('%',#{search},'%'))  </if>
+  		
+  	</where>
+  	order by f.fa_id asc limit #{curpage},#{pagesize}
+  </select>
+  
+  <!-- 查询版主总数 -->
+  <select id="getTotalByModerator" resultType="long">
+  	select count(f.fa_id) from fa_user as f
+  	<where>
+  		<if test="isMo==0">f.fa_ishost >0</if>
+  		<if test="isMo==1">f.fa_ishost =1</if>
+  		<if test="isMo==2">f.fa_ishost =2</if>
+  		<if test="oneMo!=0">
+  			and f.fa_sectionid=#{oneMo}
+  		</if>
+  		<if test="search!=null and search!=''">  and (f.fa_username=#{search} or f.fa_telphone=#{search} or f.fa_email=#{search})  </if>
+  	</where>
+  </select>
+  <!-- 分页展示版主信息  -->
+  <select id="getModeratorByPage" resultType="map">
+  	select f.fa_id as id,f.fa_username as name,f.fa_telphone as tel,f.fa_email as email,f.fa_ishost as ishost,s.fa_name as snames from fa_user as f left join fa_section as s on (f.fa_sectionid = s.fa_id)
+  	
+  	<where>
+  		<if test="isMo==0">f.fa_ishost >0</if>
+  		<if test="isMo==1">f.fa_ishost =1</if>
+  		<if test="isMo==2">f.fa_ishost =2</if>
+  		<if test="oneMo!=0">
+  			and f.fa_sectionid=#{oneMo}
+  		</if>
+  		<if test="search!=null and search!=''">  and (f.fa_username=#{search} or f.fa_telphone=#{search} or f.fa_email=#{search})  </if>
+  	</where>
+  	order by f.fa_sectionid asc
+  </select>
+  <!-- //验证登录名是否重复 -->
+  <select id="validateUserNameIsTrue" resultType="long">
+  	select count(fa_id) from fa_user where fa_username=#{0};
+  </select>
+  <!-- //验证手机是否重复 -->
+  <select id="validateTelIsTrue" resultType="long">
+  	select count(fa_id) from fa_user where fa_telphone=#{0};
+  </select>
+  <!-- //验证邮箱是否重复 -->
+  <select id="validateEmailIsTrue" resultType="long">
+  	select count(fa_id) from fa_user where fa_email=#{0};
+  </select>
+  <!-- //验证手机是否重复不包括自己 -->
+  <select id="validateTelIsTrueMe" resultType="long">
+  	select count(fa_id) from fa_user where fa_telphone=#{0} and fa_id !=#{1}
+  </select>
+  <!-- //验证邮箱是否重复不包括自己 -->
+  <select id="validateEmailIsTrueMe" resultType="long">
+  	select count(fa_id) from fa_user where fa_email=#{0} and fa_id !=#{1}
+  </select>
+  <!--模糊查询我的好友信息  -->
+  <select id="searchMemberByVague" resultType="map">
+  	select u.fa_id as id,u.fa_username as name from fa_user as u where u.fa_id in
+  	(select f.fa_friendid from fa_friend as f where f.fa_userid=#{0}) and u.fa_username like CONCAT('%',#{1},'%')
+  </select>
+  <!-- 增加会员 -->
+  <insert id="addMember" >
+  	insert into fa_user (fa_id,fa_username,fa_telphone,fa_email,fa_password,fa_rank,fa_jifen,fa_feibiao,fa_createtime,fa_title_img)
+  	values(#{fa_id},#{fa_username},#{fa_telphone},#{fa_email},#{fa_password},#{fa_rank},#{fa_jifen},#{fa_feibiao},#{fa_createtime},#{fa_title_img});
+  </insert>
+  
+  <!-- 增加/修改版主 -->
+  <update id="addModerator">
+  	update fa_user <set>fa_ishost=#{1},fa_sectionid=#{2} </set> where fa_id=#{0} 
+  </update>
+  <!-- 删除版主 -->
+  <update id="deleteModerator" parameterType="string">
+  	update fa_user <set>fa_ishost=0,fa_sectionid=0 </set> where fa_id in
+  		<foreach collection="array" open="(" separator="," close=")" item="userid">
+  		#{userid}
+  		</foreach>
+  </update>
+  <!-- 重新匹配积分规则 -->
+  <update id="updateMbByInte">
+  	update fa_user <set>fa_rank=#{0} </set> where fa_jifen between #{1} and #{2}
+  </update>
+  <!--//根据id修改密码  -->
+  <update id="resetPsw">
+  	update fa_user <set>fa_password = #{1}</set> where fa_id=#{0}
+  </update>
+  <!-- 修改会员 -->
+  <update id="updateMember" parameterType="feiao.forum.pojo.FaUser">
+  	update fa_user
+  	 <set>
+  	 fa_username=#{fa_username},fa_telphone=#{fa_telphone},fa_email=#{fa_email},fa_sex=#{fa_sex},fa_qq=#{fa_qq},fa_weibo=#{fa_weibo},fa_life=#{fa_life},
+  	 fa_edu=#{fa_edu},fa_school=#{fa_school},fa_name=#{fa_name},fa_idc=#{fa_idc},fa_idctype=#{fa_idctype},fa_mibao_qu_st=#{fa_mibao_qu_st},
+  	 fa_mibao_qu_nd=#{fa_mibao_qu_nd},fa_mibao_qu_rd=#{fa_mibao_qu_rd},fa_mibao_ar_st=#{fa_mibao_ar_st},fa_mibao_ar_nd=#{fa_mibao_ar_nd},
+  	 fa_mibao_ar_rd=#{fa_mibao_ar_rd},fa_feibiao=#{fa_feibiao},fa_jifen=#{fa_jifen},fa_ishost=#{fa_ishost},fa_sectionid=#{fa_sectionid},
+  	 fa_status=#{fa_status},fa_rank=#{fa_rank},fa_delanswer=#{fa_delanswer},version=#{version}+1<if test="fa_password!=null and fa_password!=''">,fa_password=#{fa_password}</if>
+  	 </set> 
+  	 where fa_id=#{fa_id} and version=#{version}
+  </update>
+  
+  <!-- 删除会员 -->
+  <delete id="deleteMemberData" parameterType="string">
+  		delete from fa_user where fa_id in
+  		<foreach collection="array" open="(" separator="," close=")" item="userid">
+  		#{userid}
+  		</foreach>
+  </delete>
+  <!-- ********************************************************************** -->
+  <!--查询邮箱注册信息的数量  -->
+  <select id="getCountByEmailRe" resultType="long">
+  	select count(fa_email) from fa_login_email where fa_email = #{0}
+  </select>
+  <!-- 查询邮箱注册信息 -->
+  <select id="getEmailRe" resultType="feiao.forum.pojo.FaLoginEmail">
+  	select *  from fa_login_email where fa_email = #{0}
+  </select>
+  <!--保存邮箱注册信息  -->
+  <insert id="saveEmailRe" >
+  	insert into fa_login_email(fa_email,fa_code) values(#{0},#{1})
+  </insert>
+  <!--更新邮箱注册信息  -->
+  <update id="updateEmailRe">
+  	update fa_login_email <set>fa_code=#{1}</set> where fa_email=#{0}
+  </update>
+  <!--删除邮箱注册信息  -->
+  <delete id="deleteEmailRe">
+  	delete from fa_login_email where fa_email=#{0}
+  </delete>
+  <!-- ********************************************************************** -->
+  <!-- 搜索会员信息 -->
+  <select id="getMemberBySearchAndPage" resultType="map">
+  	select u.fa_id as id,u.fa_username as name,u.fa_title_img as image,r.fa_name as ranks
+  	from fa_user as u left join fa_rank as r on u.fa_rank = r.fa_id
+  	<where>
+  		<if test="tel!=null and tel !=''">
+  			u.fa_telphone=#{tel}
+  		</if>
+  		<if test="email!=null and email !=''">
+  			and u.fa_email=#{email}
+  		</if>
+  		<if test="syncbbs==1">
+  			<if test="username!=null and username !=''">
+  				and u.fa_username=#{username}
+  			</if>
+  		</if>
+  		<if test="syncbbs==null">
+  			<if test="username!=null and username !=''">
+  				and u.fa_username like CONCAT(#{username},'%')
+  				
+  			</if>
+  		</if>
+  		<if test="sex  &lt; 2">
+  			and u.fa_sex =#{sex}
+  		</if>
+  		<if test="lifeplace &gt;= 0">
+  			and u.fa_life=#{lifeplace}
+  		</if>
+  	</where>
+  	order by u.fa_createtime desc limit #{curpage},#{pagesize}
+  </select>
+  <!--分页查询我搜索会员信息数量  -->
+  <select id="selectMyFriendCount" resultType="long">
+  	select count(u.fa_id) from fa_user as u
+  	<where>
+  		<if test="tel!=null and tel !=''">
+  			u.fa_telphone=#{tel}
+  		</if>
+  		<if test="email!=null and email !=''">
+  			and u.fa_email=#{email}
+  		</if>
+  		<if test="syncbbs==1">
+  			<if test="username!=null and username !=''">
+  				and u.fa_username=#{username}
+  			</if>
+  		</if>
+  		<if test="syncbbs==null">
+  			<if test="username!=null and username !=''">
+  				and u.fa_username like CONCAT(#{username},'%')
+  				
+  			</if>
+  		</if>
+  		<if test="sex  &lt; 2">
+  			and u.fa_sex =#{sex}
+  		</if>
+  		<if test="lifeplace &gt;= 0">
+  			and u.fa_life=#{lifeplace}
+  		</if>
+  	</where>
+  	
+  </select>
+  <!--保存个人基本信息  -->
+  <update id="saveBaseMb">
+  	update fa_user 
+  	<set>fa_username=#{fa_username},fa_sex=#{fa_sex},fa_qq=#{fa_qq},fa_weibo=#{fa_weibo},fa_life=#{fa_life},fa_hide_base=#{fa_hide_base},version=#{version}+1</set>
+  	where fa_id=#{fa_id} and version=#{version}
+  </update>
+  <!--保存个人职业信息  -->
+  <update id="saveJobMb">
+  	update fa_user 
+  	<set>fa_edu=#{fa_edu},fa_school=#{fa_school},fa_hide_job=#{fa_hide_job},version=#{version}+1</set>
+  	where fa_id=#{fa_id} and version=#{version}
+  </update>
+  <!--保存个人活动信息  -->
+  <update id="saveActiveMb">
+  	update fa_user 
+  	<set>fa_name=#{fa_name},fa_idc=#{fa_idc},fa_idctype=#{fa_idctype},fa_hide_active=#{fa_hide_active},version=#{version}+1</set>
+  	where fa_id=#{fa_id} and version=#{version}
+  </update>
+  <!-- 修改积分与飞镖 -->
+  <update id="updateByInteAndFeiBiao">
+  	update fa_user 
+  	<set>fa_jifen=#{fa_jifen},fa_feibiao=#{fa_feibiao},version=#{version}+1</set>
+  	where fa_id=#{fa_id} and version=#{version}
+  </update>
+  <!--更新隐藏好友列表信息  -->
+  <update id="saveFriendState">
+  	update fa_user <set>fa_hide_friend=#{1},version=#{2}+1</set>where fa_id=#{0} and version=#{2}
+  </update>
+  <!-- 更新用户提醒 -->
+  <update id="UpdateUserIgnore">
+  	update fa_user <set>fa_ignore_msg=#{1},version=#{2}+1</set>where fa_id=#{0} and version=#{2}
+  </update>
+  <!-- 更新头像 -->
+  <update id="setImageById">
+  	update fa_user <set>fa_title_img=#{1}</set>where fa_id=#{0}
+  </update>
+  <!-- 密码修改密码 -->
+  <update id="setPswByPsw">
+  	update fa_user <set>fa_password=#{1},version=#{2}+1</set>where fa_id=#{0} and version=#{2}
+  </update>
+  <!-- 修改邮箱 -->
+  <update id="setEmail">
+  	update fa_user <set>fa_email=#{1},version=#{2}+1</set>where fa_id=#{0} and version=#{2}
+  </update>
+  <!-- 修改邮箱 -->
+  <update id="setTel">
+  	update fa_user <set>fa_telphone=#{1},version=#{2}+1</set>where fa_id=#{0} and version=#{2}
+  </update>
+  <!-- 保存密保 -->
+  <update id="saveMibaoById">
+  	update fa_user <set>fa_mibao_qu_st=#{fa_mibao_qu_st},fa_mibao_qu_rd=#{fa_mibao_qu_rd},fa_mibao_qu_nd=#{fa_mibao_qu_nd},fa_mibao_ar_st=#{fa_mibao_ar_st},fa_mibao_ar_rd=#{fa_mibao_ar_rd},fa_mibao_ar_nd=#{fa_mibao_ar_nd},version=#{version}+1</set>where fa_id=#{fa_id} and version=#{version}
+  </update>
+  <!-- //改变是否屏蔽非好友信息 -->
+  <update id="changeFriendMsgType">
+  		update fa_user <set>fa_isfriendmsg=#{1}</set> where fa_id=#{0}
+  </update>
+  <!-- 更新用户等级 -->
+  <update id="updateMemberRank">
+  		update fa_user <set>fa_rank=#{1}</set> where fa_id=#{0}
+  </update>
+  <!-- //查询用户名是否重复 -->
+  <select id="getCountByUsernameAndMyId" resultType="long">
+  	select count(fa_id) from fa_user where fa_username=#{1} and fa_id &lt;&gt; #{0} 
+  </select>
+</mapper>

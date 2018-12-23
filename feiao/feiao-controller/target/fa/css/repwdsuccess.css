@@ -1,0 +1,48 @@
+.title{
+	margin: 0px auto;
+	height: 35px;
+	margin-top: 55px;
+	overflow: hidden;
+	width: 158px;
+    font-size: 26px;
+    color: #010101;
+}
+.title i{
+	background: url(/resources/uc/web/member/images/title.png) no-repeat;
+	_background-image: none;
+	_filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/resources/uc/web/member/images/title.png');
+}
+.flow{
+	margin: 0px auto;
+	height: 70px;
+	width:  840px;
+	margin-top: 150px;
+    margin-bottom: 60px;
+	overflow: hidden;
+}
+.flow i{
+	background: url(/resources/uc/web/member/images/step4.png) no-repeat;
+	_background-image: none;
+	_filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/resources/uc/web/member/images/step4.png');
+}
+ .middle{
+ 	width: 343px;
+ 	margin: 0px auto;
+ }
+ .mainForm{
+ 	width: 670px;
+ 	margin: 0px auto;
+ }
+ .done{
+	 color: #464646;
+	 font-size: 18px;
+	 margin-bottom: 20px;
+	 text-align: center;
+ }
+ .blue{
+	margin: 40px 0px 30px 0px;
+	font-size: 40px;
+	width: 342px;
+	text-align: center;
+ }
+

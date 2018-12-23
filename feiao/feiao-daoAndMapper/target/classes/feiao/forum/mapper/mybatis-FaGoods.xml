@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaGoodsDao">  
+  <resultMap id="FaGoods" type="feiao.forum.pojo.FaGoods"></resultMap>
+  <!--根据id查询商品信息  -->
+  <select id="getGoodById" resultMap="FaGoods">
+  	select *from fa_good where fa_id=#{0}
+  </select>
+  <!-- 分页展示商品信息 -->
+  <select id="getGoodByPage" resultMap="FaGoods">
+  	select * from fa_good 
+  	<where>
+  	<if test="search!=null and search!=''">
+  		fa_name=#{search}
+  	</if>
+  	</where>
+  	order by fa_id asc limit #{curpage},#{pagesize}
+  </select>
+  <select id="selectShopProByPage" resultType="map">
+  	select fa_id as id,fa_name as name,fa_cost as count,fa_desc as descs ,fa_image as image from fa_good
+  	<if test="typess==1">where fa_cost between 1 and 2000 </if>
+  	<if test="typess==2">where fa_cost between 2001 and 3000 </if>
+  	<if test="typess==3">where fa_cost between 3001 and 4000 </if>
+  	<if test="typess==4">where fa_cost >=4001 </if>
+  	order by fa_cost asc limit #{curpage},#{pagesize}
+  </select>
+  <select id="selectShopProCount" resultType="long">
+  	select count(fa_id) from fa_good 
+  	<if test="typess==1">where fa_cost between 1 and 2000 </if>
+  	<if test="typess==2">where fa_cost between 2001 and 3000 </if>
+  	<if test="typess==3">where fa_cost between 3001 and 4000 </if>
+  	<if test="typess==4">where fa_cost >=4001 </if>
+  	
+  </select>
+  <!-- 分页展示商品信息显示的总数 -->
+  <select id="getTotalByGood" resultType="long">
+  	select count(fa_id) from fa_good 
+  	<where>
+  	<if test="search!=null and search!=''">
+  		fa_name=#{search}
+  	</if>
+  	</where>
+  </select>
+  <!--增加商品  -->
+  <insert id="saveGood">
+  	insert into fa_good
+  	(fa_name,fa_cost,fa_num,fa_isreturn,fa_starttime,fa_endtime,fa_islong,fa_desc,fa_image,fa_tips)
+  	values
+  	(#{fa_name},#{fa_cost},#{fa_num},#{fa_isreturn},#{fa_starttime},#{fa_endtime},#{fa_islong},#{fa_desc},#{fa_image},#{fa_tips})
+  </insert>
+  <!-- 修改商品 -->
+  <update id="updateGood">
+  	update fa_good
+  	<set>fa_name=#{fa_name},fa_cost=#{fa_cost},fa_num=#{fa_num},fa_isreturn=#{fa_isreturn},
+  	fa_starttime=#{fa_starttime},fa_endtime=#{fa_endtime},fa_islong=#{fa_islong},fa_desc=#{fa_desc},fa_image=#{fa_image},fa_tips=#{fa_tips}</set>
+  	where fa_id=#{fa_id}
+  </update>
+  <!-- 删除商品 -->
+  <delete id="deleteGood">
+  	delete from fa_good where fa_id=#{0}
+  </delete>
+</mapper>

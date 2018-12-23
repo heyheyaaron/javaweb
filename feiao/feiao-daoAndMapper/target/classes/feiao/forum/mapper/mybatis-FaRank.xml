@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaRankDao">  
+  <resultMap id="FaRank" type="feiao.forum.pojo.FaRank"></resultMap>
+  <!-- 根据id查询等级信息 -->
+  <select id="get" resultMap="FaRank">
+  	select fa_id, fa_name, fa_start,fa_end,fa_image,fa_notev,fa_rev from fa_rank where fa_id = #{0};
+  </select>
+  <!--  //查询所有会员等级信息-->
+  <select id="getAllRank" resultMap="FaRank">
+  	select fa_id, fa_name, fa_start,fa_end from fa_rank order by fa_start asc
+  </select>
+  <!-- 分页展示等级信息 -->
+  <select id="getRankByPage" resultType="map">
+ 	 select f.fa_id as fa_id, f.fa_name as fa_name, f.fa_start as fa_start, f.fa_end as fa_end,f.fa_image as fa_image from fa_rank as f 
+ 	 <if test="search!=null">  where f.fa_name  like CONCAT('%',#{search},'%') </if>
+ 	 order by f.fa_start asc limit #{curpage},#{pagesize}
+  </select>
+  <!-- 查询等级总数 -->
+  <select id="getTotalByRank" resultType="long">
+  		select count(fa_id) from fa_rank <if test="search!=null">  where fa_name  like CONCAT('%',#{search},'%') </if>
+  </select>
+  <!-- 查询该等级中会员总数 -->
+  <select id="getUserByRank" resultType="long">
+  		select count(fa_id) from fa_user where fa_rank = #{0} 
+  </select>
+  <!-- //根据积分查询会员等级 -->
+  <select id="getRankIdByInte" resultType="int">
+  	select fa_id from fa_rank  where #{0} &gt;= fa_start and #{0} &lt;=fa_end order by fa_start asc 
+  </select>
+  <!-- 增加等级 -->
+  <insert id="addRank">
+  	insert into fa_rank (fa_name,fa_start,fa_end,fa_image,fa_notev,fa_rev) values(#{fa_name},#{fa_start},#{fa_end},#{fa_image},#{fa_notev},#{fa_rev});
+  </insert>
+  <!-- 修改等级 -->
+  <update id="updateRank">
+  	update fa_rank
+  	<set>fa_name = #{fa_name},fa_start=#{fa_start},fa_end=#{fa_end},fa_image=#{fa_image},fa_notev=#{fa_notev},fa_rev=#{fa_rev}</set>
+  	where fa_id = #{fa_id}
+  </update>
+  <!-- 删除等级 -->
+  <delete id="deleteRank">
+  	delete from fa_rank where fa_id=#{0}
+  </delete>
+  
+</mapper>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaProductDao">  
+  <resultMap id="FaProduct" type="feiao.forum.pojo.FaProduct"></resultMap>
+  <!-- 根据id 查询产品信息 -->
+  <select id="getProById" resultMap="FaProduct">
+  	select fa_id,fa_title,fa_image,fa_ma,fa_type from fa_product where fa_id=#{0}
+  </select>
+  <!-- 根据注册码查询注册信息 -->
+  <select id="getErp" resultType="feiao.forum.pojo.ErpPds">
+  	select * from erp_prds where FWMM=#{0};
+  </select>
+  <!-- 查询我的所有产品 -->
+  <select id="getAllProductById" resultType="map">
+  	select p.fa_image as image, p.fa_ma as ma,p.fa_id as id,p.fa_type as types from erp_prds as er left join fa_product as p on er.PRDNO = p.fa_id where er.userid=#{0}
+  </select>
+  
+  <!--判断产品id 是否存  -->
+  <select id="proIdIsTrue" resultType="long">
+  	select count(fa_id) from fa_product where fa_id=#{0}
+  </select>
+  <!--异步加载所有手机型号信息  -->
+  <select id="getAllPro" resultType="map">
+  	select fa_title as title,fa_type as name,fa_id as id from fa_product 
+  </select>
+  <!--分页展示产品信息  -->
+  <select id="getProByPage" resultMap="FaProduct">
+  	select fa_id,fa_title,fa_image,fa_ma,fa_type from fa_product
+  	<where>
+  		<if test="search!=null and search!=''">
+  			fa_type=#{search} or fa_title=#{search}
+  		</if>
+  	</where>
+  	order by fa_time desc limit #{curpage},#{pagesize}
+  </select>
+  <!--  查询总数-->
+  <select id="getTotalByPro" resultType="long">
+  	select count(fa_id) from fa_product
+  	<where>
+  		<if test="search!=null and search!=''">
+  			fa_type=#{search} or fa_title=#{search}
+  		</if>
+  	</where>
+  </select>
+  <!-- 分页查询产品具体信息 -->
+  <select id="getProErpByPage" resultType="map">
+  	select e.ID as id,e.WLM as boxid,e.FWMM as zuce,e.PRDNO as proid,u.fa_username as username 
+  	from erp_prds as e left join fa_user as u on e.userid = u.fa_id where e.PRDNO=#{id} 
+  	order by e.ID limit #{curpage},#{pagesize}
+  </select>
+  <!-- 查询该产品总数 -->
+  <select id="getTotalByProErp" resultType="long">
+  	select count(ID) from erp_prds where PRDNO=#{0}
+  </select>
+  <!-- //增加产品信息 -->
+  <insert id="addPro">
+  	insert into fa_product(fa_id,fa_title,fa_image,fa_ma,fa_type,fa_time) values (#{fa_id},#{fa_title},#{fa_image},#{fa_ma},#{fa_type},#{fa_time})
+  </insert>
+  <!-- 批量导入产品信息 -->
+  <insert id="allSave">
+   
+  	insert into erp_prds(WLM,FWMM,PRDNO) values
+  	<foreach collection="list" item="lis" separator=",">
+  		(#{lis.WLM},#{lis.FWMM},#{lis.PRDNO})
+  	</foreach>
+  	 
+  </insert>
+  <!--//修改产品信息  -->
+  <update id="updatePro">
+  	update fa_product 
+  	<set>fa_title=#{fa_title},fa_image=#{fa_image},fa_ma=#{fa_ma},fa_type=#{fa_type}</set>
+  	where fa_id=#{fa_id}
+  </update>
+  <!-- 注册产品 -->
+  <update id="registerProduct">
+  	update erp_prds <set>userid=#{0}</set> where FWMM=#{1}
+  </update>
+  <!-- 删除产品 -->
+  <delete id="deletePro">
+  	delete from fa_product where fa_id =#{0}
+  </delete>
+  <!-- 删除产品具体信息 -->
+  <delete id="deleteProErp">
+  	delete from erp_prds where ID =#{0}
+  </delete>
+  <!-- //删除产品下的产品详细信息 -->
+  <delete id="deleteErp">
+  	delete from erp_prds where PRDNO =#{0}
+  </delete>
+</mapper>

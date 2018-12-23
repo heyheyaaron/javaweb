@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaMyFriendDao">  
+  <resultMap id="FaMyFriend" type="feiao.forum.pojo.FaMyFriend"></resultMap>
+  <!-- 分页查询我的好友信息数据 -->
+  <select id="selectMyFriendByPage" resultType="map" >
+  	select u.fa_id as id,u.fa_username as name, f.fa_beizhu as beizhu,u.fa_title_img as image ,f.fa_type as typeid 
+  	from fa_friend as f left join fa_user as u on f.fa_friendid = u.fa_id 
+  	<where>
+  		f.fa_userid=#{userid}
+  		<if test="searchname!=null and  searchname!=''">
+  			and (f.fa_beizhu  like CONCAT(#{searchname},'%') or u.fa_username like CONCAT(#{searchname},'%'))
+  		</if>
+  		<if test="searchtype!=null">
+  			and f.fa_type=#{searchtype}
+  		</if>
+  	</where>
+  	
+  	order by f.fa_time desc limit #{curpage},#{pagesize}
+  </select>
+  <!--//查询我好友id及i是否属于忽略组  -->
+  <select id="findFriendIgnoreStatus" resultType="map">
+  	select f.fa_friendid as id,t.fa_ignore as ignorez  from fa_friend as f left join fa_friend_type as t on f.fa_type=t.fa_id
+  	where f.fa_userid=#{0}
+  </select>
+  <!--//查询我关注的id  -->
+  <select id="findmyFollowsId" resultType="string" >
+  	select fa_listener from fa_listener where fa_userid=#{0}
+  </select>
+  <!--查询我们是否是好友  -->
+  <select id="getCountByMyIdAndFrId" resultType="long">
+  	select count(fa_id) from fa_friend where fa_userid=#{0} and fa_friendid=#{1}
+  </select>
+  <!-- 分页查询我的好友信息数量 -->
+  <select id="getCountByIdFriend" resultType="long">
+  	select count(f.fa_id) 
+  	from fa_friend as f left join fa_user as u on f.fa_friendid = u.fa_id 
+  	<where>
+  		f.fa_userid=#{userid}
+  		<if test="searchname!=null and  searchname!=''">
+  			and (f.fa_beizhu  like CONCAT(#{searchname},'%') or u.fa_username like CONCAT(#{searchname},'%'))
+  		</if>
+  		<if test="searchtype!=null">
+  			and f.fa_type=#{searchtype}
+  		</if>
+  	</where>
+  </select>
+  <!--//创建好友表  -->
+  <insert id="saveFriendMsg">
+  	insert into fa_friend(fa_id,fa_userid,fa_friendid,fa_type,fa_beizhu,fa_time) values
+  	<foreach collection="list" item="lf" separator=",">
+  		(#{lf.fa_id},#{lf.fa_userid},#{lf.fa_friendid},#{lf.fa_type},#{lf.fa_beizhu},#{lf.fa_time})
+  	</foreach>
+  </insert>
+  
+  <!--修改好友备注名  -->
+  <update id="updateMyFriend">
+  	update fa_friend 
+  	<set>fa_beizhu=#{2}</set> where fa_userid=#{1} and fa_friendid=#{0}
+  </update>
+  <!--修改好友备分组  -->
+  <update id="updateMyType">
+  	update fa_friend 
+  	<set>fa_type=#{2}</set> where fa_userid=#{1} and fa_friendid=#{0}
+  </update>
+  <!-- //取消好友 -->
+  <delete id="deleteMyFriend">
+  	delete from fa_friend where fa_userid=#{0} and fa_friendid=#{1}
+  </delete>
+  <!-- 好友移动分组 -->
+  <update id="changeMyGroups">
+  	update fa_friend <set>fa_type=#{id}</set> where fa_userid=#{userid} and fa_friendid in
+  	<foreach collection="ids" item="idss" open="(" separator="," close=")" >
+  		#{idss}
+  	</foreach>
+  </update>
+</mapper>

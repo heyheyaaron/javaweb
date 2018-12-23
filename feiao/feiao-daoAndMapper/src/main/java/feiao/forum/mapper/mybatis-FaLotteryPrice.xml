@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaLotteryPriceDao">  
+  <resultMap id="FaLotteryPrice" type="feiao.forum.pojo.FaLotteryPrice"></resultMap>
+  <!-- 根据主键查询奖品信息 -->
+  <select id="getPrizeById" resultMap="FaLotteryPrice">
+  	select * from fa_lottery_prize where fa_id = #{0}
+  </select>
+  <!-- 展示奖品信息 -->
+  <select id="getAllPrize" resultMap="FaLotteryPrice">
+  	select * from fa_lottery_prize order by fa_sort asc
+  </select>
+  <!-- 增加奖品 -->
+  <insert id="savePrize">
+  	insert into fa_lottery_prize
+  	(fa_name,fa_type,fa_num,fa_img,fa_percent,fa_sort)
+  	values
+  	(#{fa_name},#{fa_type},#{fa_num},#{fa_img},#{fa_percent},#{fa_sort})
+  </insert>
+  <!-- 修改奖品 -->
+  <update id="updatePrize">
+  	update fa_lottery_prize
+  	<set>fa_name=#{fa_name},fa_type=#{fa_type},fa_num=#{fa_num},fa_img=#{fa_img},fa_percent=#{fa_percent},fa_sort=#{fa_sort}</set>
+  	where fa_id=#{fa_id}
+  </update>
+  <!-- 删除奖品 -->
+  <delete id="deletePrizeById">
+  	delete from fa_lottery_prize where fa_id=#{0}
+  </delete>
+</mapper>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.UserDao">  
+     
+  <resultMap id="User" type="feiao.forum.pojo.User"></resultMap>
+  <!-- 查询用户信息 -->
+  <select id="get" resultMap="User" parameterType="java.lang.String">
+  	select username,password,isdel,DATE_FORMAT(deltime,"%Y-%m-%d %H:%i:%s") as deltime ,name,salt,role_id from system_employee where username = #{userId}
+  </select>
+  <!-- 查询所有用户名 -->
+  <select id="getAllUserName" resultType="string">
+  	select username from system_employee
+  </select>
+  <!-- 根据用户ID查询该用户所有权限信息 -->
+  <select id="getResourceByUserId"  resultType="feiao.forum.pojo.Resource" parameterType="java.lang.String">
+  	select rece.id,rece.name,rece.isHeader,rece.url,rece.permission,rece.parentId,rece.icon,rece.isbutton,rece.sort from system_resource as rece where (rece.id in(
+  	select re.re_code from system_role as ro left join system_resource_role as re on ro.id = re.role_id where ro.id =
+  	(select r.id from system_employee as u left join system_role as r on u.role_id = r.id where u.username =#{username}) ) or rece.parentId = 0) ;
+  
+  </select>
+  <!-- 根据用户ID查询该用户所在用户组所有权限信息 -->
+  <select id="getResourceByUserIdforGroup"  resultType="feiao.forum.pojo.Resource" parameterType="java.lang.String">
+  	select rece.id,rece.name,rece.isHeader,rece.url,rece.permission,rece.parentId,rece.icon,rece.isbutton,rece.sort from system_resource as rece where (rece.id in (
+	  select g.resource_id from system_resource_group as g where g.group_id in(
+	  	select u.group_id from system_user_group as u where u.user_id =#{username})) or rece.parentId = 0 or rece.ishiddent =1) ;
+  
+  </select>
+  <!-- //查询该用户所在角色所有的权限 -->
+  <select id="getPermissionByUserId"  resultType="java.lang.String" parameterType="java.lang.String">
+  	select rece.permission from system_resource as rece where rece.id in(
+  	select re.re_code from system_role as ro inner join system_resource_role as re on ro.id = re.role_id where ro.id =
+  	(select r.id from system_employee as u inner join system_role as r on u.role_id = r.id where u.username =#{username}) )
+  
+  </select>
+  <!-- //查询该用户所在用户组所有的权限 -->
+  <select id="getPermissionByUserIdfromGroup"  resultType="java.lang.String" parameterType="java.lang.String">
+  	select r.permission from system_resource as r where r.id in (
+	  select g.resource_id from system_resource_group as g where g.group_id in(
+	  	select u.group_id from system_user_group as u where u.user_id =#{username}))
+  
+  </select>
+  <!--根据用户id查询该用户的角色  -->
+  <select id="getRoleByUserId" parameterType="java.lang.String" resultType="java.lang.String">
+  	select r.code from system_role as r where r.id =(
+  	select e.role_id from system_employee as e where e.username= #{userId})
+  
+  </select>
+  <!--  分页展示用户信息-->
+  <select id="getUserByPage" resultType="java.util.Map">
+  	select u.username as username,u.isdel as isdel,(DATE_FORMAT(u.deltime,"%Y-%m-%d %H:%i:%s")) as deltime,u.name as name,r.name as rname 
+  		from system_employee as u left join system_role as r on r.id = u.role_id<if test="search!=null">  where u.name  like CONCAT('%',#{search},'%') or u.username like CONCAT('%',#{search},'%')</if>
+  		order by r.name asc limit #{curpage},#{pagesize}
+  </select>
+  <!-- 查询用户总数 -->
+  <select id="getTotalByUser" resultType="java.lang.Long">
+  	select count(username) from system_employee <if test="search!=null">  where name  like CONCAT('%',#{search},'%') or username like CONCAT('%',#{search},'%') </if>
+  </select>
+  <!-- 验证用户是否重复 -->
+  <select id="getUserIsHaveLife" resultType="java.lang.Long">
+  	select count(username) from system_employee where username = #{0};	
+  </select>
+  <!-- 增加用户 -->
+  <insert id="addUser" parameterType="feiao.forum.pojo.User">
+  	insert into system_employee (username,isdel,deltime,name,role_id,password,salt)
+  		 values(#{username},#{isdel},#{deltime},#{name},#{role_id},#{password},#{salt});
+  </insert>
+  <!-- 绑定用户组 -->
+  <insert id="addUserAndGroup">
+  	insert into system_user_group (id,user_id,group_id)
+  		 values(#{0},#{1},#{2});
+  </insert>
+  <!-- 修改用户 -->
+  <update id="updateUser" parameterType="feiao.forum.pojo.User">
+  	update system_employee
+  	 <set>
+  	 	isdel=#{isdel},name=#{name},role_id=#{role_id},password=#{password},salt=#{salt} 
+  	 </set>
+  	where username=#{username};
+  </update>
+   <!-- 修改个人资料 -->
+  <update id="saveUserBySelf" parameterType="feiao.forum.pojo.User">
+  	update system_employee
+  	 <set>
+  	 	name=#{name},password=#{password},salt=#{salt} 
+  	 </set>
+  	where username=#{username};
+  </update>
+  <!-- 删除用户-->
+  <delete id="deleteUserData">
+  	delete from system_employee where username=#{username}
+  </delete>
+  <!-- 删除角色用户组中间表-->
+  <delete id="deleteRoleAndGroup">
+  	delete from system_user_group where user_id=#{0}
+  </delete>
+  
+</mapper>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaLotteryDateDao">  
+  <resultMap id="FaLotteryDate" type="feiao.forum.pojo.FaLotteryDate"></resultMap>
+  
+  <select id="getFld" resultMap="FaLotteryDate">
+  	select * from fa_lottery_data where fa_id=#{0}
+  </select>
+  <!-- 分页展示奖品兑换信息 -->
+  <select id="getLotteryMsgByPage" resultType="map">
+  	select u.fa_username as username,u.fa_telphone as tel,l.fa_name as name,DATE_FORMAT(l.fa_time,"%Y-%m-%d %H:%i:%s") as times,
+  	l.fa_isfinish as finish,l.fa_adress as adress, l.fa_id as id from fa_lottery_data as l left join fa_user as u on l.fa_userid = u.fa_id
+  	<where>
+  		<if test="ss!=null and ss!=''">
+  			l.fa_time between #{ss} and #{ee}
+  		</if>
+  		<if test="prizeType!=0">
+  			and l.fa_isfinish = #{prizeType}
+  		</if>
+  	</where>
+  	order by l.fa_time desc limit #{curpage},#{pagesize}
+  </select>
+  <!--查询最新的抽奖记录  -->
+  <select id="getLotteryUserMsg" resultType="map">
+  	select u.fa_username as username,l.fa_name as name from fa_lottery_data as l left join fa_user as u on l.fa_userid = u.fa_id order by l.fa_time desc limit 0,7
+  </select>
+  <!-- 根据会员id加载抽奖信息数据 -->
+  <select id="showMyLotteryData" resultType="map">
+  	select fa_id as id,fa_isfinish as isfinish,fa_adress as adress,DATE_FORMAT(fa_time,"%Y-%m-%d %H:%i:%s") as createtime,fa_name as name 
+  	from  fa_lottery_data where fa_userid=#{0} order by fa_time desc limit #{1},#{2}
+  </select>
+  <!-- 根据会员id加载抽奖信息数量 -->
+  <select id="showMyLotteryCount" resultType="long">
+  select count(fa_id) from fa_lottery_data where fa_userid=#{0};
+  </select>
+  <!-- 查询当天抽奖次数 -->
+  <select id="findLotteryTimes" resultType="long">
+  select count(fa_id) from fa_lottery_data where fa_time between #{0} and #{1};
+  </select>
+  <!-- 查询该会员当天的抽奖次数 -->
+  <select id="findMemLotteryTimes" resultType="long">
+  select count(fa_id) from fa_lottery_data where fa_userid=#{2} and fa_time between #{0} and #{1};
+  </select>
+  <!-- 奖品兑换信息个数 -->
+  <select id="getTotalByLotteryMsg" resultType="long">
+  		select count(fa_id) from fa_lottery_data 
+  		<where>
+  		<if test="ss!=null and ss!=''">
+  			fa_time between #{ss} and #{ee}
+  		</if>
+  		<if test="prizeType!=0">
+  			and fa_isfinish = #{prizeType}
+  		</if>
+  	</where>
+  </select>
+  <!-- 确认兑奖 -->
+  <update id="surePrize">
+  	update fa_lottery_data <set>fa_isfinish=2</set> where fa_id=#{0}
+  </update>
+  <!-- 取消兑奖兑奖 -->
+  <update id="cancelPrize">
+  	update fa_lottery_data <set>fa_isfinish=3</set> where fa_id=#{0}
+  </update>
+  <!-- //更新抽奖中的联系人信息 -->
+  <update id="updateAdressById">
+  	update fa_lottery_data <set>fa_adress=#{2}</set> where fa_id=#{1} and fa_userid=#{0} 
+  </update>
+  <!--//生成奖品记录表  -->
+  <insert id="saveFld">
+  	insert into fa_lottery_data(fa_id,fa_userid,fa_name,fa_time,fa_isfinish,fa_adress)
+  	values(#{fa_id},#{fa_userid},#{fa_name},#{fa_time},#{fa_isfinish},#{fa_adress})
+  </insert>
+</mapper>

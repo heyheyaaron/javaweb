@@ -1,0 +1,327 @@
+.myj-index-main {
+    margin-top: 20px;
+}
+
+.myj-index-banner {
+    width: 100%;
+    height: 460px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.myj-index-banner img {
+    display: block;
+    width: 100%;
+}
+
+.myj-product-item{
+    position: relative;
+    float: left;
+    width: 407px;
+    height: 220px;
+    margin-left: 9px;
+    overflow: hidden;
+}
+.myj-product-title{
+    position: absolute;
+    left:0;
+    bottom:0;
+    width: 100%;
+    height: 49px;
+    line-height: 49px;
+    font-size: 18px;
+    text-align: center;
+    font-weight: 400;
+    color: #fff;
+}
+
+.myj-product-item1 {margin-left: 0;margin-right: 1px;}
+.myj-product-item1 .myj-product-title{background: rgba(0,195,245,.7);}
+.myj-product-item2 .myj-product-title{background: rgba(147,122,193,.7);}
+.myj-product-item3 .myj-product-title{background: rgba(249,185,106,.7);}
+
+.myj-review {
+    height: 60px;
+    line-height: 60px;
+    font-size: 18px;
+    color: #333;
+}
+
+.myj-activity-left {
+    float: left;
+    width: 827px;
+    margin-bottom: 30px;
+}
+
+.myj-activity-left section {
+    background: #fff;
+    margin-bottom: 20px;
+}
+.myj-activity-left section:hover{
+    box-shadow: 0 0 10px #ccc;
+}
+
+.myj-activity-left section > a {
+    display: block;
+    width: 100%;
+    height: 287px;
+    overflow: hidden;
+}
+
+.myj-activity-left section a > img{
+    width: 100%;
+    height: 100%;
+    -webkit-transition: all 3s ease-in-out;
+    transition: all 3s ease-in-out;
+}
+
+.myj-activity-left section a > img:hover{
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+.myj-activity-left .myj-title {
+    height: 50px;
+    line-height: 50px;
+    color: #262626;
+    font-size: 20px;
+    padding: 4px 20px 0 10px;
+}
+
+.myj-activity-left .myj-title a{
+    color: #262626;
+    font-weight: 400;
+}
+
+.myj-title-text {
+    float: left;
+}
+
+.myj-title-ope {
+    float: right;
+    font-size: 12px;
+    color: #666;
+}
+.myj-title-ope > span {
+    margin-left: 20px;
+}
+.myj-title-ope img {
+    vertical-align: text-bottom;
+}
+
+.myj-activity-left .myj-desc {
+    line-height: 1.7;
+    color: #666;
+    padding: 10px 20px 20px;
+}
+
+.myj-separator {
+    width: 790px;
+    height: 1px;
+    background: #eee;
+    margin: 50px auto 0;
+
+}
+
+/*热点讨论*/
+.myj-discuss {
+    background: #fff;
+    padding: 20px;
+}
+
+.myj-discuss li {
+    border-bottom: 1px solid rgba(151, 151, 151, .18);
+    padding: 10px 0;
+}
+
+.myj-discuss li:last-child {
+    border-bottom: none;
+}
+
+.myj-discuss img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+.myj-discuss .myj-discuss-title {
+    margin-left: 10px;
+    color: #1A1A1A;
+    font-size: 16px;
+}
+
+.myj-discuss span {
+    float: right;
+}
+
+.myj-discuss .myj-discuss-name {
+    color: #666;
+}
+
+.myj-discuss .myj-discuss-date {
+    font-size: 12px;
+    color: #333;
+    text-align: right;
+}
+
+.myj-activity-right {
+    float: right;
+    width: 393px;
+}
+
+.myj-activity-right section {
+    padding: 20px;
+    background: #fff;
+    margin-bottom: 20px;
+}
+
+.myj-activity-right .myj-eden-link,
+.myj-activity-right .myj-create-link {
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
+    height: 63px;
+    line-height: 63px;
+    /*padding: 21px 0;*/
+}
+
+.myj-activity-right .myj-eden-link {
+    background: #2DD6C9;
+}
+
+.myj-activity-right .myj-eden-link:hover,
+.myj-activity-right .myj-eden-link:active {
+    background: #2DC9D6;
+}
+
+.myj-activity-right .myj-create-link {
+    background: #00C3F5;
+    margin-top: 10px;
+}
+.myj-activity-right .myj-create-link:hover,
+.myj-activity-right .myj-create-link:active {
+    background: #08B9F5;
+}
+.myj-activity-right .myj-eden-link a,
+.myj-activity-right .myj-create-link a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+}
+
+/*推荐魅友俱乐部*/
+.myj-recommend li {
+    float: left;
+    width: 25%;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+.myj-ul-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.myj-recommend .myj-ul-title {
+    margin-top: 8px;
+    color: #262626;
+    font-size:14px;
+    padding: 0 6px;
+}
+
+.myj-recommend .myj-ul-title a{
+    color: #666;
+    font-size:14px;
+}
+.myj-recommend .myj-ul-desc {
+    color: #585858;
+    font-size: 12px;
+}
+
+.myj-activity-right .myj-text-title.myj-title1{
+    padding-bottom: 30px;
+}
+
+.myj-activity-right .myj-text-title.myj-title2{
+    padding-bottom: 23px;
+}
+
+.myj-activity-right .myj-text-title.myj-title3{
+    padding-bottom: 30px;
+}
+
+    /*.myj-recommend .myj-showall-link {*/
+    /*float: right;*/
+    /*margin-top: 15px;*/
+/*}*/
+
+/*.myj-recommend .myj-showall-link a {*/
+    /*display: block;*/
+    /*width: 100%;*/
+    /*height: 100%;*/
+    /*color: #999;*/
+/*}*/
+
+/*魅友家二维码*/
+.myj-activity-right .myj-text-title {
+    padding-bottom: 10px;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.myj-text-title a {
+    float: right;
+    font-size: 14px;
+    color: #999;
+}
+
+.myj-activity-right section .text-center span{
+    display: inline-block;
+    margin: 0 20px;
+
+}
+
+.myj-activity-right section .text-center span div{
+    color: #666;
+}
+
+.myj-activity-right section .text-center span img{
+    width: 120px;
+    height: 120px;
+}
+
+.myj-activity-right .myj-code {
+    /*margin-top: 20px;*/
+}
+
+.myj-activity-right .myj-text-code {
+    text-align: center;
+}
+
+/*幻灯片样式*/
+.swiper-container-horizontal > .swiper-pagination-bullets {
+    left: 50%;
+    transform: translate(-50%, 0);
+    -webkit-transform: translate(-50%, 0);
+    background: #aaa;
+    width: auto;
+    border-radius: 10px;
+    padding: 0 10px;
+}
+
+.swiper-pagination-bullet {
+    background: #fff;
+    opacity: .8;
+}
+
+.swiper-pagination-bullet-active {
+    width: 16px;
+    border-radius: 8px;
+}
+.myj-login-nickname{
+    display: none;
+}

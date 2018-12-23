@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<core> 
+  <base id="001"> 
+    <name>发表回复</name>  
+    <son id="0011"> 
+      <name>积分</name>  
+      <value>1</value> 
+    </son>  
+    <son id="0012"> 
+      <name>飞镖</name>  
+      <value>1</value> 
+    </son>  
+    <son id="0013"> 
+      <name>周期</name>  
+      <value>0</value> 
+    </son>  
+    <son id="0014"> 
+      <name>周期内次数</name>  
+      <value>0</value> 
+    </son> 
+  </base>  
+  <base id="002"> 
+    <name>发表主题帖子</name>  
+    <son id="0021"> 
+      <name>积分</name>  
+      <value>3</value> 
+    </son>  
+    <son id="0022"> 
+      <name>飞镖</name>  
+      <value>3</value> 
+    </son>  
+    <son id="0023"> 
+      <name>周期</name>  
+      <value>0</value> 
+    </son>  
+    <son id="0024"> 
+      <name>周期内次数</name>  
+      <value>0</value> 
+    </son> 
+  </base>  
+  <base id="003"> 
+    <name>帖子加精</name>  
+    <son id="0031"> 
+      <name>积分</name>  
+      <value>5</value> 
+    </son>  
+    <son id="0032"> 
+      <name>飞镖</name>  
+      <value>5</value> 
+    </son>  
+    <son id="0033"> 
+      <name>周期</name>  
+      <value>0</value> 
+    </son>  
+    <son id="0034"> 
+      <name>周期内次数</name>  
+      <value>0</value> 
+    </son> 
+  </base>  
+  <base id="004"> 
+    <name>帖子被删</name>  
+    <son id="0041"> 
+      <name>积分</name>  
+      <value>-3</value> 
+    </son>  
+    <son id="0042"> 
+      <name>飞镖</name>  
+      <value>-3</value> 
+    </son>  
+    <son id="0043"> 
+      <name>周期</name>  
+      <value>0</value> 
+    </son>  
+    <son id="0044"> 
+      <name>周期内次数</name>  
+      <value>0</value> 
+    </son> 
+  </base>  
+  <base id="005"> 
+    <name>登录/签到</name>  
+    <son id="0051"> 
+      <name>积分</name>  
+      <value>2</value> 
+    </son>  
+    <son id="0052"> 
+      <name>飞镖</name>  
+      <value>2</value> 
+    </son>  
+    <son id="0053"> 
+      <name>周期</name>  
+      <value>2</value> 
+    </son>  
+    <son id="0054"> 
+      <name>周期内次数</name>  
+      <value>1</value> 
+    </son> 
+  </base>  
+  <base id="006"> 
+    <name>参与投票</name>  
+    <son id="0061"> 
+      <name>积分</name>  
+      <value>1</value> 
+    </son>  
+    <son id="0062"> 
+      <name>飞镖</name>  
+      <value>1</value> 
+    </son>  
+    <son id="0063"> 
+      <name>周期</name>  
+      <value>2</value> 
+    </son>  
+    <son id="0064"> 
+      <name>周期内次数</name>  
+      <value>10</value> 
+    </son> 
+  </base>  
+  <base id="007"> 
+    <name>设置头像</name>  
+    <son id="0071"> 
+      <name>积分</name>  
+      <value>5</value> 
+    </son>  
+    <son id="0072"> 
+      <name>飞镖</name>  
+      <value>5</value> 
+    </son>  
+    <son id="0073"> 
+      <name>周期</name>  
+      <value>2</value> 
+    </son>  
+    <son id="0074"> 
+      <name>周期内次数</name>  
+      <value>1</value> 
+    </son> 
+  </base>  
+  <base id="008"> 
+    <name>邮箱认证</name>  
+    <son id="0081"> 
+      <name>积分</name>  
+      <value>10</value> 
+    </son>  
+    <son id="0082"> 
+      <name>飞镖</name>  
+      <value>10</value> 
+    </son>  
+    <son id="0083"> 
+      <name>周期</name>  
+      <value>1</value> 
+    </son>  
+    <son id="0084"> 
+      <name>周期内次数</name>  
+      <value>1</value> 
+    </son> 
+  </base>  
+  <base id="009"> 
+    <name>产品注册</name>  
+    <son id="0091"> 
+      <name>积分</name>  
+      <value>20</value> 
+    </son>  
+    <son id="0092"> 
+      <name>飞镖</name>  
+      <value>20</value> 
+    </son>  
+    <son id="0093"> 
+      <name>周期</name>  
+      <value>0</value> 
+    </son>  
+    <son id="0094"> 
+      <name>周期内次数</name>  
+      <value>0</value> 
+    </son> 
+  </base>  
+  <base id="010"> 
+    <name>签到</name>  
+    <son id="0091"> 
+      <name>积分</name>  
+      <value>2</value> 
+    </son>  
+    <son id="0092"> 
+      <name>飞镖</name>  
+      <value>2</value> 
+    </son>  
+    <son id="0093"> 
+      <name>周期</name>  
+      <value>2</value> 
+    </son>  
+    <son id="0094"> 
+      <name>周期内次数</name>  
+      <value>1</value> 
+    </son> 
+  </base> 
+</core>

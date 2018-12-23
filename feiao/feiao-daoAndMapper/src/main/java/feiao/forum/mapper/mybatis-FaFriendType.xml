@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaFriendTypeDao">  
+  <resultMap id="FaFriendType" type="feiao.forum.pojo.FaFriendType"></resultMap>
+  <!-- 根据id查询屏蔽的好友分组 -->
+  <select id="getIgnoreForGroup" resultType="map" >
+  	select fa_id as id,fa_name as name,fa_ignore as ignores from fa_friend_type where fa_userid=#{0} 
+  </select>
+  <!-- 查询我的所有分组信息 -->
+  <select id="getAllGroupById" resultMap="FaFriendType">
+  	select * from fa_friend_type where fa_userid=#{0}
+  </select>
+  <!-- 查询该分组是不是我的分组 -->
+  <select id="getCountByUserIdAndId" resultType="long">
+  	select count(fa_id) from fa_friend_type where fa_id=#{1} and fa_userid=#{0}
+  
+  </select>
+  <!--保存用户群  -->
+  <insert id="saveFriendTypes">
+  	insert into fa_friend_type(fa_id,fa_userid,fa_name) values 
+  	<foreach collection="list" item="ls" separator="," >
+  		(#{ls.fa_id},#{ls.fa_userid},#{ls.fa_name})
+  	</foreach>
+  
+  </insert>
+  <!--//把该用户的用户组先不屏蔽  -->
+  <update id="showGroupForUserId">
+  	update fa_friend_type <set>fa_ignore = 0</set> where fa_userid=#{0};
+  </update>
+  <!-- //屏蔽指定用户组 -->
+  <update id="CloseGroupForId">
+  	update fa_friend_type <set>fa_ignore = 1</set> where fa_id in
+  	<foreach item="id"  collection="array" open="(" separator="," close=")" >
+  		#{id}
+  	</foreach>
+  </update>
+</mapper>

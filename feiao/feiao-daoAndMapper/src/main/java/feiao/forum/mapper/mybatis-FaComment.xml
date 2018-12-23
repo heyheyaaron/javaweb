@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaCommentDao">  
+  <resultMap id="FaComment" type="feiao.forum.pojo.FaComment"></resultMap>
+  <!--//查询该帖子的最新评论  -->
+  <select id="getNewComment" resultMap="FaComment">
+  	select * from fa_comment where fa_source=#{0} order by fa_time desc limit 0,1
+  </select>
+  <!--根据id查询评论  -->
+  <select id="getFcById" resultMap="FaComment">
+  select * from fa_comment where fa_id=#{0}
+  </select>
+  <!--//查询该会员所有评论数  -->
+  <select id="selectMymyAnswerCount" resultType="long">
+  	select count(fa_id) from fa_comment where fa_userid=#{0}
+  </select>
+  <!--//查询该帖子的评论数  -->
+  <select id="findCountByNoteId" resultType="long">
+  	select count(fa_id) from fa_comment where fa_source=#{0}
+  </select>
+  <select id="findCountByNoteIds" resultType="long">
+  	select count(fa_id) from fa_comment where fa_pid=#{0}
+  </select>
+   <!-- //查询该楼层前面有多少条数据 -->
+  <select id="getCountByCeng" resultType="long">
+  	select count(fa_id) from fa_comment where fa_pid=#{1} and fa_ceng &lt;=#{0}
+  </select>
+  <!-- 分页查询会员回复的帖子的评论 -->
+  <select id="selectMemberReply" resultType="map">
+  	select c.fa_source as pid, c.fa_desc as msg,c.fa_time as day,c.fa_ceng as ceng, n.fa_title as name,n.fa_ping as readss,s.fa_name as model
+  	from fa_comment as c left join fa_note as n on c.fa_source = n.fa_id   left join fa_section as s on n.fa_resource=s.fa_id 
+  	where c.fa_userid=#{0} and c.fa_moodornote=1 order by c.fa_time desc limit #{1},#{2}
+  </select>
+  <!-- 分页查看帖子的所有内容 -->
+  <select id="selectAllCommentByNote" resultType="map">
+  	select c.fa_id as id,c.fa_desc as msg,c.fa_time as day,c.fa_source as pid,u.fa_username as uname,u.fa_id as uid,c.fa_ceng as ceng 
+  	
+  	from fa_comment as c  left join fa_user as u on c.fa_userid =u.fa_id where c.fa_moodornote=1 order by c.fa_time desc limit #{0},#{1}
+  </select>
+  <!-- 分页查看我的回复的帖子的所有内容 -->
+  <select id="selectMyCommentByNote" resultType="map">
+  	select c.fa_id as id,c.fa_desc as msg,c.fa_time as day,c.fa_source as pid,u.fa_username as uname,u.fa_id as uid ,c.fa_ceng as ceng
+  	
+  	from fa_comment as c  left join fa_user as u on c.fa_userid =u.fa_id where c.fa_moodornote=1
+  	
+  	and (c.fa_source in (select nn.fa_id from fa_note as nn where nn.fa_userid=#{0}) or c.fa_userid=#{0})
+  	
+  	order by c.fa_time desc limit #{1},#{2}
+  </select>
+  <!--查询我回复帖子数量  -->
+  <select id="selectMemberReplyCount" resultType="long">
+  	select count(fa_id) from fa_comment where fa_userid=#{0} and fa_moodornote=1
+  </select>
+  <!--//分页查询会员心情的回复  -->
+  <select id="getMoreMoodMsg" resultType="map">
+  	select c.fa_desc as msg,u.fa_username as name from fa_comment as c left join fa_user as u on c.fa_userid =u.fa_id where c.fa_pid=#{0}
+  	order by c.fa_time desc limit #{1},#{2}
+  </select>
+  <select id="getMoreMoodMsgs" resultType="map">
+  	select c.fa_desc as msg,u.fa_username as name,DATE_FORMAT(c.fa_time,"%Y-%m-%d %H:%i:%s") as times  from fa_comment as c left join fa_user as u on c.fa_userid =u.fa_id where c.fa_pid=#{0}
+  	order by c.fa_time asc limit #{1},#{2}
+  </select>
+  <!--分页查询会员心情的回复数量  -->
+  <select id="getMoreMoodMsgCount" resultType="long">
+  	select count(fa_id) from fa_comment where fa_pid=#{0}
+  </select>
+  <!--保存评论  -->
+  <insert id="saveComment">
+  	insert into fa_comment(fa_id,fa_pid,fa_userid,fa_desc,fa_time,fa_moodornote,fa_source,fa_ceng) values
+  	(#{fa_id},#{fa_pid},#{fa_userid},#{fa_desc},#{fa_time},#{fa_moodornote},#{fa_source},#{fa_ceng})
+  </insert>
+  <!--批量删除评论  -->
+  <delete id="deleteComments">
+  	delete from fa_comment where fa_source=#{0}
+  </delete>
+  <!--//查询该帖子的数据  -->
+  <select id="getCommentByPage" resultType="map" >
+  	select c.fa_id as id,c.fa_ceng as ceng,DATE_FORMAT(c.fa_time,"%Y-%m-%d %H:%i:%s") as times,fa_desc as descs,u.fa_username as name
+  	from fa_comment as c left join fa_user as u on c.fa_userid = u.fa_id where fa_pid =#{2} order by c.fa_time  limit #{0},#{1}
+  </select>
+  
+</mapper>

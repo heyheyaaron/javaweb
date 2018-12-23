@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaMibaoDao">  
+  <resultMap id="FaMibao" type="feiao.forum.pojo.FaMibao"></resultMap>
+  <!-- 根据id查询密保信息 -->
+  <select id="get" resultMap="FaMibao">
+  	select fa_id, fa_name, fa_sort from fa_mibao where fa_id = #{0};
+  </select>
+  <!-- 查询所有密保信息 -->
+  <select id="getAllMibao" resultMap="FaMibao">
+  	select fa_id, fa_name, fa_sort from fa_mibao order by fa_sort asc
+  </select>
+  
+  
+  
+  <!-- 增加密保 -->
+  <insert id="addMibao">
+  	insert into fa_mibao (fa_name,fa_sort) values(#{fa_name},#{fa_sort});
+  </insert>
+  <!-- 修改密保 -->
+  <update id="updateMibao">
+  	update fa_mibao
+  	<set>fa_name = #{fa_name},fa_sort=#{fa_sort}</set>
+  	where fa_id = #{fa_id}
+  </update>
+  <!-- 删除密保 -->
+  <delete id="deleteMibao">
+  	delete from fa_mibao where fa_id=#{0}
+  </delete>
+  
+</mapper>

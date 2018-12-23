@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaLabelDao">  
+  <resultMap id="FaLabel" type="feiao.forum.pojo.FaLabel"></resultMap>
+  <!-- 根据id查询标签信息 -->
+  <select id="get" resultMap="FaLabel">
+  	select fa_id, fa_name, fa_sort from fa_label where fa_id = #{0};
+  </select>
+  <!-- 查询所有标签信息 -->
+  <select id="getAllLabel" resultMap="FaLabel">
+  	select fa_id, fa_name, fa_sort from fa_label 
+  </select>
+  <!-- 根据会员id,查询标签 -->
+  <select id="getLabelIdByUserId" resultType="int">
+  	select fa_label from fa_user_label where fa_userid=#{0}
+  </select>
+  <!-- 根据会员id查询标签信息 -->
+  <select id="getLabelByUserId" resultType="map">
+  	select f.fa_name as name from fa_label as f where f.fa_id in(
+  		select h.fa_label  from fa_user_label as h where h.fa_userid = #{0} 
+  	) order by f.fa_sort
+  </select>
+  <!-- 分页展示标签信息 -->
+  <select id="getlabelByPage" resultType="map">
+ 	 select f.fa_id as fa_id, f.fa_name as fa_name, f.fa_sort as fa_sort from fa_label as f 
+ 	 <if test="search!=null">  where f.fa_name  like CONCAT('%',#{search},'%') </if>
+ 	 order by f.fa_sort asc limit #{curpage},#{pagesize}
+  </select>
+  <!-- 查询标签总数 -->
+  <select id="getTotalByLabel" resultType="long">
+  		select count(fa_id) from fa_label <if test="search!=null">  where fa_name  like CONCAT('%',#{search},'%') </if>
+  </select>
+  <!-- 增加标签 -->
+  <insert id="addLabel">
+  	insert into fa_label (fa_name,fa_sort) values(#{fa_name},#{fa_sort});
+  </insert>
+  <!--//绑定标签  -->
+  <insert id="saveUserAndLabel">
+  	insert into fa_user_label (fa_id,fa_userid,fa_label) values
+  	
+  	<foreach collection="list" item="lt" separator="," >
+  	(#{lt.code},#{lt.id},#{lt.inid})
+  	</foreach>
+  </insert>
+  <!-- 修改标签 -->
+  <update id="updateLabel">
+  	update fa_label
+  	<set>fa_name = #{fa_name},fa_sort=#{fa_sort}</set>
+  	where fa_id = #{fa_id}
+  </update>
+  <!-- 删除标签 -->
+  <delete id="deleteLabel">
+  	delete from fa_label where fa_id=#{0}
+  </delete>
+  <!-- 删除标签与会员的关系表 -->
+  <delete id="deleteLabelAndUser">
+  	delete from fa_user_label where fa_label = #{0}
+  </delete>
+  <!-- 删除该会员的标签 -->
+  <delete id="deleteLabelByUserId">
+  	delete from fa_user_label where fa_userid = #{0}
+  </delete>
+</mapper>

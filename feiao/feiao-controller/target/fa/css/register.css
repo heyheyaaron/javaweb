@@ -1,0 +1,419 @@
+.ucSimpleHeader {
+	height: auto;
+	padding-top: 28px;
+	padding-bottom: 28px;
+}
+
+.content {
+	width: 100%;
+}
+
+.banner-box {
+	position: relative;
+	/*overflow: hidden;*/
+	min-height: 750px;
+	max-height: 1080px;
+	/*background: #18181A;  for IE9 */
+	/*background: linear-gradient(to bottom, #101012, #1A1A1C, #151517);*/
+	background: #f8fcff;
+	background: linear-gradient(to bottom, #f8fcff, #f8fcff, #f8fcff);
+}
+
+.banner-box:before {
+	position: absolute;
+	content: ' ';
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background: url(../img/banner.png) no-repeat center;
+	background-size: contain;
+}
+
+.cycode-selectbox input {
+	line-height: inherit !important;
+	height: inherit !important;
+	padding: 20px 0px !important;
+}
+
+.main-form {
+	width: 298px;
+	position: absolute;
+	top: 16%;
+	right: 380px;
+	background-color: #FFF;
+	padding: 72px 35px 20px;
+	border-radius: 2px;
+}
+
+@media (max-width: 1440px) {
+	.main-form {
+		right: 220px;
+		top: 14%;
+	}
+}
+
+.main-form .normalInput,
+.main-form .register-btn {
+	width: auto;
+	font-size: 14px;
+	display: block;
+	height: 46px;
+	line-height: 46px
+}
+
+.transferField {
+	margin-bottom: 5px;
+}
+
+#toRegister {
+	color: #474747;
+	cursor: pointer;
+}
+
+input[type="checkbox"] {
+	margin: 0px 0px 30px 5px;
+	float: left;
+	cursor: pointer;
+	width: 18px;
+	height: 18px;
+	border: solid 1px #dadada;
+}
+
+.checkChk {
+	background-position: -1px -53px;
+	cursor: pointer;
+	margin-bottom: 5px;
+}
+
+.checkUnchk {
+	background-position: -1px -73px;
+}
+
+#nextAutoLogin {
+	margin-left: -115px;
+}
+
+.tab-title {
+	font-size: 18px;
+	/*margin-bottom: 30px;*/
+	text-align: center;
+}
+
+.rememberField {
+	margin-bottom: 30px;
+	height: 20px;
+	line-height: 20px;
+	margin-top: 10px;
+}
+
+#getKey {
+	width: 120px;
+	text-align: center;
+	border: none;
+	outline: none;
+	height: 50px;
+	line-height: 50px;
+	font-size: 14px;
+	position: absolute;
+	right: 15px;
+	top: 0px;
+}
+
+.form-line {
+	color: #d9d9d9;
+	height: 40px;
+	display: inline-block;
+	border-left: 1px solid #dadada;
+	position: absolute;
+	right: 140px;
+	top: 5px;
+}
+
+.register-line {
+	color: #d9d9d9;
+	display: inline-block;
+	border: 1px solid #dadada;
+	border-left: 1px;
+	height: 16px;
+	line-height: 20px;
+	margin-right: 50px;
+	margin-left: 50px;
+}
+
+#kapkey {
+	width: 200px;
+	border: none;
+	outline: none;
+	height: 50px;
+	font-size: 14px;
+	line-height: 22px;
+	*height: 49px;
+	*line-height: 50px;
+}
+
+.lineWrap {
+	position: relative;
+	zoom: 1;
+}
+
+#password,
+#password1 {
+	float: left;
+	width: 200px;
+}
+
+#cycode-box {
+	height: auto;
+	line-height: auto;
+}
+
+#pwdBtn {
+	margin-top: 13px;
+	margin-bottom: 10px;
+}
+
+.pwdBtn,
+.pwdBtnShow {
+	outline: none;
+	position: relative;
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+	overflow: hidden;
+	float: right;
+	margin-right: 5px;
+}
+
+.pwdBtnShow i,
+.pwdBtn i {
+	background: url("/resources/uc/web/base/images/elements.png") no-repeat;
+	_background-image: none;
+	_filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/resources/uc/web/base/images/elements.png');
+}
+
+.pwdBtn i {
+	background-position: -60px -93px;
+	_margin-left: -60px;
+	_margin-top: -93px;
+}
+
+.pwdBtnShow i {
+	background-position: -30px -92.65px;
+	_margin-left: -30px;
+	_margin-top: -93px;
+}
+
+#mainForm input {
+	line-height: 22px;
+	padding: 12px 0;
+	height: 44px !important;
+	overflow: hidden;
+	line-height: 44px  !important;
+}
+
+
+/*reset*/
+
+span.error,
+span.otherError {
+	display: block;
+	margin-left: 0px;
+	margin-bottom: 20px;
+}
+
+#password1::-ms-reveal {
+	display: none;
+}
+
+#password::-ms-clear {
+	display: none;
+}
+
+
+/*验证码弹框*/
+
+.alertDialogContent .normalInput {
+	position: relative;
+	display: inline-block;
+	padding: 0 10px;
+	width: 320px;
+	height: 50px;
+	line-height: 22px;
+	font-size: 16px;
+	text-align: left;
+	margin: 10px 0 20px -7px;
+	border: 1px solid #dadada;
+	outline: none;
+	color: #474747;
+	zoom: 1;
+	overflow: hidden;
+}
+
+.alertDialogContent .normalInput .kapkey {
+	font-size: 16px;
+	width: 220px;
+	border: none;
+	outline: none;
+	overflow: hidden;
+}
+
+.alertDialogContent .normalInput #imgKey {
+	width: 88px;
+	height: 36px;
+	float: right;
+	top: 14px;
+	overflow: hidden;
+	position: absolute;
+	margin-left: 13px;
+}
+
+#fiioblFooter {
+	position: static;
+	border-color: transparent !important;
+}
+
+.normalInput {
+	border-radius: 2px;
+	height: inherit !important;
+	line-height: inherit !important;
+}
+
+.tip-box {
+	position: relative;
+	height: 33px;
+	display: table;
+	width: 100%;
+	margin-bottom: 0px;
+	margin-top: 26px;
+	border: solid 1px #ffc2b3;
+	background: #ffd1ca;
+	border-radius: 2px;
+}
+
+.tip-font {
+	color: #666;
+	font-size: 12px;
+	padding-right: 25px;
+	padding-left: 9px;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+.err-ico {
+	background: url('../images/error-ico.png');
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+	position: absolute;
+	top: 10px;
+	left: 10px;
+}
+
+.close-ico {
+	background: url('../images/close-ico.png');
+	background-repeat: no-repeat;
+	cursor: pointer;
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+	position: absolute;
+	top: 12px;
+	right: 10px;
+}
+
+.btn-error {
+	border: 1px solid red;
+}
+
+.btn-focus {
+	border: 1px solid #ff3939;
+}
+
+.visiblility-hidden {
+	visibility: hidden;
+}
+
+.hide {
+	display: none !important
+}
+
+a.btn-gray {
+	background: #dadada
+}
+
+.normalInput {
+	height: 46px;
+	line-height: 46px;
+	margin-bottom: 36px;
+}
+
+.normalInput font {
+	float: left;
+	line-height: 42px;
+}
+
+.normalInput input {
+	float: none;
+	width: auto;
+	height: inherit !important;
+	line-height: inherit !important;
+	padding: 0px !important;
+}
+
+
+/*.main-form .normalInput,
+.main-form .register-btn {
+	line-height: inherit;
+	height: inherit;
+}*/
+
+
+
+.ptip {
+	float: none !important;
+	display: inline-block;
+	line-height: 35px;
+}
+
+/*#nnbl {
+	width: 100% !important;
+	float: none !important;
+}*/
+
+#nntip {
+	float: none;
+}
+
+.txt-box {
+	height: 33px;
+	padding: 5px 0px;
+	color: #666;
+	font-size: 12px;
+}
+
+#phoneNum {
+	display: inline-block;
+	color: #ff3939;
+}
+
+.isphone {
+	font-size: 16px;
+	text-align: center;
+	font-weight: bold;
+	color: #000;
+}
+
+.hasRegister {
+	text-align: center;
+	margin-top: 10px;
+	color: #909090;
+}
+
+.cycode-selectbox input {
+	line-height: inherit !important;
+	height: inherit !important;
+	width: 100% !important;
+	padding: 0px !important;
+}

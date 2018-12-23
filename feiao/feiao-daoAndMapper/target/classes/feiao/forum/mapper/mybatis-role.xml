@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+
+<mapper namespace="feiao.forum.dao.RoleDao">  
+	<resultMap id="Role" type="feiao.forum.pojo.Role"></resultMap>
+	<!-- 根据id获取角色信息 -->
+     <select id="getRoleById" resultMap="Role">
+     	select r.id as id,r.name as name,r.code as code,r.remark as remark from system_role as r where r.id=#{0};
+     </select>
+	<!-- 根据id获取该角色所有权限 -->
+     <select id="getResourceByRoleId" resultType="string">
+     	select re_code from system_resource_role  where role_id=#{0};
+     </select>
+     <!-- 获取所有角色 -->
+     <select id="selectAllRole" resultType="map">
+     	select r.id as id,r.name as name from system_role as r
+     </select>
+     <!-- //获得该角色下所有的用户名 -->
+     <select id="getUsernameByRoleId" resultType="string">
+     	select username from system_employee where role_id = #{0}
+     </select>
+     <!-- 分页展示角色信息 -->
+     <select id="getRoleByPage" resultMap="Role">
+     		select id,name,remark,code from system_role 
+     		<if test="search!=null">  where name  like CONCAT('%',#{search},'%') or code like CONCAT('%',#{search},'%') </if>
+     		order by id asc limit #{curpage},#{pagesize}
+     </select>
+     <!-- 查询总数 -->
+     <select id="getTotalByRole" resultType="long">
+     	  	select count(id) from system_role <if test="search!=null">  where name  like CONCAT('%',#{search},'%') or code like CONCAT('%',#{search},'%') </if>
+     </select>
+       <!--  删除角色 -->
+     <delete id="deleteRoleData">
+     	delete from system_role where id = #{0};
+     
+     </delete>
+     <!--删除角色与权限的关系表  -->
+     <delete id="deleteRoleAndResource">
+     	delete from system_resource_role where role_id = #{0};
+     </delete>
+     
+     <!-- 停用相关用户 -->
+     <update id="finishUser">
+     	update system_employee 
+     	<set> isdel = 1 ,role_id=null</set>
+     	<where>role_id = #{0}</where>
+     </update>
+     <!-- 增加角色 -->
+     <insert id="saveRole" useGeneratedKeys="true" keyProperty="role.id">
+     	insert into system_role 
+     	(name,code,remark)
+     	values
+     	(#{role.name},#{role.code},#{role.remark})
+     </insert>
+     <!-- 角色绑定资源 -->
+     <insert id="saveRoleAndRe" >
+     	insert into system_resource_role 
+     	(id,role_id,re_code)
+     	values
+     	(#{0},#{1},#{2})
+     </insert>
+     <!-- 更新角色 -->
+     <update id="updateRole" >
+     	update system_role 
+     	<set>name=#{name},code=#{code},remark=#{remark}</set>
+     	where id = #{id}
+     
+     </update>
+</mapper>

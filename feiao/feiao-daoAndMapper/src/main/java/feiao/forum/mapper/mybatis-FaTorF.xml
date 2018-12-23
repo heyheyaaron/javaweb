@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaTorFDao">  
+  <resultMap id="FaTorF" type="feiao.forum.pojo.FaTorF"></resultMap>
+  <!-- //根据回复id 与用户ID查询支持或反对表 -->
+  <select id="getFtfByUserIdAndNoteId" resultMap="FaTorF">
+  	select * from fa_trueorfalse where fa_userid=#{0} and fa_msgid=#{1}
+  </select>
+  <!--//支持 && 反对数量  -->
+  <select id="getCountTofById" resultType="long">
+  	select count(fa_id) from fa_trueorfalse where fa_msgid=#{0} and fa_tf=#{1}
+  </select>
+  <!-- //保存支持或反对操作 -->
+  <insert id="saveTft">
+  	insert into fa_trueorfalse (fa_id,fa_msgid,fa_userid,fa_tf) values(#{fa_id},#{fa_msgid},#{fa_userid},#{fa_tf})
+  </insert>
+  <!--更新支持或反对操作  -->
+  <update id="updateTft">
+  	update fa_trueorfalse <set>fa_msgid=#{fa_msgid},fa_userid=#{fa_userid},fa_tf=#{fa_tf}</set> where fa_id=#{fa_id}
+  </update>
+</mapper>

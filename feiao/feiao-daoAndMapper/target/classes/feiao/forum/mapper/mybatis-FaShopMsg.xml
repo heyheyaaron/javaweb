@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaShopMsgDao">  
+  <resultMap id="FaShopMsg" type="feiao.forum.pojo.FaShopMsg"></resultMap>
+  <!-- 分页展示商品兑换信息 -->
+  <select id="getShopMsgByPage" resultType="map">
+  	select u.fa_username as username,l.fa_num as nums,u.fa_telphone as tel,l.fa_goodname as name,DATE_FORMAT(l.fa_time,"%Y-%m-%d %H:%i:%s") as times,
+  	l.fa_type as types,l.fa_adress as adress, l.fa_id as id from fa_shop_msg as l left join fa_user as u on l.fa_userid = u.fa_id
+  	<where>
+  		<if test="ss!=null and ss!=''">
+  			l.fa_time between #{ss} and #{ee}
+  		</if>
+  		<if test="prizeType!=0">
+  			and l.fa_type = #{prizeType}
+  		</if>
+  	</where>
+  	order by l.fa_time desc limit #{curpage},#{pagesize}
+  </select>
+  <!--//加载兑换奖品数据  -->
+  <select id="showMyShopData" resultType="map">
+  	select fa_goodname as name, fa_cost as fa_cost,fa_adress as fa_adress,DATE_FORMAT(fa_time,"%Y-%m-%d %H:%i:%s") as times,
+  	fa_adress as adress,fa_type as fa_type, fa_num as fa_num from fa_shop_msg where fa_userid=#{0} order by fa_time desc limit #{1},#{2}
+  </select>
+  <!--//加载兑换奖品数量  -->
+  <select id="showMyShopCount" resultType="long" >
+  	select count(fa_id) from fa_shop_msg where fa_userid=#{0}
+  
+  </select>
+  <!-- 奖品兑换信息个数 -->
+  <select id="getTotalByShopMsg" resultType="long">
+  		select count(fa_id) from fa_shop_msg 
+  		<where>
+  		<if test="ss!=null and ss!=''">
+  			fa_time between #{ss} and #{ee}
+  		</if>
+  		<if test="prizeType!=0">
+  			and fa_type = #{prizeType}
+  		</if>
+  	</where>
+  </select>
+  <!--根据主键查询商品订单  -->
+  <select id="getFSMById" resultMap="FaShopMsg">
+  	select * from fa_shop_msg where fa_id=#{0}
+  
+  </select>
+  <!-- 改变订单状态 -->
+  <update id="changeType">
+  	update fa_shop_msg 
+  	<set> fa_type =#{1}</set>
+  	where fa_id=#{0}
+  </update>
+  <!-- 归还积分 -->
+  <update id="returnInteForUser">
+  	update fa_user 
+  	<set> fa_feibiao =#{1},version=#{2}+1</set>
+  	where fa_id=#{0}
+  </update>
+  <!-- 生成兑换订单 -->
+  <insert id="saveFsm">
+  	insert into fa_shop_msg(fa_id,fa_userid,fa_goodname,fa_cost,fa_adress,fa_time,fa_type,fa_goodid,fa_num)
+  	values (#{fa_id},#{fa_userid},#{fa_goodname},#{fa_cost},#{fa_adress},#{fa_time},#{fa_type},#{fa_goodid},#{fa_num})
+  </insert>
+</mapper>

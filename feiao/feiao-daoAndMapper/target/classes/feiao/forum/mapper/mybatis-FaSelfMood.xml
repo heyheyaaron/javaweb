@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaSelfMoodDao">  
+  <resultMap id="FaSelfMood" type="feiao.forum.pojo.FaSelfMood"></resultMap>
+  <!--//查询我最新的心情  -->
+  <select id="getNewMood" resultMap="FaSelfMood">
+  	select * from fa_self_mood where fa_userid=#{0} limit 0,1
+  </select>
+  <!--根据id查询心情  -->
+  <select id="getMoodById" resultMap="FaSelfMood">
+  	select * from fa_self_mood where fa_id=#{0}
+  </select>
+  <select id="selectMemberMoodCount" resultType="long">
+  	select count(fa_id) from fa_self_mood where fa_userid=#{0}
+  </select>
+  <!--分页查看用户的心情  -->
+  <select id="selectMemberMood" resultType="map">
+  	select m.fa_id as id,m.fa_desc as msg,m.fa_time as day,m.fa_isreturn as isreturn,m.fa_returnpid as pid 
+  	
+  	from fa_self_mood as m where m.fa_userid=#{0} order by m.fa_time desc limit #{1},#{2}
+  </select>
+  <!--分页查看用户的心情  -->
+  <select id="selectMineAndMemberMood" resultType="map">
+  	select m.fa_id as id,m.fa_desc as msg,m.fa_time as day,m.fa_isreturn as isreturn,m.fa_returnpid as pid,m.fa_userid as uid,u.fa_username as uname 
+  	
+  	from fa_self_mood as m left join fa_user as u on m.fa_userid=u.fa_id where m.fa_userid in
+  	<foreach collection="friendids" open="(" close=")" item="id" separator=",">
+  	
+  	#{id}
+  	</foreach>
+  	 order by m.fa_time desc limit #{curpage},#{pagesize}
+  </select>
+  <!--分页查看用户好友的心情数量  -->
+  <select id="selectFriendMoodCount" resultType="long">
+  	select count(fa_id) 
+  	
+  	from fa_self_mood  where fa_userid in
+  	<foreach collection="fids" open="(" close=")" item="id" separator=",">
+  	
+  	#{id}
+  	</foreach>
+  </select>
+  <!--保存心情  -->
+  <insert id="saveMood">
+  	insert into fa_self_mood(fa_id,fa_userid,fa_desc,fa_time,fa_isreturn,fa_returnpid) values
+  	(#{fa_id},#{fa_userid},#{fa_desc},#{fa_time},#{fa_isreturn},#{fa_returnpid})
+  </insert>
+  <!--删除我的心情  -->
+  <delete id="deleteMyMood">
+  	delete from fa_self_mood where fa_id=#{1} and fa_userid=#{0}
+  </delete>
+</mapper>

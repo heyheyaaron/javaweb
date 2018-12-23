@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaWareDao">  
+  <resultMap id="FaWare" type="feiao.forum.pojo.FaWare"></resultMap>
+  <!-- 根据id查询固件信息 -->
+  <select id="get" resultMap="FaWare">
+  	select fa_id, fa_name, fa_url,fa_sort,fa_image from fa_ware where fa_id = #{0};
+  </select>
+  <!-- 分页展示固件信息 -->
+  <select id="getWareByPage" resultMap="FaWare">
+ 	 select fa_id, fa_name, fa_url,fa_sort,fa_image from fa_ware
+ 	 <if test="search!=null">  where fa_name  like CONCAT('%',#{search},'%') </if>
+ 	 order by fa_sort asc limit #{curpage},#{pagesize}
+  </select>
+  <!-- 查询固件总数 -->
+  <select id="getTotalByWare" resultType="long">
+  		select count(fa_id) from fa_ware <if test="search!=null">  where fa_name  like CONCAT('%',#{search},'%') </if>
+  </select>
+  <!-- 增加固件 -->
+  <insert id="addWare">
+  	insert into fa_ware (fa_id,fa_name,fa_url,fa_sort,fa_image) values(#{fa_id},#{fa_name},#{fa_url},#{fa_sort},#{fa_image});
+  </insert>
+  <!-- 修改固件 -->
+  <update id="updateWare">
+  	update fa_ware
+  	<set>fa_name = #{fa_name},fa_url=#{fa_url},fa_sort=#{fa_sort},fa_image=#{fa_image}</set>
+  	where fa_id = #{fa_id}
+  </update>
+  <!-- 删除固件 -->
+  <delete id="deleteWare">
+  	delete from fa_ware where fa_id=#{0}
+  </delete>
+  
+</mapper>

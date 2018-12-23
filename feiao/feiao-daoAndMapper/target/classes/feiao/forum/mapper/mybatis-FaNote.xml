@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.FaNoteDao">  
+  <resultMap id="FaNote" type="feiao.forum.pojo.FaNote"></resultMap>
+  <resultMap id="FaNoteVote" type="feiao.forum.pojo.FaNoteVote"></resultMap>
+  <!-- 分页展示帖子信息 -->
+  <select id="getNoteByPage" resultType="map">
+  	select n.fa_id as id,n.fa_title as name,n.fa_type as type,n.fa_ping as readss,n.fa_zhiding as zds,s.fa_name as mons,
+  	n.fa_jingpin as jhs,fa_gaoliang as gls,DATE_FORMAT(n.fa_start_time,"%Y-%m-%d %H:%i:%s") as crtime,u.fa_username as username
+  	from fa_note as n left join fa_user as u on n.fa_userid = u.fa_id left join fa_section as s on n.fa_resource = s.fa_id
+  	<where>
+  		<if test="search!=null and search!=''">n.fa_title like CONCAT('%',#{search},'%')</if>
+  		<if test="noteTpye>0">and n.fa_type = #{noteTpye}</if>
+  		<if test="modelid>0">and n.fa_resource = #{modelid}</if>
+  	</where>
+  	order by n.fa_start_time desc limit #{curpage},#{pagesize}
+  </select>
+  <!--//查询我的投票记录  -->
+  <select id="getUserVoteByNoteIdAndUserid" resultType="feiao.forum.pojo.FaUserVote">
+  	select * from fa_nate_userid where fa_userid=#{0} and fa_noteid=#{1}
+  </select>
+  <!--分页查询反馈帖子  -->
+  <select id="selectFankuiNoteBySection" resultType="map" >
+  	select n.fa_title as title,n.fa_prodel as isfinish,n.fa_id as id,n.fa_ping as readss,n.fa_userid as uid,u.fa_username as uname,DATE_FORMAT(n.fa_start_time,"%Y-%m-%d %H:%i:%s") as times
+  	from fa_note as n left join fa_user as u on n.fa_userid = u.fa_id where n.fa_resource = 6
+  	<if test="protype!=0">and n.fa_protypes=#{protype}</if>
+  	<if test="prostyle!=0">and n.fa_prostyle=#{prostyle}</if>
+  	<if test="proquest!=0">and n.fa_proquest=#{proquest}</if>
+  	<if test="handletype==1">and n.fa_prodel=0</if>
+  	<if test="handletype==2">and n.fa_prodel=1</if>
+  	<if test="handletype==3">and n.fa_prodel=2</if>
+  	order by n.fa_start_time desc  limit #{curpage},#{pagesize}
+  </select>
+  <!-- 分页查询反馈帖子数量 -->
+  <select id="selectFankuiNoteBySectionCount" resultType="long" >
+  	select count(fa_id) from fa_note where fa_resource = 6
+  	<if test="protype!=0">and fa_protypes=#{protype}</if>
+  	<if test="prostyle!=0">and fa_prostyle=#{prostyle}</if>
+  	<if test="proquest!=0">and fa_proquest=#{proquest}</if>
+  	<if test="handletype==1">and fa_prodel=0</if>
+  	<if test="handletype==2">and fa_prodel=1</if>
+  	<if test="handletype==3">and fa_prodel=2</if>
+  </select>
+  <!--//分页查询搜索中的帖子  -->
+  <select id="searchNoteBySearchName" resultType="map">
+  select n.fa_id as id,n.fa_title as name,DATE_FORMAT(n.fa_start_time,"%Y-%m-%d %H:%i:%s") as times,n.fa_type as types,
+  	n.fa_userid as uid,u.fa_username as uname,n.fa_ping as readed,s.fa_id as sid,s.fa_name as sname,n.fa_changetime as ctimes
+  	from fa_note as n left join fa_user as u on n.fa_userid=u.fa_id left join fa_section as s on n.fa_resource = s.fa_id  
+  	where n.fa_title like CONCAT('%',#{search},'%') order by n.fa_changetime desc  limit #{curpage},#{pagesize}
+  </select>
+  <select id="searchNoteBySearchMany" resultType="map">
+  select n.fa_id as id,n.fa_title as name,DATE_FORMAT(n.fa_start_time,"%Y-%m-%d %H:%i:%s") as times,n.fa_type as types,
+  	n.fa_userid as uid,u.fa_username as uname,n.fa_ping as readed,s.fa_id as sid,s.fa_name as sname,n.fa_changetime as ctimes
+  	
+  	
+  	from fa_note as n left join fa_user as u on n.fa_userid=u.fa_id left join fa_section as s on n.fa_resource = s.fa_id  
+  	
+  	
+  	where  n.fa_start_time between #{startDay} and #{endDay}
+  	<if test="section!=0">and n.fa_resource=#{section}</if>
+  	<if test="tieOrUser&lt;=0"><if test="sname!=null">and n.fa_title like CONCAT('%',#{sname},'%')</if></if>
+  	<if test="tieOrUser&gt;0"><if test="sname!=null">and u.fa_username like CONCAT('%',#{sname},'%')</if></if>
+  	
+  	<if test="sorts&lt;=0">
+  		<if test="types==0">order by n.fa_changetime</if>
+  		<if test="types==1">order by n.fa_start_time</if>
+  		<if test="types==2">order by n.fa_ceng</if>
+  		<if test="types==3">order by n.fa_ping</if>
+  	</if>
+  	<if test="sorts&gt;0">
+  		<if test="types==0">order by n.fa_changetime desc</if>
+  		<if test="types==1">order by n.fa_start_time desc</if>
+  		<if test="types==2">order by n.fa_ceng desc</if>
+  		<if test="types==3">order by n.fa_ping desc</if>
+  	
+  	</if>
+  	
+  	
+  	 limit #{curpage},#{pagesize}
+  </select>
+  <!--分页查询搜索中的帖子数量  -->
+  <select id="searchNoteBySearchNameCount" resultType="long">
+  select count(fa_id) from fa_note where fa_title like CONCAT('%',#{search},'%')
+  </select>
+  <select id="searchNoteBySearchNameCounts" resultType="long">
+  select count(n.fa_id) from fa_note as n left join fa_user as u on n.fa_userid=u.fa_id left join fa_section as s on n.fa_resource = s.fa_id  
+  	
+   where  n.fa_start_time between #{startDay} and #{endDay}
+  	<if test="section!=0">and n.fa_resource=#{section}</if>
+  	<if test="tieOrUser&lt;=0"><if test="sname!=null">and n.fa_title like CONCAT('%',#{sname},'%')</if></if>
+  	<if test="tieOrUser&gt;0"><if test="sname!=null">and u.fa_username like CONCAT('%',#{sname},'%')</if></if>
+  </select>
+  <!-- //分页查询模块中的帖子 -->
+  <select id="selectAllNoteBySection" resultType="map">
+  	select n.fa_id as id,n.fa_title as title,u.fa_title_img as image,n.fa_jingpin as jingpin,n.fa_start_time as times,n.fa_type as types,
+  	n.fa_zhiding as zhiding,n.fa_gaoliang as gaoliang,n.fa_userid as puid,u.fa_username as uuname,n.fa_ping as ping
+  	from fa_note as n left join fa_user as u on n.fa_userid=u.fa_id   where n.fa_resource=#{pid}
+  	<if test="types==1">
+  		and n.fa_jingpin=1
+  	</if>
+  	<if test="types==2">
+  		and n.fa_readed=1
+  	</if>
+  	
+  	 
+  	<if test="sort==0">order by fa_zhiding desc,fa_order desc, n.fa_changetime desc</if>
+  	<if test="sort==1">order by fa_zhiding desc,fa_order desc,n.fa_start_time desc</if>
+  	<if test="sort==3">order by fa_zhiding desc,fa_order desc,n.fa_ping desc</if>
+  	<if test="sort==4">order by fa_zhiding desc,fa_order desc,n.fa_changetime desc</if>
+  	<if test="sort==5">order by fa_zhiding desc,fa_order desc,n.fa_readed desc</if>
+  	limit #{curpage},#{pagesize}
+  </select>
+  <!--  -->
+  <select id="selectAllNoteBySectionCount" resultType="long">
+  	select count(fa_id) from fa_note where fa_resource=#{pid}
+  	<if test="types==1">
+  		and fa_jingpin=1
+  	</if>
+  	<if test="types==2">
+  		and fa_readed=1
+  	</if>
+  </select>
+  <!-- 查询帖子总数 -->
+  <select id="getTotalByNote" resultType="long">
+  	select count(fa_id) from fa_note
+  	<where>
+  		<if test="search!=null and search!=''">fa_title like CONCAT('%',#{search},'%')</if>
+  		<if test="noteTpye>0">and fa_type = #{noteTpye}</if>
+  		<if test="modelid>0">and fa_resource = #{modelid}</if>
+  	</where>
+  </select>
+  <!-- //今天发帖数 -->
+  <select id="getCountByToday" resultType="long">
+  	select count(fa_id) from fa_note where fa_id like CONCAT(#{0},'%') 
+  </select>
+  <!-- 查询热帖 -->
+  <select id="getHotNote" resultType="map">
+  	select n.fa_id as id,n.fa_title as title,n.fa_ping as ping,u.fa_id as uid,u.fa_title_img as image,u.fa_username as name
+  	from fa_note as n left join fa_user as u on n.fa_userid =u.fa_id where n.fa_nohot=0 order by fa_readed desc limit 0,12
+  </select>
+  <!--//分页查询该帖子的评论  -->
+  <select id="selectNoteComment" resultType="map">
+  	select c.fa_id as id,c.fa_desc as msg,c.fa_time as times,c.fa_ceng as floor,u.fa_id as uid,u.fa_username as uname,u.fa_title_img as image,r.fa_name as rname,r.fa_image as rimage
+  	from fa_comment as c left join fa_user as u on c.fa_userid = u.fa_id left join fa_rank as r on u.fa_rank = r.fa_id  where c.fa_pid=#{0} order by c.fa_ceng asc limit #{1},#{2}
+  </select>
+ 
+  <!--//获取板块帖子的总数  -->
+  <select id="getNoteCountBySectionId" resultType="long">
+  	select count(fa_id) from fa_note where fa_resource=#{0}
+  </select>
+  <!--//查询版主信息  -->
+  <select id="getUserNameBySection" resultType="map">
+  select fa_username as name,fa_id as id from fa_user where fa_ishost=2 
+  
+  union all
+  select fa_username as name,fa_id as id from fa_user where fa_ishost=1 and fa_sectionid=#{0} 
+  </select>
+  
+  <!-- 分页查询会员发表的帖子 -->
+  <select id="selectMemberNote" resultType="map">
+  	select n.fa_title as name,n.fa_id as id,n.fa_ping as readss,n.fa_start_time as day,s.fa_name as model 
+  	from fa_note as n left join fa_section as s on n.fa_resource=s.fa_id where n.fa_userid=#{0} order by n.fa_start_time desc limit #{1},#{2}
+  </select>
+  <!-- 分页查询会员收藏的帖子 -->
+  <select id="selectCollectNote" resultType="map">
+  	select n.fa_title as name,n.fa_id as id,n.fa_ping as readss,n.fa_start_time as day,s.fa_name as model ,cc.fa_id as ccid
+  	from fa_collect as cc left join fa_note as n on cc.fa_tiezi = n.fa_id left join fa_section as s on n.fa_resource=s.fa_id where cc.fa_userid=#{0}
+  	
+  	
+  	 order by n.fa_start_time desc limit #{1},#{2}
+  </select>
+  <!--//查询我发帖数量  -->
+  <select id="selectMyNoteCount" resultType="long">
+  	select count(fa_id) from fa_note where fa_userid=#{0}
+  </select>
+  <!--//查询收藏帖子数量  -->
+  <select id="selectCollectNoteCount" resultType="long">
+  	select count(fa_id) from fa_collect where fa_userid=#{0}
+  </select>
+  <!-- 根据id查询帖子信息 -->
+  <select id="getNoteById" resultMap="FaNote">
+  	select * from fa_note where fa_id=#{0};
+  </select>
+  <!-- 根据投票调查贴id信息查询调查和投票的数据 -->
+  <select id="getVoteMsgByNoteId" resultMap="FaNoteVote">
+  	
+  	select * from fa_note_vote where fa_noteid=#{0}
+  	
+  </select>
+  <!-- 根据活动贴id查询报名者信息 -->
+  <select id="findAllPreMsgByNoteId" resultType="map">
+  	select u.fa_username as name ,u.fa_telphone as tel,u.fa_email as email,DATE_FORMAT(a.fa_time,"%Y-%m-%d %H:%i:%s") as times,
+  	a.fa_name as tn,a.fa_tel as adress from fa_note_active as a left join fa_user as u on a.fa_userid = u.fa_id where fa_noteid =#{0}
+  	order by a.fa_time asc
+  </select>
+  <!--根据帖子id查询绑定的标签  -->
+  <select id="getTypeNameById" resultType="string">
+  	select l.fa_name from fa_label as l left join fa_note_label as n on l.fa_id=n.fa_typeid where n.fa_noteid =#{0}
+  </select>
+  <!--保存帖子  -->
+  <insert id="saveNote">
+  	insert into fa_note(fa_id,fa_userid,fa_start_time,fa_desc,fa_type,fa_jingpin,fa_order,fa_title,fa_ceng,
+  	fa_total_people,fa_resource,fa_type_re,fa_ping,fa_nohot,fa_zhiding,fa_gaoliang,fa_protype,fa_proversion,fa_prodel,fa_finish_people,
+  	fa_readed,fa_reading,fa_changetime,fa_votetype,fa_dod,fa_protypes,fa_prostyle,fa_proquest,fa_version,fa_votemeb,fa_votetime)
+  	 values
+  	(#{fa_id},#{fa_userid},#{fa_start_time},#{fa_desc},#{fa_type,jdbcType=NUMERIC},#{fa_jingpin,jdbcType=NUMERIC},#{fa_order,jdbcType=NUMERIC},#{fa_title},#{fa_ceng,jdbcType=NUMERIC},
+  	#{fa_total_people,jdbcType=NUMERIC},#{fa_resource,jdbcType=NUMERIC},#{fa_type_re},#{fa_ping,jdbcType=NUMERIC},#{fa_nohot,jdbcType=NUMERIC},#{fa_zhiding,jdbcType=NUMERIC},#{fa_gaoliang,jdbcType=NUMERIC},#{fa_protype},
+  	#{fa_proversion},#{fa_prodel,jdbcType=NUMERIC},#{fa_finish_people,jdbcType=NUMERIC},#{fa_readed,jdbcType=NUMERIC},#{fa_reading,jdbcType=NUMERIC},#{fa_changetime},#{fa_votetype},#{fa_dod},#{fa_protypes},#{fa_prostyle},#{fa_proquest},#{fa_version},#{fa_votemeb},#{fa_votetime})
+  </insert>
+  <!--修改帖子  -->
+  <update id="updateNotes">
+  	update fa_note 
+  	<set>
+  	fa_desc=#{fa_desc},fa_title=#{fa_title},fa_dod=#{fa_dod},fa_votemeb=#{fa_votemeb},
+  	fa_total_people=#{fa_total_people},fa_protype=#{fa_protype},fa_proversion=#{fa_proversion},fa_proquest=#{fa_proquest},
+  	fa_changetime=#{fa_changetime},fa_votetype=#{fa_votetype},fa_protypes=#{fa_protypes},fa_prostyle=#{fa_prostyle},fa_version=#{fa_version},fa_votetime=#{fa_votetime}
+  	</set>
+  	where fa_id=#{fa_id}
+  </update>
+  <!--批量保存投票内容信息  -->
+  <insert id="saveVoteMsg">
+  	insert into fa_note_vote (fa_id,fa_noteid,fa_aandq) values
+  	<foreach collection="list" item="ls" separator=",">
+  		(#{ls.id},#{ls.pid},#{ls.descs})
+  	</foreach>
+  
+  </insert>
+  <!--更新帖子阅读量  -->
+  <update id="updateReadCount">
+  	update fa_note <set>fa_ping=#{1},fa_reading=#{2}</set> where fa_id=#{0}
+  </update>
+  <!-- 置顶帖子 -->
+  <update id="zdNoteData">
+  	update fa_note 
+  	<set>fa_zhiding=1</set>
+  	where fa_id in
+  	<foreach collection="array" open="(" separator="," close=")" item="userid">
+  		#{userid}
+  	</foreach>
+  </update>
+  <!-- 精华帖子 -->
+  <update id="jhNoteData"  parameterType="string">
+  	update fa_note 
+  	<set>fa_jingpin=1</set>
+  	where fa_id in
+  	<foreach collection="array" open="(" separator="," close=")" item="userid">
+  		#{userid}
+  	</foreach>
+  </update>
+  <!-- 高亮帖子 -->
+  <update id="glNoteData"  parameterType="string">
+  	update fa_note 
+  	<set>fa_gaoliang=1</set>
+  	where fa_id in
+  	<foreach collection="array" open="(" separator="," close=")" item="userid">
+  		#{userid}
+  	</foreach>
+  </update>
+  <!-- 热搜帖子 -->
+  <update id="changers">
+  	update fa_note 
+  	<set>fa_nohot=#{1}</set>
+  	where fa_id=#{0}
+  </update>
+  <!--  高亮帖子-->
+  <update id="changegl">
+  	update fa_note 
+  	<set>fa_gaoliang=#{1}</set>
+  	where fa_id=#{0}
+  </update>
+  <!-- 置顶帖子 -->
+  <update id="changezd">
+  	update fa_note 
+  	<set>fa_zhiding=#{1}</set>
+  	where fa_id=#{0}
+  </update>
+  <!-- 精华帖子 -->
+  <update id="changejh">
+  	update fa_note 
+  	<set>fa_jingpin=#{1}</set>
+  	where fa_id=#{0}
+  </update>
+  <!--//移动帖子  -->
+  <update id="moveNoteData">
+  	update fa_note 
+  	<set>fa_resource=#{1}</set>
+  	where fa_id=#{0}
+  </update>
+  <!--//标签帖子  -->
+  <update id="biaoqianNoteData">
+  	update fa_note 
+  	<set>fa_biaoqian=#{1}</set>
+  	where fa_id=#{0}
+  </update>
+  <!--升降帖子  -->
+  <update id="udNoteData">
+  	update fa_note 
+  	<set>fa_order=#{1}</set>
+  	where fa_id=#{0}
+  </update>
+  <!-- 修改帖子信息(后台) -->
+  <update id="updateNote">
+  	update fa_note
+  	<set>
+  		fa_resource=#{fa_resource},fa_type_re=#{fa_type_re},fa_order=#{fa_order},
+  		fa_zhiding=#{fa_zhiding},fa_jingpin=#{fa_jingpin},fa_gaoliang=#{fa_gaoliang},
+  		fa_nohot=#{fa_nohot},fa_prodel=#{fa_prodel}
+  	</set>
+  	where fa_id =#{fa_id}
+  </update>
+  <!-- 删除上级时间段的热搜数据 -->
+  <update id="removeHotedData">
+  	update fa_note <set> fa_readed=0 </set> where fa_readed>0
+  </update>
+  <!-- 更新这个时间段的热搜数据 -->
+  <update id="updateNewHotData">
+  	update fa_note <set> fa_readed=fa_reading,fa_reading=0 </set> where fa_reading>0 and fa_nohot =0
+  </update>
+  <!--更新楼层信息  -->
+  <update id="updateFloor">
+  	update fa_note
+  	<set>fa_ceng=#{0},fa_changetime=#{2}</set>
+  	where fa_id=#{1}
+  </update>
+  <!-- 删除帖子 -->
+  <delete id="deleteNoteData" parameterType="string">
+  	delete from fa_note where fa_id in
+  	<foreach collection="array" open="(" separator="," close=")" item="userid">
+  		#{userid}
+  	</foreach>
+  </delete>
+  <!-- 删除我的帖子 -->
+  <delete id="deleteMyNote"  >
+  	delete from fa_note where fa_userid=#{0} and fa_id=#{1}
+  </delete>
+  <!-- //取消我收藏的帖子 -->
+  <delete id="deleteMyCollect">
+  	delete from fa_collect where fa_userid=#{0} and fa_id=#{1}
+  </delete>
+  <!--//查询是否已经报名  -->
+  <select id="findActiveByUserId" resultType="feiao.forum.pojo.FaNoteActive">
+  	select * from fa_note_active where fa_userid=#{0} and fa_noteid=#{1}
+  </select>
+  <!-- //查询是否已经满人 -->
+  <select id="findCountActiveByNoteId" resultType="long">
+  	select count(fa_id) from fa_note_active where  fa_noteid=#{0}
+  </select>
+  <!-- //保存参与者人数 -->
+  <insert id="saveNoteActive">
+  	insert into fa_note_active(fa_id,fa_noteid,fa_userid,fa_name,fa_tel,fa_time)
+  	values(#{fa_id},#{fa_noteid},#{fa_userid},#{fa_name},#{fa_tel},#{fa_time})
+  </insert>
+  <!-- //获取该板块的子版块信息 -->
+  <select id="getSectionByPid" resultType="map">
+  	select fa_id as id,fa_name as name from fa_section where fa_pid=#{0}
+  </select>
+  <!--查询投票信息  -->
+  <select id="getVoteById" resultMap="FaNoteVote">
+  	select * from fa_note_vote where fa_id=#{0}
+  </select>
+  <!--//更新人数  -->
+  <update id="updateCountByVote">
+  	update fa_note_vote <set>fa_count=#{0}</set> where fa_id=#{1}
+  </update>
+  <!--  -->
+  <insert id="insertUserVote">
+  	insert into fa_nate_userid(fa_id,fa_noteid,fa_userid,fa_vid) values(#{fa_id},#{fa_noteid},#{fa_userid},#{fa_vid})
+  </insert>
+  <!-- 处理反馈帖子 -->
+  <update id="updateNoteDealStatus">
+  	update fa_note <set>fa_prodel=#{1}</set> where fa_id=#{0}
+  </update>
+  <!-- 删除帖子投票选项 -->
+  <delete id="deleteNoteVote">
+  	delete from fa_note_vote where fa_id in
+  	<foreach collection="array" open="(" close=")" separator="," item="id">
+  	#{id}
+  	</foreach>
+  </delete>
+  <!--//查看投票人  -->
+  <select id="getVoteMemberMsgByNoteId" resultType="map">
+  	SELECT u.fa_username AS uname,v.fa_aandq AS nname FROM fa_nate_userid AS nu LEFT JOIN fa_user AS u ON u.fa_id = nu.fa_userid
+  	LEFT JOIN fa_note_vote AS v ON nu.fa_vid = v.fa_id WHERE nu.fa_noteid  = #{0}
+  	
+  	
+  	
+  </select>
+  <delete id="deleteCommentData">
+  	delete from fa_comment where fa_id=#{0} and fa_pid=#{1}
+  </delete>
+  <delete id="deleteCommentCidData">
+  	delete from fa_comment where fa_pid=#{0} and fa_source=#{1}
+  </delete>
+</mapper>

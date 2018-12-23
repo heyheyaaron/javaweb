@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+<mapper namespace="feiao.forum.dao.ResourceDao">  
+  <resultMap id="Resource" type="feiao.forum.pojo.Resource"></resultMap>
+  <!-- //根据code主键获取资源 -->
+  <select id="get" resultMap="Resource" parameterType="java.lang.Integer">
+  	select id,name,isHeader,url,permission,parentId,icon,isbutton,sort,ishiddent from system_resource where id = #{code} 
+  </select>
+  <!-- //根据栏目id查询文章 -->
+  <select id="getColumnById" resultType="feiao.forum.pojo.Column" parameterType="java.lang.Integer">
+  	select id,title,descz from system_column where id = #{0} 
+  </select>
+  <!--查询所有资源  -->
+  <select id="selectAllReasource" resultType="map">
+  	select r.id as id,r.parentId as pid,r.name as name from  system_resource as r order by r.sort asc
+  </select>
+  <!--查询所有资源不查栏目  -->
+  <select id="selectAllReasourceNo" resultType="map">
+  	select r.id as id,r.parentId as pid,r.name as name from  system_resource as r where r.ishiddent = 0 order by r.sort asc
+  </select>
+  <!--查询所有资源不查功能按钮  -->
+  <select id="selectAllRes" resultType="map">
+  	select r.id as id,r.parentId as pid,r.name as name from  system_resource as r where r.isbutton = 0 order by r.sort asc
+  </select>
+  <!--查询所有资源不查栏目和功能 -->
+  <select id="selectAllReNoBtn" resultType="map">
+  	select r.id as id,r.parentId as pid,r.name as name from  system_resource as r where r.ishiddent = 0 and r.isbutton = 0 order by r.sort asc
+  </select>
+  <!-- 查询该权限子权限的个数 -->
+  <select id="getResourceCidCount" resultType="long">
+  	select count(r.id) from system_resource as r where r.parentId = #{0}
+  </select>
+  <!--//删除权限  -->
+  <delete id="deleteResource" >
+  	delete from system_resource where id = #{0};
+  </delete>
+  <!--//删除栏目内容  -->
+  <delete id="deleteColumn" >
+  	delete from system_column where id = #{0};
+  </delete>
+  <!-- //增加权限 -->
+  <insert id="addResource" parameterType="feiao.forum.pojo.Resource" useGeneratedKeys="true" keyProperty="id">
+  	insert into system_resource (name,url,permission,parentId,icon,isHeader,ishiddent,isbutton,sort) values (#{name},#{url},#{permission},#{parentId},#{icon},#{isHeader},#{ishiddent},#{isbutton},#{sort})
+  </insert>
+  <!-- //增加栏目内容 -->
+  <insert id="saveColumnByReId" parameterType="feiao.forum.pojo.Column" >
+  	insert into system_column (id,title,descz) values (#{id},#{title},#{descz})
+  </insert>
+  <!-- 修改权限 -->
+  <update id="updateResource">
+  	update system_resource
+  	<set>name=#{name},url=#{url},permission=#{permission},parentId=#{parentId},isbutton=#{isbutton},sort=#{sort}</set>
+  	where id = #{id}
+  
+  </update>
+  <!-- 修改栏目url -->
+  <update id="updateResourceUrl">
+  	update system_resource
+  	<set>url=#{1}</set>
+  	where id = #{0}
+  
+  </update>
+  <!-- 修改固有栏目 -->
+  <update id="updateColumnBySys">
+  	update system_resource
+  	<set>name=#{1},sort=#{2}</set>
+  	where id = #{0}
+  
+  </update>
+  <!-- 修改自创栏目 -->
+  <update id="updateColumnByMySelf">
+  	update system_resource
+  	<set>name=#{name},url=#{url},parentId=#{parentId},isHeader=#{isHeader},sort=#{sort}</set>
+  	where id = #{id}
+  
+  </update>
+  <!-- 修改栏目内容 -->
+  <update id="updateColumnByReId">
+  	update system_column
+  	<set>title=#{title},descz=#{descz}</set>
+  	where id = #{id}
+  
+  </update>
+</mapper>

@@ -1,0 +1,756 @@
+﻿@charset "UTF-8";
+
+
+#fiio-header-container {
+	margin: 0;
+	padding: 0;
+	position: relative;
+	z-index: 11
+}
+
+#fiio-header-container a {
+	color: #515151;
+	text-decoration: none
+}
+
+#fiio-header-container .hover,
+#fiio-header-container a:hover {
+	color: #31a5e7;
+	text-decoration: none
+}
+
+#fiio-header-container ul,
+#fiio-header-container li {
+	list-style: none;
+	margin: 0;
+	padding: 0
+}
+
+#fiio-header-container p {
+	width: 100%;
+	*width: 100px
+}
+
+#fiio-header-container .fiio-header {
+	font-size: 14px;
+	font-family: Helvetica, Tahoma, Arial, "Hiragino Sans GB", "Microsoft YaHei", SimSun, Heiti, sans-serif;
+	position: relative
+}
+
+#fiio-header-container .fiio-header-wrap-1240 {
+	width: 1240px;
+	margin: 0 auto;
+	padding: 0 20px;
+	position: relative;
+	*zoom: 1
+}
+
+#fiio-header-container .fiio-header-wrap-1240:after,
+#fiio-header-container .fiio-header-wrap-1240:before {
+	content: "";
+	display: table;
+	height: 0;
+	clear: both;
+	visibility: hidden
+}
+
+#fiio-header-container .fiio-header-logo {
+	display: inline;
+	float: left;
+	padding: 20px 0
+}
+
+#fiio-header-container .fiio-header-logo-img {
+	display: block;
+	width: 115px;
+	height: 45px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-image: url(../img/logo.jpg);
+	background-image: -webkit-image-set(url(../img/logo.jpg) 1x, url(../img/logo.jpg) 2x)
+}
+
+#fiio-header-container .fiio-header-user {
+	display: inline;
+	float: right;
+	padding: 32px 12px 0 30px;
+	text-align: right;
+	font-size: 12px;
+	position: relative;
+	z-index: 105
+}
+
+#fiio-header-container .fiio-header-user-img {
+	position: relative;
+	cursor: pointer;
+	z-index: 3
+}
+
+#fiio-header-container .fiio-header-user-img img {
+	margin-right: 14px;
+	margin-top: -1px;
+	width: 22px;
+	height: 22px;
+	border-radius: 50%
+}
+
+#fiio-header-container .fiio-header-user-img span {
+	position: absolute;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+	font-size: 0;
+	display: inline-block;
+	border-width: 5px;
+	left: 28px;
+	top: 7px
+}
+
+#fiio-header-container .fiio-header-user li a {
+	position: relative;
+	z-index: 4
+}
+
+#fiio-header-container .fiio-header-user li {
+	font-size: 12px;
+	display: block;
+	margin: 15px auto
+}
+
+#fiio-header-container .fiio-header-user li:first-child {
+	margin-top: 0
+}
+
+#fiio-header-container .fiio-header-user li:last-child {
+	margin-bottom: 0
+}
+
+#fiio-header-container .fiio-header-user-box {
+	display: none;
+	border-bottom: 0;
+	position: absolute;
+	height: 78px;
+	width: 60px;
+	top: 0;
+	right: 0;
+	z-index: 2
+}
+
+#fiio-header-container .fiio-header-user-dropdown {
+	display: none;
+	position: absolute;
+	right: 0;
+	z-index: 1;
+	width: 98px;
+	background-color: #fff;
+	top: 64px;
+	left: -10px;
+	border-radius: 2px;
+	box-sizing: border-box;
+	text-align: center;
+	padding: 15px 0
+}
+
+#fiio-header-container .fiio-header-user-dropdown:after {
+	display: block;
+	content: '';
+	width: 0;
+	height: 0;
+	border: 10px solid;
+	border-color: transparent transparent #fff;
+	left: 40px;
+	top: -15px;
+	position: absolute
+}
+
+#fiio-header-container .fiio-header-user-dropdown #fiio-header-container .fiio-header-user-sep {
+	border-top: 1px solid #999;
+	margin: 18px auto 15px
+}
+
+#fiio-header-container .fiio-header-user .msg-num {
+	color: #F80000
+}
+
+#fiio-header-container .fiio-header-user .fiio-arrow-background {
+	z-index: 998;
+	border-color: #999 transparent transparent;
+	border-style: solid dashed dashed;
+	border-width: 6px;
+	left: 27px
+}
+
+#fiio-header-container .fiio-header-user .fiio-arrow-frontground {
+	z-index: 999;
+	border-color: #fff transparent transparent;
+	border-style: solid dashed dashed
+}
+
+#fiio-header-container .fiio-header-link {
+	display: inline;
+	float: right;
+	overflow: hidden;
+	white-space: nowrap
+}
+
+#fiio-header-container .fiio-header-link li {
+	display: inline;
+	float: left
+}
+
+#fiio-header-container .fiio-header-link a {
+	display: block;
+	padding: 31px 20px 30px;
+	line-height: 21px;
+	-webkit-transition: color .1s linear;
+	transition: color .1s linear
+}
+
+#fiio-header-container .fiio-header-sub {
+	z-index: 100;
+	display: block;
+	position: absolute;
+	left: 0;
+	top: 65px;
+	background-color: #fff;
+	min-width: 100%;
+	overflow: hidden;
+	height: 0
+}
+
+#fiio-header-container .fiio-header-sub-wrap {
+	width: 1280px;
+	margin: 0 auto
+}
+
+#fiio-header-container .fiio-header-sub-animation {
+	-webkit-animation: fiio-header-sub-show .5s;
+	animation: fiio-header-sub-show .5s
+}
+
+#fiio-header-container .fiio-header-sub ul {
+	overflow: hidden;
+	padding: 5px 0 0 390px;
+	margin: 0;
+	list-style: none
+}
+
+#fiio-header-container .fiio-header-sub li {
+	float: left;
+	text-align: center;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	filter: alpha(opacity=0);
+	opacity: 0;
+	*zoom: 1
+}
+
+#fiio-header-container .fiio-header-sub-show {
+	display: block;
+	border-bottom: 1px solid #e9e9e9;
+	height: auto
+}
+
+#fiio-header-container .fiio-header-sub-show li {
+	opacity: 1 \9 \0;
+	filter: alpha(opacity=100);
+	-webkit-animation: fiio-header-sub-enter .8s forwards;
+	animation: fiio-header-sub-enter .8s forwards
+}
+
+#fiio-header-container .fiio-header-sub-show li:nth-child(1) {
+	-webkit-animation-delay: 0s;
+	animation-delay: 0s
+}
+
+#fiio-header-container .fiio-header-sub-show li:nth-child(2) {
+	-webkit-animation-delay: .1s;
+	animation-delay: .1s
+}
+
+#fiio-header-container .fiio-header-sub-show li:nth-child(3) {
+	-webkit-animation-delay: .2s;
+	animation-delay: .2s
+}
+
+#fiio-header-container .fiio-header-sub-show li:nth-child(4) {
+	-webkit-animation-delay: .3s;
+	animation-delay: .3s
+}
+
+#fiio-header-container .fiio-header-sub-show li:nth-child(5) {
+	-webkit-animation-delay: .4s;
+	animation-delay: .4s
+}
+
+#fiio-header-container .fiio-header-sub-show li:nth-child(6) {
+	-webkit-animation-delay: .5s;
+	animation-delay: .5s
+}
+
+#fiio-header-container .fiio-header-sub-show li:nth-child(7) {
+	-webkit-animation-delay: .6s;
+	animation-delay: .6s
+}
+
+#fiio-header-container .fiio-header-sub-show li:nth-child(8) {
+	-webkit-animation-delay: .7s;
+	animation-delay: .7s
+}
+
+#fiio-header-container .fiio-header-sub-show li:nth-child(9) {
+	-webkit-animation-delay: .8s;
+	animation-delay: .8s
+}
+
+#fiio-header-container .fiio-header-sub-show li:nth-child(10) {
+	-webkit-animation-delay: .9s;
+	animation-delay: .9s
+}
+
+#fiio-header-container .fiio-header-sub-show li:nth-child(11) {
+	-webkit-animation-delay: 1s;
+	animation-delay: 1s
+}
+
+#fiio-header-container .fiio-header-sub a {
+	font-size: 12px;
+	width: 125px;
+	height: 120px;
+	color: #666;
+	white-space: nowrap;
+	display: block;
+	padding: 0 11px 11px;
+	cursor: pointer;
+	position: relative;
+	z-index: 99
+}
+
+#fiio-header-container .fiio-header-sub a i {
+	display: block;
+	width: 100%;
+	height: 85px;
+	margin-bottom: 15px;
+	background-repeat: no-repeat;
+	background-position: center bottom
+}
+
+#fiio-header-container .fiio-header-sub a span {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: block;
+	height: 127px;
+	width: 147px;
+	opacity: .01;
+	filter: alpha(opacity=1);
+	background-color: #fff
+}
+
+#fiio-header-container .fiio-header-sub a:hover {
+	color: #111
+}
+
+#fiio-header-container .fiio-header-sub a:hover span {
+	display: none
+}
+
+#fiio-header-container .fiio-header-sub-ul-on a span {
+	opacity: .5;
+	filter: alpha(opacity=50);
+	-webkit-transition: opacity .2s ease-in-out;
+	transition: opacity .2s ease-in-out
+}
+
+#fiio-header-container .fiio-header-sub-ul-on a:hover span {
+	display: none
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-pro6plus i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/pro6plus_e6bf23a.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/pro6plus_e6bf23a.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/pro6plus@2x_630dd58.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-pro6s i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/pro6s_e769573.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/pro6s_e769573.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/pro6s@2x_99bafaa.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-pro6 i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/pro6_d31bab6.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/pro6_d31bab6.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/pro6@2x_d2edd30.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-pro5 i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/pro5_e0970c9.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/pro5_e0970c9.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/pro5@2x_84bf375.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-mx5 i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/mx5_d0aca4c.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/mx5_d0aca4c.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/mx5@2x_06f9706.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-mx6 i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/mx6_23e5fc6.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/mx6_23e5fc6.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/mx6@2x_1512beb.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-mx4pro i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/mx4pro_55776f8.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/mx4pro_55776f8.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/mx4pro@2x_ec54581.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-mx4 i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/mx4_07bfbac.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/mx4_07bfbac.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/mx4@2x_fa67ebb.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-m3note i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/m3note_d4c10cf.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/m3note_d4c10cf.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/m3note@2x_fd8f6e7.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-meilanmetal i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/meilanmetal_ffc5a14.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/meilanmetal_ffc5a14.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/meilanmetal@2x_c1d10e3.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-m2note i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/m2note_2c82398.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/m2note_2c82398.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/m2note@2x_1a87fe1.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-meilannote i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/meilannote_0f6dded.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/meilannote_0f6dded.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/meilannote@2x_b187893.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-m5s i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/m5s_357ada5.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/m5s_357ada5.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/m5s@2x_c766618.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-m5 i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/m5_45957e3.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/m5_45957e3.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/m5@2x_23b8aad.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-m5note i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/m5note_77497bf.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/m5note_77497bf.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/m5note@2x_02b3512.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-m3e i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/m3e_a922cdc.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/m3e_a922cdc.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/m3e@2x_7095bb2.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-m3e2 i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/m3e2_9b619ec.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/m3e2_9b619ec.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/m3e2@2x_64dd20b.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-m3s i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/m3s_7cff047.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/m3s_7cff047.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/m3s@2x_e2379c2.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-m3 i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/m3_fa5c797.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/m3_fa5c797.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/m3@2x_01ec0cf.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-m2 i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/m2_8280688.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/m2_8280688.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/m2@2x_99198cc.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-meilan i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/meilan_a18cc7a.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/meilan_a18cc7a.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/meilan@2x_4683105.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-router i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/router_1280efe.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/router_1280efe.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/router@2x_87c1710.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-router_s i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/router_s_82d6bf4.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/router_s_82d6bf4.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/router_s@2x_a8564e2.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-m8 i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/m8_87170a0.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/m8_87170a0.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/m8@2x_52e6a4f.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-m10 i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/m10_15b9f13.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/m10_15b9f13.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/m10@2x_788831f.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-hd50 i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/hd50_0ef1eab.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/hd50_0ef1eab.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/hd50@2x_e7c3538.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-ep51 i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/ep51_7b728d8.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/ep51_7b728d8.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/ep51@2x_b795648.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-ep2x i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/ep2x_d112722.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/ep2x_d112722.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/ep2x@2x_0c902f3.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-loopjacket i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/loopjacket_003383b.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/loopjacket_003383b.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/loopjacket@2x_5c0de55.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-m3max i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/m3max_d7883c0.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/m3max_d7883c0.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/m3max@2x_0449ec0.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-u10 i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/u10_3e53f09.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/u10_3e53f09.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/u10@2x_800bf1d.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-u20 i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/u20_5f69f11.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/u20_5f69f11.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/u20@2x_7534854.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-m3x i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/m3x_9846898.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/m3x_9846898.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/m3x@2x_6c402ea.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-a20 i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/a20_f381ebd.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/a20_f381ebd.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/a20@2x_2cec9c4.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-backpack i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/backpack_b762aa8.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/backpack_b762aa8.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/backpack@2x_0e6e09a.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-musiccard i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/musiccard_77b8fdf.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/musiccard_77b8fdf.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/musiccard@2x_2fb411b.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-tvbox i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/tvbox_cd026fb.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/tvbox_cd026fb.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/tvbox@2x_7e79186.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-mix i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/mix_3e3cebd.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/mix_3e3cebd.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/mix@2x_fc6d342.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-band i {
+	background-image: url(//www3.res.meizu.com/static/cn/_partial/header/images/band_7b3ed26.png);
+	background-image: -webkit-image-set(url(//www3.res.meizu.com/static/cn/_partial/header/images/band_7b3ed26.png) 1x, url(//www3.res.meizu.com/static/cn/_partial/header/images/band@2x_d697730.png) 2x)
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-router {
+	background-position: center 9px
+}
+
+#fiio-header-container .fiio-header-sub .fiio-header-sub-router_s {
+	background-position: center 9px
+}
+
+#fiio-header-container .fiio-header-sub #fiio-header-container .fiio-header-sub-m8 {
+	padding: 95px 0 7px;
+	width: 127px
+}
+
+#fiio-header-container .fiio-header-sub #fiio-header-container .fiio-header-sub-m10 {
+	padding: 95px 0 7px;
+	width: 127px
+}
+
+#fiio-header-container #fiio-header-sub-mx ul {
+	padding-left: 356px
+}
+
+#fiio-header-container #fiio-header-sub-meilan ul {
+	padding-left: 243px
+}
+
+#fiio-header-container #fiio-header-sub-router ul {
+	padding-left: 675px
+}
+
+#fiio-header-container #fiio-header-sub-accessory ul {
+	padding-left: 245px
+}
+
+#fiio-header-container #fiio-header-sub-audio ul {
+	padding-left: 508px
+}
+
+#fiio-header-container .fiio-header-link-product:hover .fiio-header-sub,
+#fiio-header-container .fiio-header-link-product.hover .fiio-header-sub {
+	display: block
+}
+
+#fiio-header-container .fiio-header-link-product:hover .fiio-header-link-product-a,
+#fiio-header-container .fiio-header-link-product.hover .fiio-header-link-product-a {
+	color: #31a5e7
+}
+
+@-webkit-keyframes fiio-header-sub-show {
+	from {
+		height: 0
+	}
+	to {
+		height: 127px
+	}
+}
+
+@keyframes fiio-header-sub-show {
+	from {
+		height: 0
+	}
+	to {
+		height: 127px
+	}
+}
+
+@-webkit-keyframes fiio-header-sub-enter {
+	from {
+		-webkit-transform: translate(70px);
+		transform: translate(70px);
+		opacity: 0;
+		filter: alpha(opacity=0)
+	}
+	to {
+		-webkit-transform: translate(0);
+		transform: translate(0);
+		opacity: 1;
+		filter: alpha(opacity=100)
+	}
+}
+
+@keyframes fiio-header-sub-enter {
+	from {
+		-webkit-transform: translate(70px);
+		transform: translate(70px);
+		opacity: 0;
+		filter: alpha(opacity=0)
+	}
+	to {
+		-webkit-transform: translate(0);
+		transform: translate(0);
+		opacity: 1;
+		filter: alpha(opacity=100)
+	}
+}
+
+@media screen and (max-width:1280px) {
+	.fiio-header {
+		width: 1280px
+	}
+}
+    #fiio-header-container .fiio-header .fiio-header-wrap-1240 {
+            width: 1040px;
+            height: 85px;
+            position: static;
+        }
+        #fiio-header-container #newsNum {
+            color: #fff;
+        }
+        .login-box {
+            float: right;
+        }
+        .loginArea {
+            width: 62px;
+            padding: 24px 11px 29px 15px;
+        }
+        .loginArea {
+            border-left: 1px #FFF solid;
+            border-right: 1px #FFF solid;
+            border-top: 3px #FFF solid;
+            padding-top: 25px;
+            height: 24px;
+            background: #fff;
+        }
+        .loginArea-hover {
+            height: 29px;
+            border-left: 1px #e5e5e5 solid;
+            border-right: 1px #e5e5e5 solid;
+            border-top: 3px #ff3939 solid;
+        }
+
+        .u-box {
+            display: none;
+            border: solid 1px #e5e5e5;
+            border-bottom: none;
+            border-top: solid 3px #1395E4;
+            position: absolute;
+            height: 78px;
+            width: 60px;
+            top: 0;
+            right: 0;
+            background-color: #fff;
+            z-index: 2;
+        }
+        .log-dropdown {
+            display: none;
+            position: absolute;
+            right: -36px;
+            z-index: 99999;
+            width: 150px;
+            background-color: #fff;
+            top: 58px;
+            padding: 10px 10px 0;
+            border: solid 1px #e5e5e5;
+            border-top: none;
+            box-sizing: border-box;
+        }
+        .log-dropdown li {
+            padding: 0 5px;
+           text-align: center;
+        }
+        .log-img-box {
+            display: inline-block;
+            position: relative;
+            z-index: 99;
+        }
+        .log-img-box img {
+            vertical-align: middle;
+        }
+        .log-img-box .user-avatar {
+            width: 30px;
+            height: 30px;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+        .log-dropdown a {
+            display: block;
+            font-size: 14px;
+            color:#000000;
+            line-height: 34px;
+            height: 34px;
+        }
+        .log-dropdown .actmanage_mzcust {
+            border-bottom: 1px solid #E5E5E5;
+            color: #ff3939 !important;
+        }
+        .log-dropdown .logout_mzcust{
+            border-width: 1px 1px 0px 1px;
+            border-style: solid;
+            border-color: #f9f9f9;
+            background-color: #FAFAFA;
+        }

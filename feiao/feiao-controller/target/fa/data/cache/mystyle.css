@@ -1,0 +1,112 @@
+.flw_replybox {
+	position: relative;
+	width: 760px;
+	_width: 751px;
+	left: -20px;
+	margin: 13px 0px -20px;
+	padding: 15px 20px;
+	background: #f4f8fb;
+	border-top: 1px solid #E6E6E6;
+	margin-bottom: 20px;
+	display: none;
+}
+
+.flw_replybox .cnr {
+	position: relative;
+	float: right;
+	overflow: hidden;
+	display: inline;
+	margin: -23px 45px 0 0;
+	width: 18px;
+	height: 10px;
+	background: url(../../resources/php/bbs/static/image/common/main_icon.png) no-repeat -182px -377px transparent;
+
+}
+
+.flw_autopt {
+	display: inline-block;
+	vertical-align: top;
+	margin: 15px 5px 0 0;
+	width: 100%;
+}
+
+.feed_li_box .flw_autopt {
+	border: 1px solid #E6E6E6 !important;
+	background: #FFF repeat-x 0 0 !important;
+	border-radius: 0 !important;
+}
+
+.flw_autopt .pts {
+	padding: 5px;
+	width: 98.7%;
+	height: 135px;
+	border: 0;
+}
+
+.feed_li_box .flw_replybox .pnc {
+	background: #11b1e5 !important;
+	border-radius: 2px;
+	margin-right: 0 !important;
+	cursor: pointer;
+}
+
+.flw_replybox .pnc {
+	width: 77px;
+	height: 33px;
+	border: none;
+}
+
+.feed_li_box .flw_replybox .pnc span {
+	line-height: 25px !important;
+	font-size: 14px;
+}
+
+.closebar_replybox .xg1 {
+	float: right;
+	display: inline-block;
+	margin-top: 15px;
+	width: 20px;
+	height: 20px;
+	background: url("../../resources/php/bbs/static/image/common/main_icon.png") no-repeat -40px -188px;
+}
+
+#relaybox_58556994 {
+	display: none;
+}
+
+.flw_replybox .px {
+	margin: 0 6px 0 16px;
+	background-color: #FFFFFF;
+	border: 1px solid #e3e7ea;
+	width: 98px;
+	height: 30px;
+	line-height: 30px;
+}
+
+.px,
+.pt {
+	padding: 2px 4px;
+	line-height: 17px;
+}
+
+.list_replybox {
+	margin: 0px -20px;
+}
+
+.list_replybox li {
+	color: #6e7580;
+	line-height: 28px
+}
+
+.flw_replybox li {
+	padding: 11px 20px;
+	border-top: 1px solid #DBE2E6;
+}
+
+list_replybox li a {
+	color: #32a5e7;
+}
+
+.flw_replybox li .d {
+	margin-right: 10px;
+}
